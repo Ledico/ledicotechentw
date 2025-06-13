@@ -26,38 +26,38 @@ const Services = () => {
     {
       icon: Monitor,
       title: 'Microsoft Intune Management',
-      description: 'Complete endpoint management solutions with device compliance and security policies.',
-      features: ['Device Enrollment', 'App Management', 'Compliance Policies', 'Conditional Access']
+      description: 'Komplette Endpoint-Management-Lösungen mit Geräte-Compliance und Sicherheitsrichtlinien.',
+      features: ['Geräte-Registrierung', 'App-Management', 'Compliance-Richtlinien', 'Bedingter Zugriff']
     },
     {
       icon: Cloud,
-      title: 'Cloud-Native Architecture',
-      description: 'Modern cloud solutions built for scalability, resilience, and performance.',
-      features: ['Microservices Design', 'Container Orchestration', 'Serverless Computing', 'Auto-scaling']
+      title: 'Cloud-Native Architektur',
+      description: 'Moderne Cloud-Lösungen für Skalierbarkeit, Ausfallsicherheit und Performance.',
+      features: ['Microservices-Design', 'Container-Orchestrierung', 'Serverless Computing', 'Auto-Skalierung']
     },
     {
       icon: Server,
-      title: 'Infrastructure Engineering',
-      description: 'Robust IT infrastructure design and implementation for enterprise environments.',
-      features: ['Network Architecture', 'Server Management', 'Load Balancing', 'Disaster Recovery']
+      title: 'Infrastruktur-Engineering',
+      description: 'Robustes IT-Infrastruktur-Design und -Implementierung für Unternehmensumgebungen.',
+      features: ['Netzwerk-Architektur', 'Server-Management', 'Load Balancing', 'Disaster Recovery']
     },
     {
       icon: Shield,
-      title: 'Security & Compliance',
-      description: 'Comprehensive security frameworks and compliance management solutions.',
-      features: ['Zero Trust Architecture', 'Identity Management', 'Security Monitoring', 'Compliance Auditing']
+      title: 'Sicherheit & Compliance',
+      description: 'Umfassende Sicherheits-Frameworks und Compliance-Management-Lösungen.',
+      features: ['Zero Trust Architektur', 'Identity Management', 'Sicherheitsüberwachung', 'Compliance-Auditing']
     },
     {
       icon: Settings,
-      title: 'DevOps & Automation',
-      description: 'Streamlined development operations with automated deployment pipelines.',
-      features: ['CI/CD Pipelines', 'Infrastructure as Code', 'Monitoring & Alerting', 'Configuration Management']
+      title: 'DevOps & Automatisierung',
+      description: 'Optimierte Entwicklungsoperationen mit automatisierten Deployment-Pipelines.',
+      features: ['CI/CD Pipelines', 'Infrastructure as Code', 'Monitoring & Alerting', 'Konfigurationsmanagement']
     },
     {
       icon: Database,
-      title: 'Data & Analytics',
-      description: 'Data platform solutions with real-time analytics and business intelligence.',
-      features: ['Data Warehousing', 'ETL Processes', 'Business Intelligence', 'Real-time Analytics']
+      title: 'Daten & Analytics',
+      description: 'Datenplattform-Lösungen mit Echtzeit-Analytics und Business Intelligence.',
+      features: ['Data Warehousing', 'ETL-Prozesse', 'Business Intelligence', 'Echtzeit-Analytics']
     }
   ];
 
@@ -66,10 +66,10 @@ const Services = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Services & <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Expertise</span>
+            Leistungen & <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Expertise</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Comprehensive IT solutions tailored to modern enterprise needs
+            Umfassende IT-Lösungen maßgeschneidert für moderne Unternehmensanforderungen
           </p>
         </div>
 
@@ -109,7 +109,7 @@ const Services = () => {
             onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-pulse-glow"
           >
-            Start Your Project
+            Projekt starten
           </button>
         </div>
       </div>

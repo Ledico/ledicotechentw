@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Code2 } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,11 +14,11 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#services', label: 'Services' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#home', label: 'Start' },
+    { href: '#about', label: 'Über mich' },
+    { href: '#services', label: 'Leistungen' },
+    { href: '#portfolio', label: 'Projekte' },
+    { href: '#contact', label: 'Kontakt' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -36,9 +36,9 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-2">
-            <Code2 className={`h-8 w-8 ${scrolled ? 'text-slate-900' : 'text-white'}`} />
+            <User className={`h-8 w-8 ${scrolled ? 'text-slate-900' : 'text-white'}`} />
             <span className={`text-xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-              LedicoTech
+              Leonardo Dias Costa
             </span>
           </div>
 

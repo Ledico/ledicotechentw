@@ -46,20 +46,20 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Mail,
-      label: 'Email',
-      value: 'hello@ledicotech.ch',
-      href: 'mailto:hello@ledicotech.ch'
+      label: 'E-Mail',
+      value: 'leonardo@diascostatech.ch',
+      href: 'mailto:leonardo@diascostatech.ch'
     },
     {
       icon: Phone,
-      label: 'Phone',
+      label: 'Telefon',
       value: '+41 XX XXX XX XX',
       href: 'tel:+41XXXXXXXX'
     },
     {
       icon: MapPin,
-      label: 'Location',
-      value: 'Switzerland',
+      label: 'Standort',
+      value: 'Schweiz',
       href: '#'
     }
   ];
@@ -75,17 +75,17 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Let's <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Connect</span>
+            Lassen Sie uns <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">vernetzen</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Ready to start your next project? Let's discuss how we can bring your ideas to life.
+            Bereit für Ihr nächstes Projekt? Lassen Sie uns besprechen, wie wir Ihre Ideen zum Leben erwecken können.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <h3 className="text-2xl font-bold text-slate-900 mb-8">Get In Touch</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-8">Kontakt aufnehmen</h3>
             
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
@@ -107,7 +107,7 @@ const Contact = () => {
             </div>
 
             <div className={`mt-12 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-              <h4 className="text-lg font-semibold text-slate-900 mb-4">Follow Me</h4>
+              <h4 className="text-lg font-semibold text-slate-900 mb-4">Folgen Sie mir</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => (
                   <a
@@ -124,17 +124,17 @@ const Contact = () => {
             </div>
 
             <div className={`mt-12 p-6 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white hover:scale-105 transition-all duration-300 hover:shadow-2xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`} style={{ transitionDelay: '800ms' }}>
-              <h4 className="text-lg font-semibold mb-2">Ready to Start?</h4>
+              <h4 className="text-lg font-semibold mb-2">Bereit zu starten?</h4>
               <p className="text-white/90">
-                I'm always excited to work on new projects and collaborate with amazing people. 
-                Let's create something extraordinary together!
+                Ich freue mich immer darauf, an neuen Projekten zu arbeiten und mit großartigen Menschen zusammenzuarbeiten. 
+                Lassen Sie uns gemeinsam etwas Außergewöhnliches schaffen!
               </p>
             </div>
           </div>
 
           {/* Contact Form */}
           <div className={`bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`} style={{ transitionDelay: '400ms' }}>
-            <h3 className="text-2xl font-bold text-slate-900 mb-8">Send a Message</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-8">Nachricht senden</h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
@@ -150,12 +150,12 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:border-purple-300"
-                    placeholder="Your Name"
+                    placeholder="Ihr Name"
                   />
                 </div>
                 <div className={`transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`} style={{ transitionDelay: '700ms' }}>
                   <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                    Email *
+                    E-Mail *
                   </label>
                   <input
                     type="email"
@@ -165,14 +165,14 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:border-purple-300"
-                    placeholder="your@email.com"
+                    placeholder="ihre@email.com"
                   />
                 </div>
               </div>
 
               <div className={`transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`} style={{ transitionDelay: '800ms' }}>
                 <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
-                  Subject *
+                  Betreff *
                 </label>
                 <input
                   type="text"
@@ -182,13 +182,13 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:border-purple-300"
-                  placeholder="Project Inquiry"
+                  placeholder="Projekt-Anfrage"
                 />
               </div>
 
               <div className={`transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`} style={{ transitionDelay: '900ms' }}>
                 <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
-                  Message *
+                  Nachricht *
                 </label>
                 <textarea
                   id="message"
@@ -198,7 +198,7 @@ const Contact = () => {
                   required
                   rows={6}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 resize-none hover:border-purple-300"
-                  placeholder="Tell me about your project..."
+                  placeholder="Erzählen Sie mir von Ihrem Projekt..."
                 />
               </div>
 
@@ -208,7 +208,7 @@ const Contact = () => {
                 style={{ transitionDelay: '1000ms' }}
               >
                 <Send className="h-5 w-5" />
-                <span>Send Message</span>
+                <span>Nachricht senden</span>
               </button>
             </form>
           </div>
@@ -217,7 +217,7 @@ const Contact = () => {
         {/* Footer */}
         <div className={`text-center mt-20 pt-8 border-t border-slate-200 transition-all duration-1000 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <p className="text-slate-600">
-            © 2024 LedicoTech. Crafted with passion in Switzerland.
+            © 2024 Leonardo Dias Costa. Mit Leidenschaft in der Schweiz entwickelt.
           </p>
         </div>
       </div>

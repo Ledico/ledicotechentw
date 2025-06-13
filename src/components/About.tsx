@@ -24,16 +24,16 @@ const About = () => {
 
   const skills = [
     { name: 'Microsoft Intune & Endpoint Management', level: 95 },
-    { name: 'Cloud-Native Architecture', level: 90 },
-    { name: 'Azure & AWS Infrastructure', level: 88 },
-    { name: 'DevOps & Automation', level: 85 },
+    { name: 'Cloud-Native Architektur', level: 90 },
+    { name: 'Azure & AWS Infrastruktur', level: 88 },
+    { name: 'DevOps & Automatisierung', level: 85 },
   ];
 
   const stats = [
-    { icon: Server, number: '200+', label: 'Systems Deployed' },
-    { icon: Users, number: '50+', label: 'Enterprise Clients' },
-    { icon: Trophy, number: '5+', label: 'Years Experience' },
-    { icon: Shield, number: '99.9%', label: 'Uptime Achieved' },
+    { icon: Server, number: '200+', label: 'Systeme implementiert' },
+    { icon: Users, number: '50+', label: 'Enterprise-Kunden' },
+    { icon: Trophy, number: '5+', label: 'Jahre Erfahrung' },
+    { icon: Shield, number: '99.9%', label: 'Verfügbarkeit erreicht' },
   ];
 
   return (
@@ -41,27 +41,27 @@ const About = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            About <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">LedicoTech</span>
+            Über <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">mich</span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            System Engineer specializing in modern IT infrastructure and cloud-native solutions
+            System Engineer mit Spezialisierung auf moderne IT-Infrastruktur und Cloud-Native Lösungen
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
             <h3 className="text-2xl font-bold text-slate-900 mb-6">
-              Engineering Robust IT Solutions
+              Robuste IT-Lösungen entwickeln
             </h3>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              With over 5 years of experience in system engineering, I specialize in Microsoft Intune 
-              endpoint management, cloud-native architectures, and enterprise infrastructure solutions. 
-              My expertise spans across modern IT operations, from device management to scalable cloud deployments.
+              Mit über 5 Jahren Erfahrung in der Systemtechnik spezialisiere ich mich auf Microsoft Intune 
+              Endpoint Management, Cloud-Native Architekturen und Enterprise-Infrastrukturlösungen. 
+              Meine Expertise umfasst moderne IT-Operationen, von Geräteverwaltung bis hin zu skalierbaren Cloud-Deployments.
             </p>
             <p className="text-slate-600 mb-8 leading-relaxed">
-              I'm passionate about implementing secure, efficient, and scalable IT solutions that enable 
-              organizations to thrive in the digital age. Through continuous learning and hands-on experience 
-              with cutting-edge technologies, I deliver solutions that exceed expectations.
+              Ich bin leidenschaftlich daran interessiert, sichere, effiziente und skalierbare IT-Lösungen zu implementieren, 
+              die Organisationen dabei helfen, im digitalen Zeitalter erfolgreich zu sein. Durch kontinuierliches Lernen und 
+              praktische Erfahrung mit modernsten Technologien liefere ich Lösungen, die Erwartungen übertreffen.
             </p>
 
             <div className="space-y-4">
@@ -87,13 +87,13 @@ const About = () => {
 
           <div className={`relative transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <div className="bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl p-8 text-white hover:scale-105 transition-transform duration-300 hover:shadow-2xl">
-              <h4 className="text-2xl font-bold mb-6">My Methodology</h4>
+              <h4 className="text-2xl font-bold mb-6">Meine Methodik</h4>
               <div className="space-y-4">
                 {[
-                  'Security-first architecture design',
+                  'Sicherheitsorientiertes Architekturdesign',
                   'Infrastructure as Code (IaC)',
-                  'Automated deployment pipelines',
-                  'Continuous monitoring & optimization'
+                  'Automatisierte Deployment-Pipelines',
+                  'Kontinuierliche Überwachung & Optimierung'
                 ].map((item, index) => (
                   <div key={index} className={`flex items-start space-x-3 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`} style={{ transitionDelay: `${800 + index * 100}ms` }}>
                     <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
