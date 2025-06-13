@@ -58,9 +58,9 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' }
+    { icon: Github, href: 'https://github.com/Ledico', label: 'GitHub' },
+    { icon: Linkedin, href: 'www.linkedin.com/in/leonardo-dias-costa', label: 'LinkedIn' },
+    { icon: GitLab, href: 'https://gitlab.com/leonardorafael.costa04', label: 'GitLab' },
   ];
 
   return (
