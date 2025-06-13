@@ -73,7 +73,7 @@ const About = () => {
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                     <div 
-                      className="bg-gradient-to-r from-purple-600 to-cyan-600 h-2 rounded-full transition-all duration-2000 ease-out animate-skill-bar"
+                      className="bg-gradient-to-r from-purple-600 to-cyan-600 h-2 rounded-full transition-all duration-2000 ease-out"
                       style={{ 
                         width: isVisible ? `${skill.level}%` : '0%',
                         transitionDelay: `${600 + index * 200}ms`

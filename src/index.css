@@ -52,15 +52,6 @@
   }
 }
 
-@keyframes skill-bar {
-  from {
-    width: 0%;
-  }
-  to {
-    width: var(--skill-width);
-  }
-}
-
 /* Animation classes */
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
@@ -81,10 +72,6 @@
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
-}
-
-.animate-skill-bar {
-  animation: skill-bar 2s ease-out forwards;
 }
 
 /* Smooth scrolling */
