@@ -59,7 +59,7 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/Ledico', label: 'GitHub' },
-    { icon: Linkedin, href: 'www.linkedin.com/in/leonardo-dias-costa', label: 'LinkedIn' }
+    { icon: Linkedin, href: 'https://linkedin.com/in/leonardo-dias-costa', label: 'LinkedIn' }
   ];
 
   return (
