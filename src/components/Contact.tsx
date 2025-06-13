@@ -47,20 +47,13 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'E-Mail',
-      value: 'leonardo@diascostatech.ch',
-      href: 'mailto:leonardo@diascostatech.ch'
-    },
-    {
-      icon: Phone,
-      label: 'Telefon',
-      value: '+41 XX XXX XX XX',
-      href: 'tel:+41XXXXXXXX'
+      value: 'leonardo@dias-costa.ch',
+      href: 'mailto:leonardo@dias-costa.ch'
     },
     {
       icon: MapPin,
       label: 'Standort',
-      value: 'Schweiz',
-      href: '#'
+      value: 'Zürich'
     }
   ];
 
