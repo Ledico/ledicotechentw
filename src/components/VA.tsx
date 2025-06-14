@@ -62,7 +62,7 @@ const VA = () => {
     { title: "Interviews", pages: "22-28" },
     { title: "Leitfragen", pages: "28-32" },
     { title: "Umfrage", pages: "33-35" },
-    { title: "Fazit und Rückblick", pages: "36-37" }
+    { title: "Fazit und Rückblick", pages: "36-37" },
     { title: "Quellenverzeichnis und Anhang", pages: "38-51" }
   ];
 
