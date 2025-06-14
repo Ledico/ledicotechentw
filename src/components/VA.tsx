@@ -30,7 +30,7 @@ const VA = () => {
     school: "Technische Berufsschule Zürich TBZ",
     duration: "6 Monate",
     grade: "6.0"
-  };
+  };Technologien
 
   const objectives = [
     "Entdeckung unbekannter Orte in der Deutschschweiz",
@@ -176,10 +176,10 @@ const VA = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Verwendete <span className="text-purple-600">Technologien</span>
+              Verwendete <span className="text-purple-600">Medien</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Moderne Microsoft-Technologien für Enterprise Device Management
+              Die in verwendeten Medien und Technologien in der Vertiefungsarbeit
             </p>
           </div>
 
