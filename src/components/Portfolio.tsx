@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,9 +25,17 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: 'Vertiefungsarbeit: Intune Automatisierung',
+      description: 'Umfassende Automatisierung der Geräteverwaltung mit Microsoft Intune für Enterprise-Umgebungen. 95-seitige Dokumentation mit praktischer Implementierung.',
+      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=600',
+      tags: ['Microsoft Intune', 'Azure AD', 'PowerShell', 'Vertiefungsarbeit'],
+      isVA: true,
+      linkTo: '/va'
+    },
+    {
       title: 'Enterprise Intune Deployment',
       description: 'Komplette Microsoft Intune Einführung für 500+ Geräte mit automatisierter Registrierung, Compliance-Richtlinien und Anwendungsmanagement.',
-      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Microsoft Intune', 'Azure AD', 'PowerShell', 'Compliance'],
       demoUrl: '#',
       githubUrl: '#'
@@ -34,7 +43,7 @@ const Portfolio = () => {
     {
       title: 'Cloud-Native Infrastruktur',
       description: 'Kubernetes-basierte Microservices-Plattform mit automatisierten CI/CD-Pipelines und Infrastructure as Code Implementierung.',
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Kubernetes', 'Docker', 'Terraform', 'Azure DevOps'],
       demoUrl: '#',
       githubUrl: '#'
@@ -50,7 +59,7 @@ const Portfolio = () => {
     {
       title: 'Hybrid Cloud Migration',
       description: 'Nahtlose Migration von On-Premises-Infrastruktur in eine Hybrid-Cloud-Umgebung mit minimaler Ausfallzeit.',
-      image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Azure', 'Hybrid Cloud', 'Migration', 'PowerShell'],
       demoUrl: '#',
       githubUrl: '#'
@@ -58,16 +67,8 @@ const Portfolio = () => {
     {
       title: 'Automatisierte Monitoring-Lösung',
       description: 'Umfassende Überwachungs- und Alarmierungssystem mit benutzerdefinierten Dashboards und automatisierter Incident Response.',
-      image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Azure Monitor', 'Log Analytics', 'PowerBI', 'Automatisierung'],
-      demoUrl: '#',
-      githubUrl: '#'
-    },
-    {
-      title: 'DevOps Pipeline Implementierung',
-      description: 'End-to-End DevOps-Pipeline mit automatisierten Tests, Deployment und Infrastruktur-Bereitstellung.',
       image: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Azure DevOps', 'Git', 'ARM Templates', 'PowerShell'],
+      tags: ['Azure Monitor', 'Log Analytics', 'PowerBI', 'Automatisierung'],
       demoUrl: '#',
       githubUrl: '#'
     }
@@ -100,14 +101,26 @@ const Portfolio = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <div className="absolute bottom-4 left-4 right-4 flex space-x-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
-                      <ExternalLink className="h-4 w-4" />
-                      <span>Details</span>
-                    </button>
-                    <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
-                      <Github className="h-4 w-4" />
-                      <span>Code</span>
-                    </button>
+                    {project.isVA ? (
+                      <Link 
+                        to={project.linkTo}
+                        className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span>VA ansehen</span>
+                      </Link>
+                    ) : (
+                      <>
+                        <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
+                          <ExternalLink className="h-4 w-4" />
+                          <span>Details</span>
+                        </button>
+                        <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
+                          <Github className="h-4 w-4" />
+                          <span>Code</span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -134,7 +147,9 @@ const Portfolio = () => {
                 </div>
                 
                 <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
-                  <span className="mr-2">Projekt ansehen</span>
+                  <span className="mr-2">
+                    {project.isVA ? 'Vertiefungsarbeit ansehen' : 'Projekt ansehen'}
+                  </span>
                   <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
                 </div>
               </div>
