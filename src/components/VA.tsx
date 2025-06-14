@@ -324,7 +324,7 @@ const VA = () => {
       <footer className="py-12 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-slate-400">
-            © 2024 Leonardo Dias Costa - Vertiefungsarbeit "Unentdeckte Schönheiten"
+            © 2025 Leonardo Dias Costa - Vertiefungsarbeit "Unentdeckte Schönheiten"
           </p>
         </div>
       </footer>
