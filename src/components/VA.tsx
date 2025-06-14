@@ -34,7 +34,7 @@ const VA = () => {
 
   const objectives = [
     "Entdeckung unbekannter Orte in der Deutschschweiz",
-    "Untersuchung der Merkmale von „Hidden Gems"",
+    "Untersuchung der Merkmale von 'Hidden Gems'",
     "Förderung nachhaltigen Tourismus",
     "Multimediale Dokumentation und Meinungsvielfalt"
   ];
