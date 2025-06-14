@@ -34,7 +34,7 @@ const VA = () => {
     if (isAutoPlaying) {
       slideInterval.current = setInterval(() => {
         nextSlide();
-      }, 60);
+      }, 10);
     } else {
       if (slideInterval.current) {
         clearInterval(slideInterval.current);
