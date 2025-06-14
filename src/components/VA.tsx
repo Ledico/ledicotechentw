@@ -34,7 +34,7 @@ const VA = () => {
     if (isAutoPlaying) {
       slideInterval.current = setInterval(() => {
         nextSlide();
-      }, 10);
+      }, 5000); // Fixed: Changed from 10ms to 5000ms (5 seconds)
     } else {
       if (slideInterval.current) {
         clearInterval(slideInterval.current);
