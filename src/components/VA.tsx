@@ -179,7 +179,7 @@ const VA = () => {
               Verwendete <span className="text-purple-600">Medien</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Die in verwendeten Medien und Technologien in der Vertiefungsarbeit
+              Die verwendeten Medien und Technologien in der Vertiefungsarbeit
             </p>
           </div>
 
