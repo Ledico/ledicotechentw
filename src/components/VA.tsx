@@ -116,32 +116,34 @@ const VA = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
-    setTimeout(() => setIsTransitioning(false), 700);
+    setTimeout(() => setIsTransitioning(false), 800);
   };
 
   const prevSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-    setTimeout(() => setIsTransitioning(false), 700);
+    setTimeout(() => setIsTransitioning(false), 800);
   };
 
   const goToSlide = (index: number) => {
     if (isTransitioning || index === currentSlide) return;
     setIsTransitioning(true);
     setCurrentSlide(index);
-    setTimeout(() => setIsTransitioning(false), 700);
+    setTimeout(() => setIsTransitioning(false), 800);
   };
 
   const toggleAutoPlay = () => {
     setIsAutoPlaying(!isAutoPlaying);
   };
 
-  // Auto-play slideshow - Fixed: Removed currentSlide dependency
+  // Auto-play slideshow with smooth transitions
   useEffect(() => {
     if (isAutoPlaying) {
       slideInterval.current = setInterval(() => {
+        setIsTransitioning(true);
         setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+        setTimeout(() => setIsTransitioning(false), 800);
       }, 5000); // 5 seconds
     } else {
       if (slideInterval.current) {
@@ -154,7 +156,7 @@ const VA = () => {
         clearInterval(slideInterval.current);
       }
     };
-  }, [isAutoPlaying, galleryImages.length]); // Only depend on isAutoPlaying and galleryImages.length
+  }, [isAutoPlaying, galleryImages.length]);
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
@@ -266,7 +268,7 @@ const VA = () => {
         </div>
       </section>
 
-      {/* Full Screen Interactive Image Slideshow */}
+      {/* Full Screen Interactive Image Slideshow with Enhanced Animations */}
       <section className="py-20 bg-gradient-to-b from-slate-900 to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -278,59 +280,103 @@ const VA = () => {
             </p>
           </div>
 
-          {/* Modern Slideshow Container */}
+          {/* Enhanced Slideshow Container with Smooth Animations */}
           <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-black/50 backdrop-blur-sm border border-white/10">
-              {/* Main Image Container */}
+              {/* Main Image Container with Advanced Transitions */}
               <div className="relative h-[70vh] overflow-hidden">
-                {/* Image with smooth transitions */}
+                {/* Multiple layered images for smooth crossfade effect */}
                 <div className="relative w-full h-full">
-                  <img 
-                    src={galleryImages[currentSlide].src}
-                    alt={galleryImages[currentSlide].alt}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
-                      isTransitioning ? 'scale-110 opacity-80' : 'scale-100 opacity-100'
-                    }`}
-                  />
+                  {galleryImages.map((image, index) => (
+                    <img 
+                      key={index}
+                      src={image.src}
+                      alt={image.alt}
+                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-800 ease-in-out ${
+                        index === currentSlide 
+                          ? isTransitioning 
+                            ? 'opacity-100 scale-105 blur-sm' 
+                            : 'opacity-100 scale-100 blur-0'
+                          : 'opacity-0 scale-95'
+                      }`}
+                      style={{
+                        transitionDelay: index === currentSlide ? '0ms' : '200ms',
+                        filter: index === currentSlide && isTransitioning ? 'brightness(1.1) contrast(1.1)' : 'brightness(1) contrast(1)'
+                      }}
+                    />
+                  ))}
                   
-                  {/* Dynamic gradient overlay that changes with transitions */}
-                  <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-700 ${
+                  {/* Enhanced gradient overlay with animation */}
+                  <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-800 ease-in-out ${
                     isTransitioning 
-                      ? 'from-black/90 via-black/30 to-black/50' 
+                      ? 'from-black/80 via-black/20 to-purple-900/30' 
                       : 'from-black/60 via-transparent to-black/20'
                   }`}></div>
                   
-                  {/* Animated corner accents */}
-                  <div className="absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 border-purple-400/50 rounded-tl-lg animate-pulse"></div>
-                  <div className="absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 border-cyan-400/50 rounded-tr-lg animate-pulse" style={{ animationDelay: '1s' }}></div>
-                  <div className="absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 border-purple-400/50 rounded-bl-lg animate-pulse" style={{ animationDelay: '2s' }}></div>
-                  <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 border-cyan-400/50 rounded-br-lg animate-pulse" style={{ animationDelay: '3s' }}></div>
+                  {/* Animated corner accents with enhanced effects */}
+                  <div className={`absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 rounded-tl-lg transition-all duration-500 ${
+                    isTransitioning ? 'border-cyan-300 animate-pulse' : 'border-purple-400/50'
+                  }`}></div>
+                  <div className={`absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 rounded-tr-lg transition-all duration-500 ${
+                    isTransitioning ? 'border-purple-300 animate-pulse' : 'border-cyan-400/50'
+                  }`} style={{ animationDelay: '100ms' }}></div>
+                  <div className={`absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 rounded-bl-lg transition-all duration-500 ${
+                    isTransitioning ? 'border-purple-300 animate-pulse' : 'border-purple-400/50'
+                  }`} style={{ animationDelay: '200ms' }}></div>
+                  <div className={`absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 rounded-br-lg transition-all duration-500 ${
+                    isTransitioning ? 'border-cyan-300 animate-pulse' : 'border-cyan-400/50'
+                  }`} style={{ animationDelay: '300ms' }}></div>
+
+                  {/* Floating particles during transitions */}
+                  {isTransitioning && (
+                    <>
+                      <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-purple-400/60 rounded-full animate-ping"></div>
+                      <div className="absolute top-2/3 right-1/4 w-1 h-1 bg-cyan-400/60 rounded-full animate-ping" style={{ animationDelay: '200ms' }}></div>
+                      <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-purple-300/40 rounded-full animate-ping" style={{ animationDelay: '400ms' }}></div>
+                    </>
+                  )}
                 </div>
               </div>
 
-              {/* Enhanced Navigation Controls */}
+              {/* Enhanced Navigation Controls with Animation Feedback */}
               <button 
                 onClick={prevSlide}
                 disabled={isTransitioning}
-                className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed group"
+                className={`absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed group ${
+                  isTransitioning 
+                    ? 'bg-purple-500/30 scale-110' 
+                    : 'bg-white/10 hover:bg-white/20 hover:scale-110'
+                }`}
               >
-                <ChevronLeft className="h-6 w-6 group-hover:scale-110 transition-transform duration-200" />
+                <ChevronLeft className={`h-6 w-6 transition-all duration-200 ${
+                  isTransitioning ? 'scale-125 text-purple-200' : 'group-hover:scale-110'
+                }`} />
               </button>
               
               <button 
                 onClick={nextSlide}
                 disabled={isTransitioning}
-                className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed group"
+                className={`absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300 border border-white/20 disabled:opacity-50 disabled:cursor-not-allowed group ${
+                  isTransitioning 
+                    ? 'bg-cyan-500/30 scale-110' 
+                    : 'bg-white/10 hover:bg-white/20 hover:scale-110'
+                }`}
               >
-                <ChevronRight className="h-6 w-6 group-hover:scale-110 transition-transform duration-200" />
+                <ChevronRight className={`h-6 w-6 transition-all duration-200 ${
+                  isTransitioning ? 'scale-125 text-cyan-200' : 'group-hover:scale-110'
+                }`} />
               </button>
 
-              {/* Enhanced Control Panel */}
+              {/* Enhanced Control Panel with Transition Effects */}
               <div className="absolute top-6 right-6 flex items-center space-x-3">
-                {/* Auto-play Control */}
+                {/* Auto-play Control with Enhanced Animation */}
                 <button 
                   onClick={toggleAutoPlay}
-                  className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 border border-white/20 group"
+                  className={`w-12 h-12 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300 border border-white/20 group ${
+                    isAutoPlaying 
+                      ? 'bg-green-500/20 hover:bg-green-500/30' 
+                      : 'bg-red-500/20 hover:bg-red-500/30'
+                  }`}
                 >
                   {isAutoPlaying ? 
                     <Pause className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" /> : 
@@ -338,38 +384,62 @@ const VA = () => {
                   }
                 </button>
 
-                {/* Slide Counter with progress */}
-                <div className="bg-white/10 backdrop-blur-md rounded-full px-4 py-2 text-white border border-white/20">
+                {/* Enhanced Slide Counter with Transition Animation */}
+                <div className={`backdrop-blur-md rounded-full px-4 py-2 text-white border border-white/20 transition-all duration-300 ${
+                  isTransitioning 
+                    ? 'bg-gradient-to-r from-purple-500/20 to-cyan-500/20 scale-105' 
+                    : 'bg-white/10'
+                }`}>
                   <span className="text-sm font-medium">
                     {currentSlide + 1} / {galleryImages.length}
                   </span>
                 </div>
               </div>
 
-              {/* Progress Bar */}
+              {/* Enhanced Progress Bar with Smooth Animation */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
                 <div 
-                  className="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-700 ease-out"
-                  style={{ width: `${((currentSlide + 1) / galleryImages.length) * 100}%` }}
+                  className={`h-full transition-all duration-800 ease-out ${
+                    isTransitioning 
+                      ? 'bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400' 
+                      : 'bg-gradient-to-r from-purple-500 to-cyan-500'
+                  }`}
+                  style={{ 
+                    width: `${((currentSlide + 1) / galleryImages.length) * 100}%`,
+                    boxShadow: isTransitioning ? '0 0 20px rgba(147, 51, 234, 0.5)' : 'none'
+                  }}
                 ></div>
               </div>
+
+              {/* Transition Loading Indicator */}
+              {isTransitioning && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-16 h-16 border-4 border-white/20 border-t-purple-400 rounded-full animate-spin"></div>
+                </div>
+              )}
             </div>
 
-            {/* Enhanced Slide Indicators */}
+            {/* Enhanced Slide Indicators with Animation */}
             <div className="flex justify-center space-x-3 mt-8">
               {galleryImages.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
                   disabled={isTransitioning}
-                  className={`relative transition-all duration-300 disabled:cursor-not-allowed ${
+                  className={`relative transition-all duration-500 disabled:cursor-not-allowed ${
                     index === currentSlide 
                       ? 'w-12 h-4 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full shadow-lg' 
                       : 'w-4 h-4 bg-white/30 hover:bg-white/50 rounded-full hover:scale-125'
                   }`}
                 >
                   {index === currentSlide && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full animate-pulse"></div>
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full animate-pulse"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-cyan-400 rounded-full animate-ping opacity-75"></div>
+                    </>
+                  )}
+                  {isTransitioning && index === currentSlide && (
+                    <div className="absolute -inset-2 border-2 border-purple-400/50 rounded-full animate-spin"></div>
                   )}
                 </button>
               ))}
