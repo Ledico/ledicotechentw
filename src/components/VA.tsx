@@ -237,7 +237,7 @@ const VA = () => {
               Dokument<span className="text-purple-600">struktur</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Detaillierte Gliederung der 95-seitigen Vertiefungsarbeit
+              Detaillierte Gliederung der 51-seitigen Vertiefungsarbeit
             </p>
           </div>
 
