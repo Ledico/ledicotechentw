@@ -25,10 +25,10 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: 'Vertiefungsarbeit: Intune Automatisierung',
-      description: 'Umfassende Automatisierung der Geräteverwaltung mit Microsoft Intune für Enterprise-Umgebungen. 95-seitige Dokumentation mit praktischer Implementierung.',
-      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Microsoft Intune', 'Azure AD', 'PowerShell', 'Vertiefungsarbeit'],
+      title: 'Vertiefungsarbeit: Unentdeckte Schönheiten',
+      description: 'Erforschung weniger bekannter Orte in der Deutschschweiz abseits des Massentourismus. 51-seitige Dokumentation mit multimedialen Inhalten, Interviews und Umfragen.',
+      image: '/src/img/z650.png',
+      tags: ['Tourismus', 'Fotografie', 'Interviews', 'Vertiefungsarbeit'],
       isVA: true,
       linkTo: '/va'
     },
@@ -125,34 +125,63 @@ const Portfolio = () => {
                 </div>
               </div>
               
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
-                  {project.title}
-                </h3>
-                
-                <p className="text-slate-600 mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span 
-                      key={tagIndex}
-                      className={`px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                      style={{ transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms` }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              {project.isVA ? (
+                <Link to={project.linkTo} className="block">
+                  <div className="p-6 cursor-pointer">
+                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    
+                    <p className="text-slate-600 mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag, tagIndex) => (
+                        <span 
+                          key={tagIndex}
+                          className={`px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                          style={{ transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms` }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                      <span className="mr-2">Vertiefungsarbeit ansehen</span>
+                      <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
+                    </div>
+                  </div>
+                </Link>
+              ) : (
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 mb-4 leading-relaxed">
+                    {project.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span 
+                        key={tagIndex}
+                        className={`px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                        style={{ transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms` }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                    <span className="mr-2">Projekt ansehen</span>
+                    <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
+                  </div>
                 </div>
-                
-                <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
-                  <span className="mr-2">
-                    {project.isVA ? 'Vertiefungsarbeit ansehen' : 'Projekt ansehen'}
-                  </span>
-                  <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
-                </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
