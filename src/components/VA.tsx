@@ -323,7 +323,7 @@ const VA = () => {
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative">
                 <img 
-                  src="/img/Luzein3.jpeg" 
+                  src="/img/Luzein2.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover rounded-2xl shadow-lg"
                 />
