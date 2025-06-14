@@ -77,7 +77,9 @@ const VA = () => {
     { src: "/img/Image (4).jpeg", alt: "Hidden Gem Entdeckung 5", title: "Abseits der Pfade" },
     { src: "/img/Image (5).jpeg", alt: "Hidden Gem Entdeckung 6", title: "Ruheoase" },
     { src: "/img/Image (6).jpeg", alt: "Hidden Gem Entdeckung 7", title: "Naturjuwel" },
-    { src: "/img/z650.png", alt: "Kawasaki Z650", title: "Roadtrip Begleiter" }
+    { src: "/img/Luzein1.HEIC", alt: "Luzein Entdeckung 1", title: "Luzein Hidden Gem" },
+    { src: "/img/Luzein2.HEIC", alt: "Luzein Entdeckung 2", title: "Luzein Naturschönheit" },
+    { src: "/img/Luzein3.HEIC", alt: "Luzein Entdeckung 3", title: "Luzein Geheimtipp" }
   ];
 
   const handleDownloadPDF = () => {
@@ -119,49 +121,71 @@ const VA = () => {
         </div>
       </nav>
 
-      {/* Hero Section with Background Image */}
-      <section className="pt-24 pb-16 relative overflow-hidden min-h-[70vh]">
-        <div className="absolute inset-0">
-          <img 
-            src="/img/Image.jpeg" 
-            alt="Hidden Gem Background" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-purple-800/70 to-cyan-900/80"></div>
+      {/* Modern Hero Section */}
+      <section className="pt-24 pb-16 relative overflow-hidden min-h-screen">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-slate-900 to-cyan-900">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[70vh]">
-          <div className={`text-white transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-              <BookOpen className="h-5 w-5" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-screen">
+          <div className={`text-white max-w-4xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
+              <BookOpen className="h-5 w-5 text-cyan-400" />
               <span className="text-sm font-medium">Vertiefungsarbeit 2024/2025</span>
             </div>
             
-            <h1 className="text-4xl sm:text-6xl font-bold mb-6 leading-tight">
-              {projectDetails.title}
+            <h1 className="text-5xl sm:text-7xl font-bold mb-8 leading-tight">
+              <span className="block text-white">{projectDetails.title}</span>
+              <span className="block bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+                {projectDetails.subtitle}
+              </span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-4xl">
-              {projectDetails.subtitle}
+            <p className="text-xl sm:text-2xl text-white/80 mb-12 max-w-3xl leading-relaxed">
+              Eine Reise zu den versteckten Juwelen der Deutschschweiz - 
+              Entdeckung unbekannter Orte abseits des Massentourismus
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              <div className="flex items-center space-x-4 text-white/80">
+            <div className="flex flex-col sm:flex-row gap-6 items-start mb-12">
+              <div className="flex items-center space-x-6 text-white/70">
                 <div className="flex items-center space-x-2">
-                  <User className="h-4 w-4" />
-                  <span>{projectDetails.author}</span>
+                  <User className="h-5 w-5" />
+                  <span className="font-medium">{projectDetails.author}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-5 w-5" />
                   <span>{projectDetails.date}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Award className="h-4 w-4" />
-                  <span>Note: {projectDetails.grade}</span>
+                  <Award className="h-5 w-5 text-yellow-400" />
+                  <span className="font-semibold text-yellow-400">Note: {projectDetails.grade}</span>
                 </div>
               </div>
             </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={handleDownloadPDF}
+                className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                <FileText className="h-5 w-5" />
+                <span>PDF ansehen</span>
+              </button>
+              <button 
+                onClick={handleDownloadPPTX}
+                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              >
+                <Presentation className="h-5 w-5" />
+                <span>Präsentation</span>
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Floating elements */}
+        <div className="absolute top-1/4 right-1/4 w-4 h-4 bg-purple-400/30 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-1/3 left-1/4 w-2 h-2 bg-cyan-400/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-2/3 right-1/3 w-3 h-3 bg-purple-300/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
       </section>
 
       {/* Project Overview with Side Image */}
@@ -200,7 +224,6 @@ const VA = () => {
                   alt="Projektübersicht" 
                   className="w-full h-80 object-cover rounded-2xl shadow-lg"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/20 to-transparent rounded-2xl"></div>
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Projektziele</h3>
@@ -233,7 +256,7 @@ const VA = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryImages.slice(0, 6).map((image, index) => (
+            {galleryImages.slice(0, 9).map((image, index) => (
               <div 
                 key={index}
                 className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
@@ -242,14 +265,8 @@ const VA = () => {
                 <img 
                   src={image.src} 
                   alt={image.alt}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-64 object-cover transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-lg font-semibold mb-1">{image.title}</h3>
-                    <p className="text-sm text-white/80">Vertiefungsarbeit 2024/2025</p>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
@@ -309,15 +326,15 @@ const VA = () => {
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative">
                 <img 
-                  src="/img/z650.png" 
-                  alt="Kawasaki Z650 - Roadtrip Begleiter" 
+                  src="/img/Luzein1.HEIC" 
+                  alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover rounded-2xl shadow-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl"></div>
                 <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">Roadtrip Begleiter</h3>
+                  <h3 className="text-2xl font-bold mb-2">Luzein Entdeckung</h3>
                   <p className="text-white/90">
-                    Mit der Kawasaki Z650 zu den versteckten Orten der Deutschschweiz
+                    Eines der entdeckten Hidden Gems in der Deutschschweiz
                   </p>
                 </div>
               </div>
