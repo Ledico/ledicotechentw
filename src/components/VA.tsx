@@ -66,14 +66,14 @@ const VA = () => {
   ];
 
   const chapters = [
-    { title: "Einleitung und Fragestellung", pages: "1-2", pageCount: 2 },
-    { title: "Definition von Hidden Gems", pages: "3", pageCount: 1 },
-    { title: "Roadtrips", pages: "4-21", pageCount: 18 },
-    { title: "Interviews", pages: "22-28", pageCount: 7 },
-    { title: "Leitfragen", pages: "28-32", pageCount: 5 },
-    { title: "Umfrage", pages: "33-35", pageCount: 3 },
-    { title: "Fazit und Rückblick", pages: "36-37", pageCount: 2 },
-    { title: "Quellenverzeichnis und Anhang", pages: "38-51", pageCount: 14 }
+    { title: "Einleitung und Fragestellung", pages: "1-2", endPage: 2 },
+    { title: "Definition von Hidden Gems", pages: "3", endPage: 3 },
+    { title: "Roadtrips", pages: "4-21", endPage: 21 },
+    { title: "Interviews", pages: "22-28", endPage: 28 },
+    { title: "Leitfragen", pages: "28-32", endPage: 32 },
+    { title: "Umfrage", pages: "33-35", endPage: 35 },
+    { title: "Fazit und Rückblick", pages: "36-37", endPage: 37 },
+    { title: "Quellenverzeichnis und Anhang", pages: "38-51", endPage: 51 }
   ];
 
   const totalPages = 51;
@@ -610,7 +610,7 @@ const VA = () => {
                   <div 
                     className="bg-gradient-to-r from-purple-600 to-cyan-600 h-3 rounded-full transition-all duration-2000 ease-out relative overflow-hidden"
                     style={{ 
-                      width: `${(chapter.pageCount / totalPages) * 100}%`,
+                      width: isVisible ? `${(chapter.endPage / totalPages) * 100}%` : '0%',
                       transitionDelay: `${index * 200 + 500}ms`
                     }}
                   >
@@ -619,8 +619,8 @@ const VA = () => {
                   </div>
                 </div>
                 <div className="flex justify-between text-xs text-slate-500 mt-2">
-                  <span>{chapter.pageCount} Seiten</span>
-                  <span>{Math.round((chapter.pageCount / totalPages) * 100)}%</span>
+                  <span>Bis Seite {chapter.endPage}</span>
+                  <span>{Math.round((chapter.endPage / totalPages) * 100)}%</span>
                 </div>
               </div>
             ))}
