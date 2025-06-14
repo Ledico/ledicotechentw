@@ -78,7 +78,6 @@ const VA = () => {
     { src: "/img/Image (5).jpeg", alt: "Hidden Gem Entdeckung 6", title: "Ruheoase" },
     { src: "/img/Image (6).jpeg", alt: "Hidden Gem Entdeckung 7", title: "Naturjuwel" },
     { src: "/img/Luzein3.jpeg", alt: "Luzein Entdeckung 3", title: "Luzein Hidden Gem" },
-    { src: "/img/Luzein2.jpeg", alt: "Luzein Entdeckung 2", title: "Luzein Naturschönheit" },
     { src: "/img/Luzein1.jpeg", alt: "Luzein Entdeckung 1", title: "Luzein Geheimtipp" }
   ];
 
