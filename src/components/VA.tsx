@@ -94,7 +94,7 @@ const VA = () => {
           <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <BookOpen className="h-5 w-5" />
-              <span className="text-sm font-medium">Vertiefungsarbeit 2024</span>
+              <span className="text-sm font-medium">Vertiefungsarbeit 2024/2025</span>
             </div>
             
             <h1 className="text-4xl sm:text-6xl font-bold mb-6 leading-tight">
