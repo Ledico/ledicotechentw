@@ -49,7 +49,7 @@ const VA = () => {
   ];
 
   const achievements = [
-    { icon: Target, title: "8 Hidden Gems entdeckt", description: "Erfolgreiche Erkundung unbekannter Orte in der Deutschschweiz" },
+    { icon: Target, title: "4 Hidden Gems entdeckt", description: "Erfolgreiche Erkundung unbekannter Orte in der Deutschschweiz" },
     { icon: CheckCircle, title: "2 Experteninterviews", description: "Gespräche mit Tourismusexperten und Weltreisenden" },
     { icon: Award, title: "Umfassende Dokumentation", description: "51-seitige Arbeit mit multimedialen Inhalten" },
     { icon: Lightbulb, title: "Nachhaltige Tourismusförderung", description: "Bewusstseinsschaffung für verantwortliches Reisen" }
