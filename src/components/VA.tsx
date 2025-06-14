@@ -318,23 +318,23 @@ const VA = () => {
         </div>
       </section>
 
-      {/* Interactive Image Slideshow */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Entdeckte <span className="text-purple-600">Hidden Gems</span>
+      {/* Full Screen Interactive Image Slideshow */}
+      <section className="py-0 bg-slate-900">
+        <div className="w-full">
+          <div className={`text-center py-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Entdeckte <span className="text-purple-400">Hidden Gems</span>
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto px-4">
               Eine visuelle Reise durch die unentdeckten Schönheiten der Deutschschweiz
             </p>
           </div>
 
-          {/* Main Slideshow */}
-          <div className={`relative max-w-5xl mx-auto mb-12 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
-              {/* Image Container */}
-              <div className="relative h-96 md:h-[500px]">
+          {/* Full Screen Slideshow */}
+          <div className={`relative w-full transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative overflow-hidden bg-black">
+              {/* Image Container - Full viewport height minus navigation */}
+              <div className="relative h-screen max-h-[80vh]">
                 <img 
                   src={galleryImages[currentSlide].src}
                   alt={galleryImages[currentSlide].alt}
@@ -342,81 +342,66 @@ const VA = () => {
                 />
                 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
                 
                 {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2 transform transition-all duration-500">
-                    {galleryImages[currentSlide].title}
-                  </h3>
-                  <p className="text-lg text-white/90 max-w-2xl transform transition-all duration-500 delay-100">
-                    {galleryImages[currentSlide].description}
-                  </p>
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white">
+                  <div className="max-w-4xl mx-auto">
+                    <h3 className="text-3xl md:text-5xl font-bold mb-4 transform transition-all duration-500">
+                      {galleryImages[currentSlide].title}
+                    </h3>
+                    <p className="text-xl md:text-2xl text-white/90 max-w-3xl transform transition-all duration-500 delay-100">
+                      {galleryImages[currentSlide].description}
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {/* Navigation Arrows */}
               <button 
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 border border-white/20"
               >
-                <ChevronLeft className="h-6 w-6" />
+                <ChevronLeft className="h-8 w-8" />
               </button>
               
               <button 
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 border border-white/20"
               >
-                <ChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-8 w-8" />
               </button>
 
               {/* Auto-play Control */}
               <button 
                 onClick={toggleAutoPlay}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
+                className="absolute top-4 md:top-8 right-4 md:right-8 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 border border-white/20"
               >
-                {isAutoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                {isAutoPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
               </button>
+
+              {/* Slide Counter */}
+              <div className="absolute top-4 md:top-8 left-4 md:left-8 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white border border-white/20">
+                <span className="text-sm font-medium">
+                  {currentSlide + 1} / {galleryImages.length}
+                </span>
+              </div>
             </div>
 
             {/* Slide Indicators */}
-            <div className="flex justify-center space-x-2 mt-6">
+            <div className="flex justify-center space-x-3 py-8 bg-slate-900">
               {galleryImages.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
                     index === currentSlide 
-                      ? 'bg-purple-600 scale-125' 
-                      : 'bg-slate-300 hover:bg-slate-400'
+                      ? 'bg-purple-500 scale-125 shadow-lg shadow-purple-500/50' 
+                      : 'bg-white/30 hover:bg-white/50'
                   }`}
                 />
               ))}
             </div>
-          </div>
-
-          {/* Thumbnail Grid */}
-          <div className={`grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            {galleryImages.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`relative overflow-hidden rounded-lg aspect-square transition-all duration-300 hover:scale-105 ${
-                  index === currentSlide 
-                    ? 'ring-4 ring-purple-600 ring-offset-2' 
-                    : 'hover:ring-2 hover:ring-purple-300'
-                }`}
-              >
-                <img 
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover"
-                />
-                {index === currentSlide && (
-                  <div className="absolute inset-0 bg-purple-600/20"></div>
-                )}
-              </button>
-            ))}
           </div>
         </div>
       </section>
