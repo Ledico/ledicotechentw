@@ -66,15 +66,17 @@ const VA = () => {
   ];
 
   const chapters = [
-    { title: "Einleitung und Fragestellung", pages: "1-2" },
-    { title: "Definition von Hidden Gems", pages: "3" },
-    { title: "Roadtrips", pages: "4-21" },
-    { title: "Interviews", pages: "22-28" },
-    { title: "Leitfragen", pages: "28-32" },
-    { title: "Umfrage", pages: "33-35" },
-    { title: "Fazit und Rückblick", pages: "36-37" },
-    { title: "Quellenverzeichnis und Anhang", pages: "38-51" }
+    { title: "Einleitung und Fragestellung", pages: "1-2", pageCount: 2 },
+    { title: "Definition von Hidden Gems", pages: "3", pageCount: 1 },
+    { title: "Roadtrips", pages: "4-21", pageCount: 18 },
+    { title: "Interviews", pages: "22-28", pageCount: 7 },
+    { title: "Leitfragen", pages: "28-32", pageCount: 5 },
+    { title: "Umfrage", pages: "33-35", pageCount: 3 },
+    { title: "Fazit und Rückblick", pages: "36-37", pageCount: 2 },
+    { title: "Quellenverzeichnis und Anhang", pages: "38-51", pageCount: 14 }
   ];
+
+  const totalPages = 51;
 
   const galleryImages = [
     { 
@@ -600,18 +602,25 @@ const VA = () => {
                 className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 animate-slide-in-left"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-slate-900">{chapter.title}</h3>
-                  <span className="text-sm text-purple-600 font-medium animate-pulse">S. {chapter.pages}</span>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-slate-900 pr-4">{chapter.title}</h3>
+                  <span className="text-sm text-purple-600 font-medium animate-pulse whitespace-nowrap">S. {chapter.pages}</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2">
+                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
                   <div 
-                    className="bg-gradient-to-r from-purple-600 to-cyan-600 h-2 rounded-full transition-all duration-2000 animate-shimmer"
+                    className="bg-gradient-to-r from-purple-600 to-cyan-600 h-3 rounded-full transition-all duration-2000 ease-out relative overflow-hidden"
                     style={{ 
-                      width: `${((index + 1) / chapters.length) * 100}%`,
+                      width: `${(chapter.pageCount / totalPages) * 100}%`,
                       transitionDelay: `${index * 200 + 500}ms`
                     }}
-                  ></div>
+                  >
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                  </div>
+                </div>
+                <div className="flex justify-between text-xs text-slate-500 mt-2">
+                  <span>{chapter.pageCount} Seiten</span>
+                  <span>{Math.round((chapter.pageCount / totalPages) * 100)}%</span>
                 </div>
               </div>
             ))}
