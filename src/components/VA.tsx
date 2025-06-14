@@ -13,6 +13,11 @@ const VA = () => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
+    // Trigger animations immediately when component mounts
+    setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -179,18 +184,18 @@ const VA = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-lg">
+      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-lg animate-slide-in-left">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <button 
               onClick={() => window.history.back()}
-              className="flex items-center space-x-2 text-slate-700 hover:text-purple-600 transition-colors duration-200"
+              className="flex items-center space-x-2 text-slate-700 hover:text-purple-600 transition-colors duration-200 hover:scale-105"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>Zurück zum Portfolio</span>
             </button>
             <div className="flex items-center space-x-2">
-              <User className="h-8 w-8 text-slate-900" />
+              <User className="h-8 w-8 text-slate-900 animate-bounce" />
               <span className="text-xl font-bold text-slate-900">Leonardo Dias Costa</span>
             </div>
           </div>
@@ -210,48 +215,49 @@ const VA = () => {
           {/* Floating orbs */}
           <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute bottom-1/3 left-1/4 w-24 h-24 bg-cyan-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-pink-500/10 rounded-full blur-xl animate-float"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-screen">
-          <div className={`text-white max-w-4xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20 hover:bg-white/20 transition-all duration-300">
-              <BookOpen className="h-5 w-5 text-cyan-400" />
+          <div className="text-white max-w-4xl animate-fade-in-up">
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20 hover:bg-white/20 transition-all duration-300 animate-bounce-in stagger-1">
+              <BookOpen className="h-5 w-5 text-cyan-400 animate-spin-slow" />
               <span className="text-sm font-medium">Vertiefungsarbeit 2024/2025</span>
             </div>
             
             <h1 className="text-5xl sm:text-7xl font-bold mb-8 leading-tight">
-              <span className="block text-white animate-fade-in-up">{projectDetails.title}</span>
-              <span className="block bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
+              <span className="block text-white animate-slide-in-left stagger-2">{projectDetails.title}</span>
+              <span className="block bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x animate-slide-in-right stagger-3">
                 {projectDetails.subtitle}
               </span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-white/80 mb-12 max-w-3xl leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <p className="text-xl sm:text-2xl text-white/80 mb-12 max-w-3xl leading-relaxed animate-fade-in-up stagger-4">
               Eine Reise zu den versteckten Juwelen der Deutschschweiz - 
               Entdeckung unbekannter Orte abseits des Massentourismus
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 items-start mb-12 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            <div className="flex flex-col sm:flex-row gap-6 items-start mb-12 animate-slide-in-left stagger-5">
               <div className="flex items-center space-x-6 text-white/70">
-                <div className="flex items-center space-x-2 hover:text-white transition-colors duration-300">
+                <div className="flex items-center space-x-2 hover:text-white transition-colors duration-300 hover:scale-105">
                   <User className="h-5 w-5" />
                   <span className="font-medium">{projectDetails.author}</span>
                 </div>
-                <div className="flex items-center space-x-2 hover:text-white transition-colors duration-300">
+                <div className="flex items-center space-x-2 hover:text-white transition-colors duration-300 hover:scale-105">
                   <Calendar className="h-5 w-5" />
                   <span>{projectDetails.date}</span>
                 </div>
-                <div className="flex items-center space-x-2 hover:text-yellow-300 transition-colors duration-300">
-                  <Award className="h-5 w-5 text-yellow-400" />
+                <div className="flex items-center space-x-2 hover:text-yellow-300 transition-colors duration-300 hover:scale-105">
+                  <Award className="h-5 w-5 text-yellow-400 animate-pulse" />
                   <span className="font-semibold text-yellow-400">Note: {projectDetails.grade}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+            <div className="flex flex-col sm:flex-row gap-4 animate-bounce-in stagger-6">
               <button 
                 onClick={handleDownloadPDF}
-                className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
+                className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-glow-pulse"
               >
                 <FileText className="h-5 w-5" />
                 <span>PDF ansehen</span>
@@ -271,7 +277,7 @@ const VA = () => {
       {/* Full Screen Interactive Image Slideshow with Enhanced Animations */}
       <section className="py-20 bg-gradient-to-b from-slate-900 to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
               Entdeckte <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">Hidden Gems</span>
             </h2>
@@ -281,7 +287,7 @@ const VA = () => {
           </div>
 
           {/* Enhanced Slideshow Container with Smooth Animations */}
-          <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="relative animate-slide-in-left">
             <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-black/50 backdrop-blur-sm border border-white/10">
               {/* Main Image Container with Advanced Transitions */}
               <div className="relative h-[70vh] overflow-hidden">
@@ -452,7 +458,7 @@ const VA = () => {
       <section ref={sectionRef} className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            <div className="animate-slide-in-left">
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Projektübersicht</h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
                 Am 25. Oktober 2024 habe ich meine Vertiefungsarbeit begonnen. Ziel ist es, weniger bekannte Orte 
@@ -466,23 +472,23 @@ const VA = () => {
               </p>
               
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-colors duration-300">
+                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-1">
                   <div className="text-2xl font-bold text-purple-600 mb-1">{projectDetails.duration}</div>
                   <div className="text-sm text-slate-600">Projektdauer</div>
                 </div>
-                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-colors duration-300">
+                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2">
                   <div className="text-2xl font-bold text-purple-600 mb-1">51 Seiten</div>
                   <div className="text-sm text-slate-600">Dokumentation</div>
                 </div>
               </div>
             </div>
 
-            <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl p-8 text-white hover:scale-105 transition-transform duration-300 shadow-xl">
+            <div className="animate-slide-in-right">
+              <div className="bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl p-8 text-white hover:scale-105 transition-transform duration-300 shadow-xl animate-glow-pulse">
                 <h3 className="text-2xl font-bold mb-6">Projektziele</h3>
                 <div className="space-y-4">
                   {objectives.map((objective, index) => (
-                    <div key={index} className="flex items-start space-x-3 hover:translate-x-2 transition-transform duration-300">
+                    <div key={index} className="flex items-start space-x-3 hover:translate-x-2 transition-transform duration-300 animate-fade-in-up" style={{ animationDelay: `${index * 200}ms` }}>
                       <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0 animate-pulse" style={{ animationDelay: `${index * 0.5}s` }} />
                       <span>{objective}</span>
                     </div>
@@ -498,9 +504,9 @@ const VA = () => {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            <div className="animate-slide-in-left">
               <h2 className="text-4xl font-bold text-slate-900 mb-6">
-                Verwendete <span className="text-purple-600">Methoden</span>
+                Verwendete <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Methoden</span>
               </h2>
               <p className="text-xl text-slate-600 mb-8">
                 Die verschiedenen Forschungsmethoden und Medien, die in der Vertiefungsarbeit eingesetzt wurden
@@ -510,11 +516,11 @@ const VA = () => {
                 {technologies.map((tech, index) => (
                   <div 
                     key={index}
-                    className={`bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                    style={{ transitionDelay: `${index * 100}ms` }}
+                    className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 animate-bounce-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="flex items-center space-x-3 mb-2">
-                      <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white">
+                      <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white hover:scale-110 transition-transform duration-300">
                         <tech.icon className="h-4 w-4" />
                       </div>
                       <h3 className="font-semibold text-slate-900">{tech.name}</h3>
@@ -525,16 +531,16 @@ const VA = () => {
               </div>
             </div>
 
-            <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <div className="animate-slide-in-right">
               <div className="relative group overflow-hidden rounded-2xl">
                 <img 
                   src="/img/Luzein2.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover shadow-lg group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-black/70 transition-all duration-500 group-hover:scale-105"></div>
-                <div className="absolute bottom-6 left-6 right-6 text-white transform group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-2xl font-bold mb-2">Luzein Entdeckung</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-black/70 transition-all duration-500"></div>
+                <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-2xl font-bold mb-2 animate-typewriter">Luzein Entdeckung</h3>
                   <p className="text-white/90">
                     Eines der entdeckten Hidden Gems in der Deutschschweiz
                   </p>
@@ -548,9 +554,9 @@ const VA = () => {
       {/* Key Achievements */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Wichtige <span className="text-purple-600">Ergebnisse</span>
+              Wichtige <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Ergebnisse</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Die wichtigsten Erkenntnisse und Erfolge der Vertiefungsarbeit
@@ -561,10 +567,10 @@ const VA = () => {
             {achievements.map((achievement, index) => (
               <div 
                 key={index}
-                className={`flex items-start space-x-4 p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 hover:shadow-lg ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}
-                style={{ transitionDelay: `${index * 150}ms` }}
+                className="flex items-start space-x-4 p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-bounce-in"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white flex-shrink-0 hover:scale-110 transition-transform duration-300">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white flex-shrink-0 hover:scale-110 transition-transform duration-300 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>
                   <achievement.icon className="h-6 w-6" />
                 </div>
                 <div>
@@ -580,9 +586,9 @@ const VA = () => {
       {/* Document Structure */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Dokument<span className="text-purple-600">struktur</span>
+              Dokument<span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">struktur</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Detaillierte Gliederung der 51-seitigen Vertiefungsarbeit
@@ -593,18 +599,18 @@ const VA = () => {
             {chapters.map((chapter, index) => (
               <div 
                 key={index}
-                className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 animate-slide-in-left"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-lg font-semibold text-slate-900">{chapter.title}</h3>
-                  <span className="text-sm text-purple-600 font-medium">S. {chapter.pages}</span>
+                  <span className="text-sm text-purple-600 font-medium animate-pulse">S. {chapter.pages}</span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-purple-600 to-cyan-600 h-2 rounded-full transition-all duration-1000"
+                    className="bg-gradient-to-r from-purple-600 to-cyan-600 h-2 rounded-full transition-all duration-2000 animate-shimmer"
                     style={{ 
-                      width: isVisible ? `${((index + 1) / chapters.length) * 100}%` : '0%',
+                      width: `${((index + 1) / chapters.length) * 100}%`,
                       transitionDelay: `${index * 200 + 500}ms`
                     }}
                   ></div>
@@ -618,7 +624,7 @@ const VA = () => {
       {/* Download Section */}
       <section className="py-20 bg-gradient-to-r from-purple-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="animate-fade-in-up">
             <h2 className="text-4xl font-bold mb-6">Vollständige Dokumentation</h2>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
               Laden Sie die komplette Vertiefungsarbeit herunter oder betrachten Sie die Präsentation
@@ -627,14 +633,14 @@ const VA = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={handleDownloadPDF}
-                className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce-in stagger-1"
               >
                 <FileText className="h-5 w-5" />
                 <span>PDF herunterladen (51 Seiten)</span>
               </button>
               <button 
                 onClick={handleDownloadPPTX}
-                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2"
               >
                 <Presentation className="h-5 w-5" />
                 <span>Präsentation herunterladen</span>
@@ -647,7 +653,7 @@ const VA = () => {
       {/* Footer */}
       <footer className="py-12 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-slate-400">
+          <p className="text-slate-400 animate-fade-in-up">
             © 2025 Leonardo Dias Costa - Vertiefungsarbeit "Unentdeckte Schönheiten"
           </p>
         </div>
