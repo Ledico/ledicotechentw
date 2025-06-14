@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 const VA = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Set to true immediately
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -13,10 +13,8 @@ const VA = () => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
-    // Trigger animations immediately when component mounts
-    setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
+    // Ensure animations are visible immediately
+    setIsVisible(true);
     
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -61,7 +59,7 @@ const VA = () => {
   ];
 
   const achievements = [
-    { icon: Target, title: "4 Hidden Gems entdeckt", description: "Erfolgreiche Erkundung unbekannter Orte in der Deutschschweiz" },
+    { icon: Target, title: "8 Hidden Gems entdeckt", description: "Erfolgreiche Erkundung unbekannter Orte in der Deutschschweiz" },
     { icon: CheckCircle, title: "2 Experteninterviews", description: "Gespräche mit Tourismusexperten und Weltreisenden" },
     { icon: Award, title: "Umfassende Dokumentation", description: "51-seitige Arbeit mit multimedialen Inhalten" },
     { icon: Lightbulb, title: "Nachhaltige Tourismusförderung", description: "Bewusstseinsschaffung für verantwortliches Reisen" }
