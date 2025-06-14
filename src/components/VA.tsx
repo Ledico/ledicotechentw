@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation, Camera, Video, Users, MapPin, BarChart, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 const VA = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
+  const slideInterval = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -24,6 +27,25 @@ const VA = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Auto-play slideshow
+  useEffect(() => {
+    if (isAutoPlaying) {
+      slideInterval.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+      }, 4000);
+    } else {
+      if (slideInterval.current) {
+        clearInterval(slideInterval.current);
+      }
+    }
+
+    return () => {
+      if (slideInterval.current) {
+        clearInterval(slideInterval.current);
+      }
+    };
+  }, [isAutoPlaying]);
 
   const projectDetails = {
     title: "Unentdeckte Schönheiten",
@@ -70,16 +92,73 @@ const VA = () => {
   ];
 
   const galleryImages = [
-    { src: "/img/Image.jpeg", alt: "Hidden Gem Entdeckung 1", title: "Versteckte Schönheit" },
-    { src: "/img/Image (1).jpeg", alt: "Hidden Gem Entdeckung 2", title: "Naturparadies" },
-    { src: "/img/Image (2).jpeg", alt: "Hidden Gem Entdeckung 3", title: "Unberührte Landschaft" },
-    { src: "/img/Image (3).jpeg", alt: "Hidden Gem Entdeckung 4", title: "Geheimtipp" },
-    { src: "/img/Image (4).jpeg", alt: "Hidden Gem Entdeckung 5", title: "Abseits der Pfade" },
-    { src: "/img/Image (5).jpeg", alt: "Hidden Gem Entdeckung 6", title: "Ruheoase" },
-    { src: "/img/Image (6).jpeg", alt: "Hidden Gem Entdeckung 7", title: "Naturjuwel" },
-    { src: "/img/Luzein3.jpeg", alt: "Luzein Entdeckung 3", title: "Luzein Hidden Gem" },
-    { src: "/img/Luzein1.jpeg", alt: "Luzein Entdeckung 1", title: "Luzein Geheimtipp" }
+    { 
+      src: "/img/Image.jpeg", 
+      alt: "Hidden Gem Entdeckung 1", 
+      title: "Versteckte Schönheit",
+      description: "Ein malerischer Ort abseits der bekannten Touristenpfade"
+    },
+    { 
+      src: "/img/Image (1).jpeg", 
+      alt: "Hidden Gem Entdeckung 2", 
+      title: "Historisches Juwel",
+      description: "Architektonische Schönheit in ruhiger Umgebung"
+    },
+    { 
+      src: "/img/Image (2).jpeg", 
+      alt: "Hidden Gem Entdeckung 3", 
+      title: "Traditionelle Architektur",
+      description: "Authentische Schweizer Baukunst fernab des Massentourismus"
+    },
+    { 
+      src: "/img/Image (3).jpeg", 
+      alt: "Hidden Gem Entdeckung 4", 
+      title: "Naturparadies",
+      description: "Unberührte Landschaft mit atemberaubender Aussicht"
+    },
+    { 
+      src: "/img/Image (4).jpeg", 
+      alt: "Hidden Gem Entdeckung 5", 
+      title: "Kulturelles Erbe",
+      description: "Historische Stätten mit besonderer Bedeutung"
+    },
+    { 
+      src: "/img/Image (5).jpeg", 
+      alt: "Hidden Gem Entdeckung 6", 
+      title: "Bergpanorama",
+      description: "Spektakuläre Aussichten in den Schweizer Alpen"
+    },
+    { 
+      src: "/img/Luzein1.jpeg", 
+      alt: "Luzein Entdeckung 1", 
+      title: "Luzein - Geheimtipp",
+      description: "Ein verstecktes Dorf mit authentischem Charme"
+    },
+    { 
+      src: "/img/Luzein2.jpeg", 
+      alt: "Luzein Entdeckung 2", 
+      title: "Luzein Landschaft",
+      description: "Malerische Berglandschaft rund um Luzein"
+    },
+    { 
+      src: "/img/Luzein3.jpeg", 
+      alt: "Luzein Entdeckung 3", 
+      title: "Luzein Hidden Gem",
+      description: "Traditionelle Architektur in idyllischer Umgebung"
+    }
   ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying);
+  };
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
@@ -239,7 +318,7 @@ const VA = () => {
         </div>
       </section>
 
-      {/* Image Gallery Section */}
+      {/* Interactive Image Slideshow */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -251,39 +330,93 @@ const VA = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryImages.slice(0, 9).map((image, index) => (
-              <div 
-                key={index}
-                className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
+          {/* Main Slideshow */}
+          <div className={`relative max-w-5xl mx-auto mb-12 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white">
+              {/* Image Container */}
+              <div className="relative h-96 md:h-[500px]">
                 <img 
-                  src={image.src} 
-                  alt={image.alt}
-                  className="w-full h-64 object-cover transition-transform duration-500"
+                  src={galleryImages[currentSlide].src}
+                  alt={galleryImages[currentSlide].alt}
+                  className="w-full h-full object-cover transition-all duration-700 ease-in-out"
                 />
-              </div>
-            ))}
-          </div>
-
-          {/* Featured Large Image */}
-          <div className={`mt-12 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-              <img 
-                src="/img/Image (6).jpeg" 
-                alt="Hauptbild der Vertiefungsarbeit" 
-                className="w-full h-96 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/60 to-cyan-900/60 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <h3 className="text-3xl font-bold mb-4">Unentdeckte Schönheiten</h3>
-                  <p className="text-xl text-white/90 max-w-2xl">
-                    Eine Reise zu den versteckten Juwelen der Deutschschweiz
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                
+                {/* Content Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                  <h3 className="text-2xl md:text-3xl font-bold mb-2 transform transition-all duration-500">
+                    {galleryImages[currentSlide].title}
+                  </h3>
+                  <p className="text-lg text-white/90 max-w-2xl transform transition-all duration-500 delay-100">
+                    {galleryImages[currentSlide].description}
                   </p>
                 </div>
               </div>
+
+              {/* Navigation Arrows */}
+              <button 
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              
+              <button 
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+
+              {/* Auto-play Control */}
+              <button 
+                onClick={toggleAutoPlay}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
+              >
+                {isAutoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+              </button>
             </div>
+
+            {/* Slide Indicators */}
+            <div className="flex justify-center space-x-2 mt-6">
+              {galleryImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide 
+                      ? 'bg-purple-600 scale-125' 
+                      : 'bg-slate-300 hover:bg-slate-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Thumbnail Grid */}
+          <div className={`grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {galleryImages.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`relative overflow-hidden rounded-lg aspect-square transition-all duration-300 hover:scale-105 ${
+                  index === currentSlide 
+                    ? 'ring-4 ring-purple-600 ring-offset-2' 
+                    : 'hover:ring-2 hover:ring-purple-300'
+                }`}
+              >
+                <img 
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover"
+                />
+                {index === currentSlide && (
+                  <div className="absolute inset-0 bg-purple-600/20"></div>
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </section>
