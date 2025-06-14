@@ -29,25 +29,6 @@ const VA = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-play slideshow
-  useEffect(() => {
-    if (isAutoPlaying) {
-      slideInterval.current = setInterval(() => {
-        nextSlide();
-      }, 5000); // Fixed: Changed from 10ms to 5000ms (5 seconds)
-    } else {
-      if (slideInterval.current) {
-        clearInterval(slideInterval.current);
-      }
-    }
-
-    return () => {
-      if (slideInterval.current) {
-        clearInterval(slideInterval.current);
-      }
-    };
-  }, [isAutoPlaying, currentSlide]);
-
   const projectDetails = {
     title: "Unentdeckte Schönheiten",
     subtitle: "Orte Abseits des Tourismus",
@@ -155,6 +136,25 @@ const VA = () => {
   const toggleAutoPlay = () => {
     setIsAutoPlaying(!isAutoPlaying);
   };
+
+  // Auto-play slideshow - Fixed: Removed currentSlide dependency
+  useEffect(() => {
+    if (isAutoPlaying) {
+      slideInterval.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+      }, 5000); // 5 seconds
+    } else {
+      if (slideInterval.current) {
+        clearInterval(slideInterval.current);
+      }
+    }
+
+    return () => {
+      if (slideInterval.current) {
+        clearInterval(slideInterval.current);
+      }
+    };
+  }, [isAutoPlaying, galleryImages.length]); // Only depend on isAutoPlaying and galleryImages.length
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
