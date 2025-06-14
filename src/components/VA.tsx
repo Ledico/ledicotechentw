@@ -77,9 +77,9 @@ const VA = () => {
     { src: "/img/Image (4).jpeg", alt: "Hidden Gem Entdeckung 5", title: "Abseits der Pfade" },
     { src: "/img/Image (5).jpeg", alt: "Hidden Gem Entdeckung 6", title: "Ruheoase" },
     { src: "/img/Image (6).jpeg", alt: "Hidden Gem Entdeckung 7", title: "Naturjuwel" },
-    { src: "/img/Luzein1.HEIC", alt: "Luzein Entdeckung 1", title: "Luzein Hidden Gem" },
-    { src: "/img/Luzein2.HEIC", alt: "Luzein Entdeckung 2", title: "Luzein Naturschönheit" },
-    { src: "/img/Luzein3.HEIC", alt: "Luzein Entdeckung 3", title: "Luzein Geheimtipp" }
+    { src: "/img/Luzein1.jpeg", alt: "Luzein Entdeckung 1", title: "Luzein Hidden Gem" },
+    { src: "/img/Luzein2.jpeg", alt: "Luzein Entdeckung 2", title: "Luzein Naturschönheit" },
+    { src: "/img/Luzein3.jpeg", alt: "Luzein Entdeckung 3", title: "Luzein Geheimtipp" }
   ];
 
   const handleDownloadPDF = () => {
@@ -194,7 +194,7 @@ const VA = () => {
         <div className="absolute top-2/3 right-1/3 w-3 h-3 bg-purple-300/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
       </section>
 
-      {/* Project Overview with Side Image */}
+      {/* Project Overview - Only Objectives */}
       <section ref={sectionRef} className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -224,24 +224,15 @@ const VA = () => {
             </div>
 
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative">
-                <img 
-                  src="/img/Image (1).jpeg" 
-                  alt="Projektübersicht" 
-                  className="w-full h-80 object-cover rounded-2xl shadow-lg"
-                />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4">
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">Projektziele</h3>
-                    <div className="space-y-2">
-                      {objectives.slice(0, 2).map((objective, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <CheckCircle className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-slate-700">{objective}</span>
-                        </div>
-                      ))}
+              <div className="bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl p-8 text-white">
+                <h3 className="text-2xl font-bold mb-6">Projektziele</h3>
+                <div className="space-y-4">
+                  {objectives.map((objective, index) => (
+                    <div key={index} className="flex items-start space-x-3">
+                      <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <span>{objective}</span>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -332,7 +323,7 @@ const VA = () => {
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative">
                 <img 
-                  src="/img/Luzein1.HEIC" 
+                  src="/img/Luzein1.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover rounded-2xl shadow-lg"
                 />
