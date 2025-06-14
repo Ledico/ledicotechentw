@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation, Camera, Video, Users, MapPin, BarChart, MessageSquare } from 'lucide-react';
 
 const VA = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,24 +40,24 @@ const VA = () => {
   ];
 
   const technologies = [
-    { name: "Fotografie", description: "Endpoint Management Platform" },
-    { name: "Videoaufnahmen ", description: "Identity & Access Management" },
-    { name: "Umfrage", description: "Automatisierung & Scripting" },
-    { name: "Interviews", description: "Cloud Service Integration" },
-    { name: "Recherche ", description: "Device Provisioning" },
-    { name: "Google Maps", description: "Security Policies" }
+    { name: "Fotografie", description: "Professionelle Dokumentation der entdeckten Orte", icon: Camera },
+    { name: "Videoaufnahmen", description: "Multimediale Präsentation der Hidden Gems", icon: Video },
+    { name: "Umfrage", description: "Meinungsforschung zu Reisegewohnheiten", icon: BarChart },
+    { name: "Interviews", description: "Expertengespräche mit Tourismusexperten", icon: MessageSquare },
+    { name: "Recherche", description: "Statistische Analyse der Tourismusdaten", icon: BookOpen },
+    { name: "Google Maps", description: "Kartierung und Navigation zu den Orten", icon: MapPin }
   ];
 
   const achievements = [
-    { icon: Target, title: "99.5% Deployment Success Rate", description: "Erfolgreiche Automatisierung der Gerätebereitstellung" },
-    { icon: CheckCircle, title: "50% Reduzierung der Setup-Zeit", description: "Optimierte Prozesse für schnellere Implementierung" },
-    { icon: Award, title: "Zero Security Incidents", description: "Robuste Sicherheitsarchitektur implementiert" },
-    { icon: Lightbulb, title: "Innovative Lösungsansätze", description: "Entwicklung maßgeschneiderter Automatisierungsscripts" }
+    { icon: Target, title: "8 Hidden Gems entdeckt", description: "Erfolgreiche Erkundung unbekannter Orte in der Deutschschweiz" },
+    { icon: CheckCircle, title: "2 Experteninterviews", description: "Gespräche mit Tourismusexperten und Weltreisenden" },
+    { icon: Award, title: "Umfassende Dokumentation", description: "51-seitige Arbeit mit multimedialen Inhalten" },
+    { icon: Lightbulb, title: "Nachhaltige Tourismusförderung", description: "Bewusstseinsschaffung für verantwortliches Reisen" }
   ];
 
   const chapters = [
-    { title: "Einleitung und Fragetellung", pages: "1-2" },
-    { title: "Definiton von Hidden Gems", pages: "3" },
+    { title: "Einleitung und Fragestellung", pages: "1-2" },
+    { title: "Definition von Hidden Gems", pages: "3" },
     { title: "Roadtrips", pages: "4-21" },
     { title: "Interviews", pages: "22-28" },
     { title: "Leitfragen", pages: "28-32" },
@@ -65,6 +65,24 @@ const VA = () => {
     { title: "Fazit und Rückblick", pages: "36-37" },
     { title: "Quellenverzeichnis und Anhang", pages: "38-51" }
   ];
+
+  const handleDownloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = '/src/documents/Unentdeckte Schönheiten-Leonardo_Costa.pdf';
+    link.download = 'Unentdeckte_Schönheiten_Leonardo_Costa.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadPPTX = () => {
+    const link = document.createElement('a');
+    link.href = '/src/documents/VA_Leonardo-Costa.pptx';
+    link.download = 'VA_Leonardo-Costa.pptx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -176,10 +194,10 @@ const VA = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              Verwendete <span className="text-purple-600">Medien</span>
+              Verwendete <span className="text-purple-600">Methoden</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Die verwendeten Medien und Technologien in der Vertiefungsarbeit
+              Die verschiedenen Forschungsmethoden und Medien, die in der Vertiefungsarbeit eingesetzt wurden
             </p>
           </div>
 
@@ -190,7 +208,12 @@ const VA = () => {
                 className={`bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-100 hover:border-purple-200 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">{tech.name}</h3>
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white">
+                    <tech.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900">{tech.name}</h3>
+                </div>
                 <p className="text-slate-600 text-sm">{tech.description}</p>
               </div>
             ))}
@@ -206,7 +229,7 @@ const VA = () => {
               Wichtige <span className="text-purple-600">Ergebnisse</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Messbare Erfolge und Innovationen des Projekts
+              Die wichtigsten Erkenntnisse und Erfolge der Vertiefungsarbeit
             </p>
           </div>
 
@@ -278,13 +301,19 @@ const VA = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg">
-                <Download className="h-5 w-5" />
-                <span>PDF herunterladen</span>
+              <button 
+                onClick={handleDownloadPDF}
+                className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              >
+                <FileText className="h-5 w-5" />
+                <span>PDF herunterladen (51 Seiten)</span>
               </button>
-              <button className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105">
+              <button 
+                onClick={handleDownloadPPTX}
+                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              >
                 <Presentation className="h-5 w-5" />
-                <span>Präsentation ansehen</span>
+                <span>Präsentation herunterladen</span>
               </button>
             </div>
           </div>
@@ -295,7 +324,7 @@ const VA = () => {
       <footer className="py-12 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-slate-400">
-            © 2024 Leonardo Dias Costa - Vertiefungsarbeit Automatisierung der Geräteverwaltung
+            © 2024 Leonardo Dias Costa - Vertiefungsarbeit "Unentdeckte Schönheiten"
           </p>
         </div>
       </footer>
