@@ -526,13 +526,13 @@ const VA = () => {
             </div>
 
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative group">
+              <div className="relative group overflow-hidden rounded-2xl">
                 <img 
                   src="/img/Luzein2.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
-                  className="w-full h-80 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-80 object-cover shadow-lg group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl group-hover:from-black/70 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-black/70 transition-all duration-500 group-hover:scale-105"></div>
                 <div className="absolute bottom-6 left-6 right-6 text-white transform group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-2xl font-bold mb-2">Luzein Entdeckung</h3>
                   <p className="text-white/90">
