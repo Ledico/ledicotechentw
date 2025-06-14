@@ -77,9 +77,9 @@ const VA = () => {
     { src: "/img/Image (4).jpeg", alt: "Hidden Gem Entdeckung 5", title: "Abseits der Pfade" },
     { src: "/img/Image (5).jpeg", alt: "Hidden Gem Entdeckung 6", title: "Ruheoase" },
     { src: "/img/Image (6).jpeg", alt: "Hidden Gem Entdeckung 7", title: "Naturjuwel" },
-    { src: "/img/Luzein1.jpeg", alt: "Luzein Entdeckung 1", title: "Luzein Hidden Gem" },
+    { src: "/img/Luzein3.jpeg", alt: "Luzein Entdeckung 3", title: "Luzein Hidden Gem" },
     { src: "/img/Luzein2.jpeg", alt: "Luzein Entdeckung 2", title: "Luzein Naturschönheit" },
-    { src: "/img/Luzein3.jpeg", alt: "Luzein Entdeckung 3", title: "Luzein Geheimtipp" }
+    { src: "/img/Luzein1.jpeg", alt: "Luzein Entdeckung 1", title: "Luzein Geheimtipp" }
   ];
 
   const handleDownloadPDF = () => {
@@ -323,7 +323,7 @@ const VA = () => {
             <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative">
                 <img 
-                  src="/img/Luzein1.jpeg" 
+                  src="/img/Luzein3.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover rounded-2xl shadow-lg"
                 />
