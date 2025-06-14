@@ -23,29 +23,29 @@ const VA = () => {
   }, []);
 
   const projectDetails = {
-    title: "Automatisierung der Geräteverwaltung mit Microsoft Intune",
-    subtitle: "Eine umfassende Lösung für Enterprise Device Management",
+    title: "Unentdeckte Schönheiten",
+    subtitle: "Orte Abseits des Tourismus",
     author: "Leonardo Dias Costa",
-    date: "2024",
-    school: "Berufsfachschule für Informatik",
+    date: "2024/2025",
+    school: "Technische Berufsschule Zürich TBZ",
     duration: "6 Monate",
-    grade: "5.8/6.0"
+    grade: "6.0"
   };
 
   const objectives = [
-    "Implementierung einer vollständig automatisierten Geräteverwaltung",
-    "Entwicklung von Compliance-Richtlinien für Enterprise-Umgebungen",
-    "Integration von Zero Trust Security Prinzipien",
-    "Optimierung der Benutzerfreundlichkeit und Produktivität"
+    "Entdeckung unbekannter Orte in der Deutschschweiz",
+    "Untersuchung der Merkmale von „Hidden Gems“",
+    "Förderung nachhaltigen Tourismus",
+    "Multimediale Dokumentation und Meinungsvielfalt"
   ];
 
   const technologies = [
-    { name: "Microsoft Intune", description: "Endpoint Management Platform" },
-    { name: "Azure Active Directory", description: "Identity & Access Management" },
-    { name: "PowerShell", description: "Automatisierung & Scripting" },
-    { name: "Microsoft Graph API", description: "Cloud Service Integration" },
-    { name: "Windows Autopilot", description: "Device Provisioning" },
-    { name: "Conditional Access", description: "Security Policies" }
+    { name: "Fotografie", description: "Endpoint Management Platform" },
+    { name: "Videoaufnahmen ", description: "Identity & Access Management" },
+    { name: "Umfrage", description: "Automatisierung & Scripting" },
+    { name: "Interviews", description: "Cloud Service Integration" },
+    { name: "Recherche ", description: "Device Provisioning" },
+    { name: "Google Maps", description: "Security Policies" }
   ];
 
   const achievements = [
@@ -56,14 +56,13 @@ const VA = () => {
   ];
 
   const chapters = [
-    { title: "Einleitung & Problemstellung", pages: "1-8" },
-    { title: "Theoretische Grundlagen", pages: "9-22" },
-    { title: "Analyse bestehender Systeme", pages: "23-35" },
-    { title: "Konzeptentwicklung", pages: "36-48" },
-    { title: "Implementierung", pages: "49-67" },
-    { title: "Testing & Validierung", pages: "68-78" },
-    { title: "Ergebnisse & Evaluation", pages: "79-89" },
-    { title: "Fazit & Ausblick", pages: "90-95" }
+    { title: "Einleitung und Fragetellung", pages: "1-2" },
+    { title: "Definiton von Hidden Gems", pages: "3" },
+    { title: "Roadtrips", pages: "4-21" },
+    { title: "Interviews", pages: "22-28" },
+    { title: "Leitfragen", pages: "28-32" },
+    { title: "Umfrage", pages: "33-35" },
+    { title: "Fazit und Rückblick", pages: "36-37" }
   ];
 
   return (
@@ -132,14 +131,14 @@ const VA = () => {
             <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Projektübersicht</h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Diese Vertiefungsarbeit behandelt die umfassende Automatisierung der Geräteverwaltung 
-                in Enterprise-Umgebungen mittels Microsoft Intune. Das Projekt demonstriert moderne 
-                Ansätze für Device Management, Security Compliance und Benutzerfreundlichkeit.
+                Am 25. Oktober 2024 habe ich meine Vertiefungsarbeit begonnen. Ziel ist es, weniger bekannte Orte 
+                in der Deutschschweiz zu erforschen und ihre Besonderheiten aufzuzeigen. Die Arbeit umfasst 
+                8 Schulwochen und gliedert sich in Prozess, Produkt und Präsentation. 
               </p>
               <p className="text-slate-600 mb-8 leading-relaxed">
-                Durch die Implementierung von Zero Trust Prinzipien und automatisierten Deployment-Prozessen 
-                wurde eine skalierbare Lösung entwickelt, die sowohl Sicherheitsanforderungen als auch 
-                operative Effizienz erfüllt.
+                Ich führe Roadtrips durch, dokumentiere die Orte fotografisch und in einem Video, führe zwei Interviews 
+                (mit einem Tourismusexperten und einer Weltreisenden) und starte eine Umfrage. Zudem analysiere ich 
+                statistische Daten zur Tourismusentwicklung in der Schweiz.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-4">
@@ -148,7 +147,7 @@ const VA = () => {
                   <div className="text-sm text-slate-600">Projektdauer</div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600 mb-1">95 Seiten</div>
+                  <div className="text-2xl font-bold text-purple-600 mb-1">51 Seiten</div>
                   <div className="text-sm text-slate-600">Dokumentation</div>
                 </div>
               </div>
