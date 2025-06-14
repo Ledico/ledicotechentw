@@ -80,39 +80,39 @@ const VA = () => {
 
   const galleryImages = [
     { 
-      src: "/img/Image.jpeg", 
+      src: "./img/Image.jpeg", 
       alt: "Hidden Gem Entdeckung 1"
     },
     { 
-      src: "/img/Image (1).jpeg", 
+      src: "./img/Image (1).jpeg", 
       alt: "Hidden Gem Entdeckung 2"
     },
     { 
-      src: "/img/Image (2).jpeg", 
+      src: "./img/Image (2).jpeg", 
       alt: "Hidden Gem Entdeckung 3"
     },
     { 
-      src: "/img/Image (3).jpeg", 
+      src: "./img/Image (3).jpeg", 
       alt: "Hidden Gem Entdeckung 4"
     },
     { 
-      src: "/img/Image (4).jpeg", 
+      src: "./img/Image (4).jpeg", 
       alt: "Hidden Gem Entdeckung 5"
     },
     { 
-      src: "/img/Image (5).jpeg", 
+      src: "./img/Image (5).jpeg", 
       alt: "Hidden Gem Entdeckung 6"
     },
     { 
-      src: "/img/Luzein1.jpeg", 
+      src: "./img/Luzein1.jpeg", 
       alt: "Luzein Entdeckung 1"
     },
     { 
-      src: "/img/Luzein2.jpeg", 
+      src: "./img/Luzein2.jpeg", 
       alt: "Luzein Entdeckung 2"
     },
     { 
-      src: "/img/Luzein3.jpeg", 
+      src: "./img/Luzein3.jpeg", 
       alt: "Luzein Entdeckung 3"
     }
   ];
@@ -165,7 +165,7 @@ const VA = () => {
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = '/src/documents/Unentdeckte Schönheiten-Leonardo_Costa.pdf';
+    link.href = './documents/Unentdeckte Schönheiten-Leonardo_Costa.pdf';
     link.download = 'Unentdeckte_Schönheiten_Leonardo_Costa.pdf';
     document.body.appendChild(link);
     link.click();
@@ -174,7 +174,7 @@ const VA = () => {
 
   const handleDownloadPPTX = () => {
     const link = document.createElement('a');
-    link.href = '/src/documents/VA_Leonardo-Costa.pptx';
+    link.href = './documents/VA_Leonardo-Costa.pptx';
     link.download = 'VA_Leonardo-Costa.pptx';
     document.body.appendChild(link);
     link.click();
@@ -534,7 +534,7 @@ const VA = () => {
             <div className="animate-slide-in-right">
               <div className="relative group overflow-hidden rounded-2xl">
                 <img 
-                  src="/img/Luzein2.jpeg" 
+                  src="./img/Luzein2.jpeg" 
                   alt="Luzein - Hidden Gem Entdeckung" 
                   className="w-full h-80 object-cover shadow-lg group-hover:scale-105 transition-transform duration-500"
                 />
