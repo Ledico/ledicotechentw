@@ -27,7 +27,7 @@ const Portfolio = () => {
     {
       title: 'Vertiefungsarbeit: Unentdeckte Schönheiten',
       description: 'Erforschung weniger bekannter Orte in der Deutschschweiz abseits des Massentourismus. 51-seitige Dokumentation mit multimedialen Inhalten, Interviews und Umfragen.',
-      image: '/img/z650.png',
+      image: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Tourismus', 'Fotografie', 'Interviews', 'Vertiefungsarbeit'],
       isVA: true,
       linkTo: '/va'
