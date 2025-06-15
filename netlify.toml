@@ -1,0 +1,66 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/va/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+# Handle static files that should return 404
+[[redirects]]
+  from = "/*.js"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.css"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.png"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.jpg"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.jpeg"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.gif"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.svg"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.ico"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.pdf"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.txt"
+  to = "/404.html"
+  status = 404
