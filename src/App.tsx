@@ -24,6 +24,7 @@ function App() {
           </div>
         } />
         <Route path="/va" element={<VA />} />
+        {/* Catch all other routes and show 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

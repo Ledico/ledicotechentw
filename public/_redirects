@@ -1,1 +1,6 @@
+# Handle all routes including nested ones
+# Redirect all non-existing routes to index.html for React Router to handle
 /*    /index.html   200
+
+# Specific redirects for known routes (optional, for better SEO)
+/va/*    /index.html   200
