@@ -125,34 +125,40 @@ const NotFound = () => {
             </p>
           </div>
 
-          {/* Simplified Route visualization */}
+          {/* Corrected Route visualization */}
           <div className={`mb-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-md mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-md mx-auto">
               <div className="flex items-center justify-center space-x-4 mb-4">
                 <Map className="h-6 w-6 text-green-400" />
                 <span className="text-white font-semibold">Routenkorrektur</span>
               </div>
               
-              {/* Simplified route visualization */}
-              <div className="relative h-16 flex items-center justify-center">
+              {/* Clean route visualization */}
+              <div className="flex items-center justify-center space-x-6">
                 {/* Start point */}
-                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse relative">
-                  <div className="absolute inset-0 bg-green-400 rounded-full animate-ping"></div>
+                <div className="flex flex-col items-center">
+                  <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse relative">
+                    <div className="absolute inset-0 bg-green-400 rounded-full animate-ping"></div>
+                  </div>
+                  <span className="text-white/60 text-xs mt-1">Start</span>
                 </div>
                 
-                {/* Simple arrow pointing right */}
-                <div className="mx-8 flex items-center">
-                  <div className="w-16 h-0.5 bg-green-500"></div>
-                  <div className="w-0 h-0 border-l-4 border-l-green-500 border-t-2 border-t-transparent border-b-2 border-b-transparent"></div>
+                {/* Arrow */}
+                <div className="flex items-center">
+                  <div className="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
+                  <div className="w-0 h-0 border-l-[6px] border-l-blue-500 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent"></div>
                 </div>
                 
                 {/* Destination */}
-                <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce relative">
-                  <Home className="h-3 w-3 text-white absolute inset-0.5" />
+                <div className="flex flex-col items-center">
+                  <div className="w-4 h-4 bg-blue-500 rounded-full relative flex items-center justify-center">
+                    <Home className="h-2.5 w-2.5 text-white" />
+                  </div>
+                  <span className="text-white/60 text-xs mt-1">Ziel</span>
                 </div>
               </div>
               
-              <p className="text-white/70 text-sm mt-4">
+              <p className="text-white/70 text-sm mt-4 text-center">
                 Route wird neu berechnet...
               </p>
             </div>
@@ -177,16 +183,26 @@ const NotFound = () => {
             </button>
           </div>
 
-          {/* CERN Fun Fact */}
+          {/* Extended CERN Fun Fact with 404 explanation */}
           <div className={`mt-12 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 transition-all duration-1000 delay-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="flex items-center justify-center space-x-2 mb-3">
+            <div className="flex items-center justify-center space-x-2 mb-4">
               <div className="w-5 h-5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
-              <span className="text-white font-semibold">Fun Fact</span>
+              <span className="text-white font-semibold">Fun Fact: Warum "404"?</span>
             </div>
-            <p className="text-white/70 text-sm">
-              Wussten Sie, dass die erste Webseite der Welt am CERN erstellt wurde? 
-              Tim Berners-Lee entwickelte 1990 das World Wide Web - und damit auch die erste 404-Seite!
-            </p>
+            <div className="text-white/70 text-sm space-y-3">
+              <p>
+                <strong className="text-white">1990 am CERN:</strong> Tim Berners-Lee entwickelte das World Wide Web und die erste Webseite der Welt. 
+                Gleichzeitig entstanden die ersten HTTP-Statuscodes.
+              </p>
+              <p>
+                <strong className="text-white">Der Code "404":</strong> Bedeutet "Not Found" - die angeforderte Seite existiert nicht auf dem Server. 
+                Die Zahl 404 wurde Teil des HTTP-Standards und ist heute weltweit bekannt.
+              </p>
+              <p>
+                <strong className="text-white">Interessant:</strong> Ursprünglich sollten die Codes nur für Maschinen lesbar sein, 
+                doch 404 wurde zum kulturellen Phänomen und Symbol für "etwas ist verloren gegangen".
+              </p>
+            </div>
           </div>
         </div>
       </div>
