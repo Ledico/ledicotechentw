@@ -119,6 +119,177 @@
   }
 }
 
+/* 404 Page Motorcycle Animations */
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch-1 {
+  0%, 100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-2px, -2px);
+    opacity: 0.8;
+  }
+  20% {
+    transform: translate(2px, 2px);
+    opacity: 0.6;
+  }
+  30% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  15% {
+    transform: translate(2px, -2px);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translate(-2px, 2px);
+    opacity: 0.5;
+  }
+  35% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes motorcycle-bounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes spin-wheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes exhaust-smoke {
+  0% {
+    opacity: 0.8;
+    transform: translateY(0) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scale(1.5);
+  }
+}
+
+@keyframes speed-lines {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes dust-cloud {
+  0% {
+    opacity: 0.6;
+    transform: translateY(0) scale(0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-15px) scale(2);
+  }
+}
+
+@keyframes road-lines {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes float-particles {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-40px) translateX(-5px);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-20px) translateX(-10px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes wind-sway {
+  0%, 100% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(5px) rotate(2deg);
+  }
+  50% {
+    transform: translateX(-3px) rotate(-1deg);
+  }
+  75% {
+    transform: translateX(2px) rotate(1deg);
+  }
+}
+
 /* Animation classes */
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
@@ -165,6 +336,55 @@
 
 .animate-glow-pulse {
   animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* 404 Page specific animations */
+.animate-glitch {
+  animation: glitch 2s infinite;
+}
+
+.animate-glitch-1 {
+  animation: glitch-1 2s infinite;
+}
+
+.animate-glitch-2 {
+  animation: glitch-2 2s infinite;
+}
+
+.animate-motorcycle-bounce {
+  animation: motorcycle-bounce 1s ease-in-out infinite;
+}
+
+.animate-spin-wheel {
+  animation: spin-wheel 0.5s linear infinite;
+}
+
+.animate-exhaust-smoke {
+  animation: exhaust-smoke 1.5s ease-out infinite;
+}
+
+.animate-speed-lines {
+  animation: speed-lines 0.8s ease-out infinite;
+}
+
+.animate-dust-cloud {
+  animation: dust-cloud 2s ease-out infinite;
+}
+
+.animate-road-lines {
+  animation: road-lines 3s linear infinite;
+}
+
+.animate-float-particles {
+  animation: float-particles 4s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-wind-sway {
+  animation: wind-sway 4s ease-in-out infinite;
 }
 
 /* Smooth scrolling */

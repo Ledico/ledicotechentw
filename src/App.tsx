@@ -7,6 +7,7 @@ import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
 import VA from './components/VA';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           </div>
         } />
         <Route path="/va" element={<VA />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
