@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Home, ArrowLeft, Zap, Wind } from 'lucide-react';
+import { Home, ArrowLeft, Zap, Wind, Wrench, Search, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
@@ -82,96 +82,113 @@ const NotFound = () => {
             </h1>
           </div>
 
-          {/* Motorcycle Silhouette - EXACT like your image */}
+          {/* Improved Motorcycle Silhouette - More accurate to your reference */}
           <div className={`relative mb-12 h-32 transition-all duration-2000 ${motorcycleLeft ? 'transform translate-x-full opacity-0' : ''}`}>
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div className="relative animate-motorcycle-bounce">
-                <svg width="240" height="120" viewBox="0 0 240 120" className="text-white">
+                <svg width="280" height="140" viewBox="0 0 280 140" className="text-white">
                   <g fill="currentColor">
-                    {/* EXACT MOTORCYCLE SILHOUETTE */}
+                    {/* IMPROVED MOTORCYCLE SILHOUETTE - More like your reference image */}
                     
                     {/* Front Wheel */}
-                    <circle cx="50" cy="85" r="25" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '50px 85px' }}>
+                    <circle cx="60" cy="100" r="30" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '60px 100px' }}>
                       <animateTransform
                         attributeName="transform"
                         attributeType="XML"
                         type="rotate"
-                        from="0 50 85"
-                        to="360 50 85"
-                        dur="0.5s"
+                        from="0 60 100"
+                        to="360 60 100"
+                        dur="0.4s"
                         repeatCount="indefinite"
                       />
                     </circle>
-                    <circle cx="50" cy="85" r="15" fill="white" />
+                    <circle cx="60" cy="100" r="18" fill="white" />
+                    <circle cx="60" cy="100" r="8" fill="currentColor" />
                     
                     {/* Rear Wheel */}
-                    <circle cx="190" cy="85" r="25" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '190px 85px' }}>
+                    <circle cx="220" cy="100" r="30" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '220px 100px' }}>
                       <animateTransform
                         attributeName="transform"
                         attributeType="XML"
                         type="rotate"
-                        from="0 190 85"
-                        to="360 190 85"
-                        dur="0.5s"
+                        from="0 220 100"
+                        to="360 220 100"
+                        dur="0.4s"
                         repeatCount="indefinite"
                       />
                     </circle>
-                    <circle cx="190" cy="85" r="15" fill="white" />
+                    <circle cx="220" cy="100" r="18" fill="white" />
+                    <circle cx="220" cy="100" r="8" fill="currentColor" />
 
-                    {/* Main Body/Frame - Solid silhouette like your image */}
-                    <path d="M 75 85 
-                             Q 85 75 100 70
-                             L 120 65
-                             Q 130 60 140 55
-                             L 160 50
-                             Q 170 45 180 50
-                             L 185 55
-                             Q 190 60 185 65
+                    {/* Main motorcycle body - simplified solid shape like your reference */}
+                    <path d="M 90 100 
+                             L 100 85
+                             L 120 75
+                             L 140 70
+                             L 160 65
                              L 180 70
-                             Q 175 75 170 80
-                             L 165 85
-                             L 75 85 Z" 
+                             L 190 80
+                             L 190 100
+                             L 90 100 Z" 
                           fill="currentColor" />
 
-                    {/* Seat area */}
-                    <ellipse cx="140" cy="45" rx="35" ry="12" fill="currentColor" />
+                    {/* Fuel tank */}
+                    <ellipse cx="140" cy="65" rx="25" ry="15" fill="currentColor" />
 
-                    {/* Handlebars */}
-                    <rect x="95" y="35" width="25" height="8" rx="4" fill="currentColor" />
-                    <rect x="105" y="30" width="5" height="15" fill="currentColor" />
+                    {/* Seat */}
+                    <ellipse cx="170" cy="60" rx="20" ry="8" fill="currentColor" />
 
-                    {/* Front fairing/windscreen */}
-                    <path d="M 85 50 
-                             Q 95 35 110 40
-                             L 115 45
-                             Q 110 55 100 60
-                             L 85 50 Z" 
+                    {/* Front fork and handlebars */}
+                    <rect x="85" y="70" width="4" height="30" fill="currentColor" />
+                    <rect x="75" y="45" width="25" height="6" rx="3" fill="currentColor" />
+                    <circle cx="77" cy="48" r="3" fill="currentColor" />
+                    <circle cx="101" cy="48" r="3" fill="currentColor" />
+
+                    {/* Windscreen/fairing */}
+                    <path d="M 95 55 
+                             Q 105 35 120 40
+                             L 125 50
+                             Q 115 65 105 70
+                             L 95 55 Z" 
                           fill="currentColor" />
 
-                    {/* Rider silhouette */}
-                    {/* Head with helmet */}
-                    <circle cx="125" cy="25" r="12" fill="currentColor" />
-                    <path d="M 115 20 
-                             Q 125 15 135 20
-                             Q 140 25 135 30
-                             Q 125 35 115 30
-                             Q 110 25 115 20 Z" 
+                    {/* Rider silhouette - more accurate proportions */}
+                    {/* Helmet */}
+                    <circle cx="145" cy="35" r="15" fill="currentColor" />
+                    <path d="M 135 25 
+                             Q 145 20 155 25
+                             Q 160 30 155 35
+                             Q 145 40 135 35
+                             Q 130 30 135 25 Z" 
                           fill="currentColor" />
+                    
+                    {/* Visor reflection */}
+                    <ellipse cx="148" cy="32" rx="8" ry="6" fill="rgba(255,255,255,0.3)" />
 
-                    {/* Body */}
-                    <ellipse cx="135" cy="40" rx="18" ry="15" fill="currentColor" />
+                    {/* Body/torso */}
+                    <ellipse cx="155" cy="55" rx="15" ry="18" fill="currentColor" />
 
-                    {/* Arms */}
-                    <ellipse cx="120" cy="35" rx="8" ry="20" fill="currentColor" transform="rotate(-20 120 35)" />
-                    <ellipse cx="110" cy="40" rx="6" ry="15" fill="currentColor" transform="rotate(-45 110 40)" />
+                    {/* Left arm (visible) */}
+                    <ellipse cx="135" cy="50" rx="6" ry="18" fill="currentColor" transform="rotate(-25 135 50)" />
+                    <ellipse cx="125" cy="58" rx="4" ry="12" fill="currentColor" transform="rotate(-45 125 58)" />
+
+                    {/* Right arm (partially visible) */}
+                    <ellipse cx="165" cy="52" rx="5" ry="15" fill="currentColor" transform="rotate(20 165 52)" />
 
                     {/* Legs */}
-                    <ellipse cx="145" cy="55" rx="8" ry="18" fill="currentColor" transform="rotate(15 145 55)" />
-                    <ellipse cx="155" cy="65" rx="6" ry="15" fill="currentColor" transform="rotate(30 155 65)" />
+                    <ellipse cx="165" cy="75" rx="8" ry="20" fill="currentColor" transform="rotate(10 165 75)" />
+                    <ellipse cx="175" cy="85" rx="6" ry="15" fill="currentColor" transform="rotate(25 175 85)" />
 
                     {/* Exhaust pipe */}
-                    <rect x="170" y="75" width="25" height="6" rx="3" fill="currentColor" />
-                    <circle cx="195" cy="78" r="4" fill="currentColor" />
+                    <rect x="190" y="85" width="30" height="8" rx="4" fill="currentColor" />
+                    <ellipse cx="220" cy="89" rx="6" ry="4" fill="currentColor" />
+
+                    {/* Additional details */}
+                    {/* Rear light */}
+                    <circle cx="185" cy="75" r="2" fill="#ff4444" />
+                    
+                    {/* Front headlight */}
+                    <circle cx="95" cy="60" r="4" fill="#ffffaa" />
                   </g>
                 </svg>
 
@@ -241,6 +258,42 @@ const NotFound = () => {
               <ArrowLeft className="h-5 w-5" />
               <span>Zurück</span>
             </button>
+          </div>
+
+          {/* Alternative design suggestions */}
+          <div className={`mt-16 transition-all duration-1000 delay-2000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h3 className="text-xl font-bold text-white mb-6">Alternative Ideen für die 404-Seite:</h3>
+            <div className="grid md:grid-cols-3 gap-4 text-left">
+              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Wrench className="h-5 w-5 text-purple-400" />
+                  <span className="text-white font-semibold">Werkstatt-Theme</span>
+                </div>
+                <p className="text-white/70 text-sm">
+                  "Seite in der Werkstatt" - mit animierten Werkzeugen und Reparatur-Effekten
+                </p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Search className="h-5 w-5 text-cyan-400" />
+                  <span className="text-white font-semibold">Detektiv-Theme</span>
+                </div>
+                <p className="text-white/70 text-sm">
+                  "Seite verschwunden" - mit Lupe, Fußspuren und Suchanimationen
+                </p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="flex items-center space-x-2 mb-2">
+                  <MapPin className="h-5 w-5 text-green-400" />
+                  <span className="text-white font-semibold">Reise-Theme</span>
+                </div>
+                <p className="text-white/70 text-sm">
+                  "Falsche Route genommen" - mit Karte, Kompass und Wegweiser-Animationen
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Fun fact */}
