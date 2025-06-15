@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [compassRotation, setCompassRotation] = useState(0);
   const [glitchActive, setGlitchActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -12,11 +11,6 @@ const NotFound = () => {
     // Trigger animations after component mounts
     const timer1 = setTimeout(() => setIsVisible(true), 100);
     
-    // Rotate compass continuously
-    const compassInterval = setInterval(() => {
-      setCompassRotation(prev => (prev + 5) % 360);
-    }, 100);
-
     // Random glitch effects
     const glitchInterval = setInterval(() => {
       setGlitchActive(true);
@@ -30,7 +24,6 @@ const NotFound = () => {
 
     return () => {
       clearTimeout(timer1);
-      clearInterval(compassInterval);
       clearInterval(glitchInterval);
       clearInterval(timeInterval);
     };
@@ -140,73 +133,34 @@ const NotFound = () => {
             </div>
           </div>
 
-          {/* Enhanced Compass with holographic effect */}
-          <div className={`relative mb-12 h-48 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="relative">
-                {/* Holographic rings */}
-                <div className="absolute inset-0 w-40 h-40 border border-cyan-400/30 rounded-full animate-ping"></div>
-                <div className="absolute inset-2 w-36 h-36 border border-purple-400/30 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
-                <div className="absolute inset-4 w-32 h-32 border border-pink-400/30 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                
-                {/* Main compass */}
-                <div className="w-36 h-36 border-4 border-gradient-to-r from-cyan-400 to-purple-500 rounded-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm shadow-2xl relative overflow-hidden">
-                  {/* Inner glow */}
-                  <div className="absolute inset-2 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-full"></div>
-                  
-                  {/* Compass needle with enhanced animation */}
-                  <div 
-                    className="absolute inset-6 transition-transform duration-300 ease-out"
-                    style={{ transform: `rotate(${compassRotation}deg)` }}
-                  >
-                    <div className="relative w-full h-full">
-                      {/* North pointer (glowing red) */}
-                      <div className="absolute top-0 left-1/2 w-1.5 h-12 bg-gradient-to-t from-red-600 to-red-400 transform -translate-x-1/2 origin-bottom rounded-full shadow-lg shadow-red-500/50"></div>
-                      {/* South pointer (glowing white) */}
-                      <div className="absolute bottom-0 left-1/2 w-1.5 h-12 bg-gradient-to-b from-white to-slate-300 transform -translate-x-1/2 origin-top rounded-full shadow-lg shadow-white/50"></div>
-                      {/* Center orb */}
-                      <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-lg animate-pulse"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Cardinal directions with enhanced styling */}
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-xl bg-red-500/20 px-2 py-1 rounded backdrop-blur-sm">N</div>
-                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">S</div>
-                  <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">W</div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">E</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Modern error message */}
-          <div className={`mb-12 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`mb-12 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="flex items-center justify-center space-x-3 mb-6">
                 <AlertTriangle className="h-8 w-8 text-yellow-400 animate-bounce" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-white">
-                  Route nicht gefunden!
+                  Seite nicht gefunden!
                 </h2>
               </div>
               
               <p className="text-xl text-white/80 mb-4">
-                Ihr digitaler Kompass hat Sie in unbekanntes Terrain geführt.
+                Die angeforderte Seite existiert nicht oder wurde verschoben.
               </p>
               <p className="text-lg text-white/60">
-                Keine Sorge - wir navigieren Sie sicher zurück zur Zivilisation!
+                Verwenden Sie die Navigation unten, um zur gewünschten Seite zu gelangen.
               </p>
             </div>
           </div>
 
           {/* Enhanced action buttons */}
-          <div className={`flex flex-col sm:flex-row gap-6 justify-center mb-12 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`flex flex-col sm:flex-row gap-6 justify-center mb-12 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <Link
               to="/"
               className="group flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25 relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
               <Home className="h-6 w-6 relative z-10" />
-              <span className="relative z-10">Zur Startseite navigieren</span>
+              <span className="relative z-10">Zur Startseite</span>
               <Zap className="h-5 w-5 relative z-10 animate-pulse" />
             </Link>
             
@@ -215,13 +169,13 @@ const NotFound = () => {
               className="group flex items-center space-x-3 px-8 py-4 border-2 border-cyan-400/50 text-white font-semibold rounded-xl hover:bg-cyan-400/10 hover:border-cyan-400/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-purple-400/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
-              <Navigation className="h-6 w-6 relative z-10" />
-              <span className="relative z-10">Zurück zur letzten Position</span>
+              <ArrowLeft className="h-6 w-6 relative z-10" />
+              <span className="relative z-10">Zurück</span>
             </button>
           </div>
 
           {/* Enhanced CERN legend with modern styling */}
-          <div className={`p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-white/10 transition-all duration-1000 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-white/10 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="flex items-center justify-center space-x-3 mb-6">
               <div className="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-ping opacity-75"></div>
