@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Home, ArrowLeft, MapPin, Compass, Map, Navigation, Plane, Camera, Backpack } from 'lucide-react';
+import { Home, ArrowLeft, MapPin, Compass, Map, Navigation, Plane, Camera, Backpack, Zap, AlertTriangle, Wifi, WifiOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [compassRotation, setCompassRotation] = useState(0);
+  const [glitchActive, setGlitchActive] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     // Trigger animations after component mounts
@@ -15,204 +17,256 @@ const NotFound = () => {
       setCompassRotation(prev => (prev + 5) % 360);
     }, 100);
 
+    // Random glitch effects
+    const glitchInterval = setInterval(() => {
+      setGlitchActive(true);
+      setTimeout(() => setGlitchActive(false), 200);
+    }, 3000 + Math.random() * 2000);
+
+    // Update time
+    const timeInterval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
     return () => {
       clearTimeout(timer1);
       clearInterval(compassInterval);
+      clearInterval(glitchInterval);
+      clearInterval(timeInterval);
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-teal-800 to-green-900 overflow-hidden relative">
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        {/* Floating clouds */}
-        <div className="absolute top-10 left-10 w-20 h-12 bg-white/10 rounded-full animate-float" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-20 right-20 w-16 h-8 bg-white/10 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-32 left-1/3 w-24 h-14 bg-white/10 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
-        
-        {/* Mountain silhouettes */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1200 300" className="w-full h-64 text-slate-800/50">
-            <path d="M0,300 L0,200 L200,100 L400,150 L600,80 L800,120 L1000,60 L1200,100 L1200,300 Z" fill="currentColor" />
-          </svg>
-        </div>
-        
-        {/* Second mountain layer */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1200 250" className="w-full h-48 text-slate-700/30">
-            <path d="M0,250 L0,180 L150,120 L350,160 L550,90 L750,130 L950,70 L1200,110 L1200,250 Z" fill="currentColor" />
-          </svg>
-        </div>
-
-        {/* Floating travel icons */}
-        <div className="absolute inset-0 pointer-events-none">
-          <Plane className="absolute top-1/4 left-1/4 w-8 h-8 text-white/20 animate-float" style={{ animationDelay: '0.5s' }} />
-          <Camera className="absolute top-1/3 right-1/3 w-6 h-6 text-white/20 animate-float" style={{ animationDelay: '1.5s' }} />
-          <Backpack className="absolute bottom-1/3 left-1/5 w-7 h-7 text-white/20 animate-float" style={{ animationDelay: '2.5s' }} />
-        </div>
-
-        {/* Twinkling stars */}
-        <div className="absolute inset-0">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 60}%`,
-                animationDelay: `${Math.random() * 3}s`
-              }}
-            ></div>
-          ))}
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden relative">
+      {/* Animated grid background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(rgba(147, 51, 234, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(147, 51, 234, 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+          animation: 'grid-move 20s linear infinite'
+        }}></div>
       </div>
+
+      {/* Floating geometric shapes */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-4 h-4 bg-cyan-400/30 rotate-45 animate-float"></div>
+        <div className="absolute top-40 right-32 w-6 h-6 bg-purple-400/30 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-40 left-40 w-3 h-3 bg-pink-400/30 animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-60 right-20 w-5 h-5 bg-yellow-400/30 rotate-12 animate-float" style={{ animationDelay: '3s' }}></div>
+      </div>
+
+      {/* Glitch overlay */}
+      {glitchActive && (
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          <div className="absolute inset-0 bg-red-500/10 animate-glitch-1"></div>
+          <div className="absolute inset-0 bg-cyan-500/10 animate-glitch-2"></div>
+        </div>
+      )}
 
       {/* Main content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* 404 Text with travel theme */}
-          <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h1 className="text-8xl sm:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 animate-gradient-x relative">
-              404
-            </h1>
-          </div>
-
-          {/* Large Compass Animation */}
-          <div className={`relative mb-12 h-40 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="relative">
-                {/* Compass outer ring */}
-                <div className="w-32 h-32 border-4 border-yellow-400 rounded-full bg-gradient-to-br from-yellow-100/20 to-orange-200/20 backdrop-blur-sm shadow-2xl">
-                  {/* Compass needle */}
-                  <div 
-                    className="absolute inset-4 transition-transform duration-300 ease-out"
-                    style={{ transform: `rotate(${compassRotation}deg)` }}
-                  >
-                    <div className="relative w-full h-full">
-                      {/* North pointer (red) */}
-                      <div className="absolute top-0 left-1/2 w-1 h-10 bg-red-500 transform -translate-x-1/2 origin-bottom"></div>
-                      {/* South pointer (white) */}
-                      <div className="absolute bottom-0 left-1/2 w-1 h-10 bg-white transform -translate-x-1/2 origin-top"></div>
-                      {/* Center dot */}
-                      <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-yellow-400 rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-lg"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Cardinal directions - alle auf gleiche Distanz wie E (-right-8) */}
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">N</div>
-                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">S</div>
-                  <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 text-white font-bold text-lg">W</div>
-                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-white font-bold text-lg">E</div>
+        <div className="text-center max-w-6xl mx-auto">
+          
+          {/* Status bar */}
+          <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
+            <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-red-500/30 max-w-md mx-auto">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center space-x-2">
+                  <WifiOff className="h-4 w-4 text-red-400 animate-pulse" />
+                  <span className="text-red-400 font-mono">CONNECTION LOST</span>
                 </div>
-
-                {/* Compass glow effect */}
-                <div className="absolute inset-0 w-32 h-32 border-2 border-yellow-300/50 rounded-full animate-ping"></div>
+                <div className="text-white/60 font-mono">
+                  {currentTime.toLocaleTimeString()}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Travel-themed error message */}
-          <div className={`mb-8 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 flex items-center justify-center space-x-3">
-              <MapPin className="h-8 w-8 text-red-500 animate-bounce" />
-              <span>Falsche Route genommen!</span>
-            </h2>
-            <p className="text-xl text-white/80 mb-2">
-              Ihr Kompass zeigt in die falsche Richtung...
-            </p>
-            <p className="text-lg text-white/60">
-              Aber keine Sorge, wir navigieren Sie zurück zum richtigen Pfad!
-            </p>
+          {/* Giant 404 with multiple effects */}
+          <div className={`mb-12 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="relative">
+              {/* Main 404 text */}
+              <h1 className={`text-9xl sm:text-[12rem] lg:text-[15rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-500 to-cyan-500 animate-gradient-x relative select-none ${glitchActive ? 'animate-glitch' : ''}`}>
+                404
+              </h1>
+              
+              {/* Glitch duplicates */}
+              <h1 className={`absolute inset-0 text-9xl sm:text-[12rem] lg:text-[15rem] font-black text-red-500/30 ${glitchActive ? 'animate-glitch-1' : 'opacity-0'} select-none`}>
+                404
+              </h1>
+              <h1 className={`absolute inset-0 text-9xl sm:text-[12rem] lg:text-[15rem] font-black text-cyan-500/30 ${glitchActive ? 'animate-glitch-2' : 'opacity-0'} select-none`}>
+                404
+              </h1>
+              
+              {/* Neon glow effect */}
+              <div className="absolute inset-0 text-9xl sm:text-[12rem] lg:text-[15rem] font-black text-purple-500/20 blur-xl animate-pulse select-none">
+                404
+              </div>
+              
+              {/* Electric sparks */}
+              <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-yellow-400 rounded-full animate-ping"></div>
+              <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-red-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+            </div>
           </div>
 
-          {/* Corrected Route visualization */}
-          <div className={`mb-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-md mx-auto">
-              <div className="flex items-center justify-center space-x-4 mb-4">
-                <Map className="h-6 w-6 text-green-400" />
-                <span className="text-white font-semibold">Routenkorrektur</span>
+          {/* Error message with terminal style */}
+          <div className={`mb-12 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="bg-black/80 backdrop-blur-sm rounded-xl p-8 border border-red-500/30 max-w-2xl mx-auto font-mono text-left">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                <span className="text-white/60 text-sm ml-4">system_error.log</span>
               </div>
               
-              {/* Clean route visualization */}
-              <div className="flex items-center justify-center space-x-6">
-                {/* Start point */}
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse relative">
-                    <div className="absolute inset-0 bg-green-400 rounded-full animate-ping"></div>
-                  </div>
-                  <span className="text-white/60 text-xs mt-1">Start</span>
+              <div className="space-y-2 text-sm">
+                <div className="text-red-400">
+                  <span className="text-white/40">[ERROR]</span> Page not found at requested location
                 </div>
-                
-                {/* Arrow */}
-                <div className="flex items-center">
-                  <div className="w-12 h-0.5 bg-gradient-to-r from-green-500 to-blue-500"></div>
-                  <div className="w-0 h-0 border-l-[6px] border-l-blue-500 border-t-[3px] border-t-transparent border-b-[3px] border-b-transparent"></div>
+                <div className="text-yellow-400">
+                  <span className="text-white/40">[WARN]</span> Navigation system recalibrating...
                 </div>
-                
-                {/* Destination */}
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-blue-500 rounded-full relative flex items-center justify-center">
-                    <Home className="h-2.5 w-2.5 text-white" />
-                  </div>
-                  <span className="text-white/60 text-xs mt-1">Ziel</span>
+                <div className="text-green-400">
+                  <span className="text-white/40">[INFO]</span> Alternative routes available
+                </div>
+                <div className="text-cyan-400">
+                  <span className="text-white/40">[DEBUG]</span> Compass pointing to safe harbor
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Enhanced Compass with holographic effect */}
+          <div className={`relative mb-12 h-48 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="relative">
+                {/* Holographic rings */}
+                <div className="absolute inset-0 w-40 h-40 border border-cyan-400/30 rounded-full animate-ping"></div>
+                <div className="absolute inset-2 w-36 h-36 border border-purple-400/30 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                <div className="absolute inset-4 w-32 h-32 border border-pink-400/30 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                
+                {/* Main compass */}
+                <div className="w-36 h-36 border-4 border-gradient-to-r from-cyan-400 to-purple-500 rounded-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm shadow-2xl relative overflow-hidden">
+                  {/* Inner glow */}
+                  <div className="absolute inset-2 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-full"></div>
+                  
+                  {/* Compass needle with enhanced animation */}
+                  <div 
+                    className="absolute inset-6 transition-transform duration-300 ease-out"
+                    style={{ transform: `rotate(${compassRotation}deg)` }}
+                  >
+                    <div className="relative w-full h-full">
+                      {/* North pointer (glowing red) */}
+                      <div className="absolute top-0 left-1/2 w-1.5 h-12 bg-gradient-to-t from-red-600 to-red-400 transform -translate-x-1/2 origin-bottom rounded-full shadow-lg shadow-red-500/50"></div>
+                      {/* South pointer (glowing white) */}
+                      <div className="absolute bottom-0 left-1/2 w-1.5 h-12 bg-gradient-to-b from-white to-slate-300 transform -translate-x-1/2 origin-top rounded-full shadow-lg shadow-white/50"></div>
+                      {/* Center orb */}
+                      <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-lg animate-pulse"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Cardinal directions with enhanced styling */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-xl bg-red-500/20 px-2 py-1 rounded backdrop-blur-sm">N</div>
+                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">S</div>
+                  <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">W</div>
+                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-white font-bold text-xl bg-slate-500/20 px-2 py-1 rounded backdrop-blur-sm">E</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Modern error message */}
+          <div className={`mb-12 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+              <div className="flex items-center justify-center space-x-3 mb-6">
+                <AlertTriangle className="h-8 w-8 text-yellow-400 animate-bounce" />
+                <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                  Route nicht gefunden!
+                </h2>
+              </div>
               
-              <p className="text-white/70 text-sm mt-4 text-center">
-                Route wird neu berechnet...
+              <p className="text-xl text-white/80 mb-4">
+                Ihr digitaler Kompass hat Sie in unbekanntes Terrain geführt.
+              </p>
+              <p className="text-lg text-white/60">
+                Keine Sorge - wir navigieren Sie sicher zurück zur Zivilisation!
               </p>
             </div>
           </div>
 
-          {/* Action buttons */}
-          <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {/* Enhanced action buttons */}
+          <div className={`flex flex-col sm:flex-row gap-6 justify-center mb-12 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <Link
               to="/"
-              className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white font-semibold rounded-lg hover:from-green-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25 animate-pulse-glow"
+              className="group flex items-center space-x-3 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25 relative overflow-hidden"
             >
-              <Home className="h-5 w-5" />
-              <span>Zur Startseite navigieren</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
+              <Home className="h-6 w-6 relative z-10" />
+              <span className="relative z-10">Zur Startseite navigieren</span>
+              <Zap className="h-5 w-5 relative z-10 animate-pulse" />
             </Link>
             
             <button
               onClick={() => window.history.back()}
-              className="flex items-center space-x-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              className="group flex items-center space-x-3 px-8 py-4 border-2 border-cyan-400/50 text-white font-semibold rounded-xl hover:bg-cyan-400/10 hover:border-cyan-400/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 relative overflow-hidden"
             >
-              <Navigation className="h-5 w-5" />
-              <span>Zurück zur letzten Position</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/10 to-purple-400/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
+              <Navigation className="h-6 w-6 relative z-10" />
+              <span className="relative z-10">Zurück zur letzten Position</span>
             </button>
           </div>
 
-          {/* CERN Server Room 404 Legend */}
-          <div className={`mt-12 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 transition-all duration-1000 delay-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-5 h-5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
-              <span className="text-white font-semibold">Fun Fact: Die CERN 404-Legende</span>
+          {/* Enhanced CERN legend with modern styling */}
+          <div className={`p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-white/10 transition-all duration-1000 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <div className="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-ping opacity-75"></div>
+              </div>
+              <span className="text-white font-bold text-xl">Die CERN 404-Legende</span>
             </div>
-            <div className="text-white/70 text-sm space-y-3">
-              <p>
-                <strong className="text-white">Die berühmte Geschichte:</strong> Es wird oft erzählt, dass der HTTP-Fehlercode "404" 
-                daher stammt, dass am CERN der Server im Raum 404 stand und dieser oft nicht erreichbar war.
-              </p>
-              <p>
-                <strong className="text-white">Die Wahrheit:</strong> Das ist leider nur eine urbane Legende! Der Code "404" bedeutet 
-                einfach "Not Found\" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
-              </p>
-              <p>
-                <strong className="text-white">Warum die Geschichte so beliebt ist:</strong> Sie klingt plausibel und macht den 
-                abstrakten Fehlercode menschlicher und greifbarer. Manchmal sind die schönsten Geschichten eben nicht wahr!
-              </p>
+            
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/20">
+                <h4 className="text-blue-400 font-semibold mb-2">🏢 Die Legende</h4>
+                <p className="text-white/70">
+                  Der HTTP-Fehlercode "404" stammt angeblich vom CERN-Server im Raum 404, 
+                  der oft nicht erreichbar war.
+                </p>
+              </div>
+              
+              <div className="bg-red-500/10 p-4 rounded-lg border border-red-500/20">
+                <h4 className="text-red-400 font-semibold mb-2">🔍 Die Wahrheit</h4>
+                <p className="text-white/70">
+                  Das ist nur eine urbane Legende! "404" bedeutet einfach "Not Found" 
+                  und wurde als HTTP-Standard definiert.
+                </p>
+              </div>
+              
+              <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
+                <h4 className="text-green-400 font-semibold mb-2">💡 Warum so beliebt?</h4>
+                <p className="text-white/70">
+                  Die Geschichte macht den abstrakten Fehlercode menschlicher und greifbarer. 
+                  Manchmal sind die schönsten Geschichten eben nicht wahr!
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Floating compass indicators */}
-      <div className="absolute top-1/4 right-8 text-white/20 animate-float">
-        <Compass className="h-8 w-8" />
+      {/* Floating tech elements */}
+      <div className="absolute top-1/4 right-8 text-cyan-400/30 animate-float">
+        <Compass className="h-12 w-12" />
       </div>
-      <div className="absolute top-1/3 left-8 text-white/20 animate-float" style={{ animationDelay: '1s' }}>
-        <MapPin className="h-6 w-6" />
+      <div className="absolute top-1/3 left-8 text-purple-400/30 animate-float" style={{ animationDelay: '1s' }}>
+        <MapPin className="h-10 w-10" />
+      </div>
+      <div className="absolute bottom-1/4 right-16 text-pink-400/30 animate-float" style={{ animationDelay: '2s' }}>
+        <Zap className="h-8 w-8" />
       </div>
     </div>
   );
