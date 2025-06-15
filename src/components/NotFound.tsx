@@ -82,55 +82,100 @@ const NotFound = () => {
             </h1>
           </div>
 
-          {/* Simple Motorcycle Animation */}
+          {/* Motorcycle Silhouette - EXACT like your image */}
           <div className={`relative mb-12 h-32 transition-all duration-2000 ${motorcycleLeft ? 'transform translate-x-full opacity-0' : ''}`}>
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              {/* Ultra-Simple Motorcycle */}
               <div className="relative animate-motorcycle-bounce">
-                <svg width="200" height="80" viewBox="0 0 200 80" className="text-purple-400">
-                  <g fill="currentColor" stroke="currentColor">
-                    {/* WHEELS - Simple circles */}
-                    {/* Front wheel */}
-                    <circle cx="40" cy="60" r="18" fill="none" strokeWidth="4" className="animate-spin-wheel" style={{ transformOrigin: '40px 60px' }} />
-                    <circle cx="40" cy="60" r="12" fill="none" strokeWidth="2" opacity="0.7" className="animate-spin-wheel" style={{ transformOrigin: '40px 60px' }} />
-                    <circle cx="40" cy="60" r="6" fill="currentColor" opacity="0.8" />
+                <svg width="240" height="120" viewBox="0 0 240 120" className="text-white">
+                  <g fill="currentColor">
+                    {/* EXACT MOTORCYCLE SILHOUETTE */}
                     
-                    {/* Rear wheel */}
-                    <circle cx="160" cy="60" r="18" fill="none" strokeWidth="4" className="animate-spin-wheel" style={{ transformOrigin: '160px 60px' }} />
-                    <circle cx="160" cy="60" r="12" fill="none" strokeWidth="2" opacity="0.7" className="animate-spin-wheel" style={{ transformOrigin: '160px 60px' }} />
-                    <circle cx="160" cy="60" r="6" fill="currentColor" opacity="0.8" />
+                    {/* Front Wheel */}
+                    <circle cx="50" cy="85" r="25" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '50px 85px' }}>
+                      <animateTransform
+                        attributeName="transform"
+                        attributeType="XML"
+                        type="rotate"
+                        from="0 50 85"
+                        to="360 50 85"
+                        dur="0.5s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    <circle cx="50" cy="85" r="15" fill="white" />
+                    
+                    {/* Rear Wheel */}
+                    <circle cx="190" cy="85" r="25" fill="currentColor" className="animate-spin-wheel" style={{ transformOrigin: '190px 85px' }}>
+                      <animateTransform
+                        attributeName="transform"
+                        attributeType="XML"
+                        type="rotate"
+                        from="0 190 85"
+                        to="360 190 85"
+                        dur="0.5s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    <circle cx="190" cy="85" r="15" fill="white" />
 
-                    {/* FRAME - Simple lines */}
-                    <line x1="40" y1="60" x2="100" y2="45" strokeWidth="4" strokeLinecap="round" />
-                    <line x1="100" y1="45" x2="160" y2="60" strokeWidth="4" strokeLinecap="round" />
-                    <line x1="100" y1="45" x2="100" y2="30" strokeWidth="4" strokeLinecap="round" />
+                    {/* Main Body/Frame - Solid silhouette like your image */}
+                    <path d="M 75 85 
+                             Q 85 75 100 70
+                             L 120 65
+                             Q 130 60 140 55
+                             L 160 50
+                             Q 170 45 180 50
+                             L 185 55
+                             Q 190 60 185 65
+                             L 180 70
+                             Q 175 75 170 80
+                             L 165 85
+                             L 75 85 Z" 
+                          fill="currentColor" />
 
-                    {/* SEAT */}
-                    <ellipse cx="130" cy="35" rx="25" ry="8" fill="currentColor" opacity="0.8" />
+                    {/* Seat area */}
+                    <ellipse cx="140" cy="45" rx="35" ry="12" fill="currentColor" />
 
-                    {/* HANDLEBARS */}
-                    <line x1="85" y1="25" x2="115" y2="25" strokeWidth="3" strokeLinecap="round" />
-                    <line x1="100" y1="30" x2="100" y2="25" strokeWidth="3" strokeLinecap="round" />
+                    {/* Handlebars */}
+                    <rect x="95" y="35" width="25" height="8" rx="4" fill="currentColor" />
+                    <rect x="105" y="30" width="5" height="15" fill="currentColor" />
 
-                    {/* RIDER - Very simple */}
-                    {/* Head */}
-                    <circle cx="110" cy="15" r="8" fill="currentColor" opacity="0.9" />
+                    {/* Front fairing/windscreen */}
+                    <path d="M 85 50 
+                             Q 95 35 110 40
+                             L 115 45
+                             Q 110 55 100 60
+                             L 85 50 Z" 
+                          fill="currentColor" />
+
+                    {/* Rider silhouette */}
+                    {/* Head with helmet */}
+                    <circle cx="125" cy="25" r="12" fill="currentColor" />
+                    <path d="M 115 20 
+                             Q 125 15 135 20
+                             Q 140 25 135 30
+                             Q 125 35 115 30
+                             Q 110 25 115 20 Z" 
+                          fill="currentColor" />
+
                     {/* Body */}
-                    <ellipse cx="120" cy="30" rx="12" ry="8" fill="currentColor" opacity="0.8" />
-                    {/* Arms */}
-                    <line x1="110" y1="25" x2="95" y2="25" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
-                    <line x1="110" y1="25" x2="105" y2="25" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
-                    {/* Legs */}
-                    <line x1="125" y1="35" x2="135" y2="50" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
-                    <line x1="125" y1="35" x2="140" y2="50" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
+                    <ellipse cx="135" cy="40" rx="18" ry="15" fill="currentColor" />
 
-                    {/* EXHAUST - Simple line */}
-                    <line x1="120" y1="50" x2="180" y2="45" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-                    <circle cx="180" cy="45" r="4" fill="currentColor" opacity="0.9" />
+                    {/* Arms */}
+                    <ellipse cx="120" cy="35" rx="8" ry="20" fill="currentColor" transform="rotate(-20 120 35)" />
+                    <ellipse cx="110" cy="40" rx="6" ry="15" fill="currentColor" transform="rotate(-45 110 40)" />
+
+                    {/* Legs */}
+                    <ellipse cx="145" cy="55" rx="8" ry="18" fill="currentColor" transform="rotate(15 145 55)" />
+                    <ellipse cx="155" cy="65" rx="6" ry="15" fill="currentColor" transform="rotate(30 155 65)" />
+
+                    {/* Exhaust pipe */}
+                    <rect x="170" y="75" width="25" height="6" rx="3" fill="currentColor" />
+                    <circle cx="195" cy="78" r="4" fill="currentColor" />
                   </g>
                 </svg>
 
-                {/* Simple exhaust smoke */}
+                {/* Exhaust smoke */}
                 <div className="absolute right-0 top-1/2 transform translate-x-full -translate-y-1/2">
                   {[...Array(5)].map((_, i) => (
                     <div
@@ -146,7 +191,7 @@ const NotFound = () => {
                   ))}
                 </div>
 
-                {/* Simple speed lines */}
+                {/* Speed lines */}
                 <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
                   {[...Array(8)].map((_, i) => (
                     <div
@@ -195,7 +240,7 @@ const NotFound = () => {
             >
               <ArrowLeft className="h-5 w-5" />
               <span>Zurück</span>
-            </button>
+            </Link>
           </div>
 
           {/* Fun fact */}
