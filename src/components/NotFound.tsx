@@ -91,9 +91,26 @@ const NotFound = () => {
                   {/* Motorcycle body */}
                   <rect x="30" y="25" width="50" height="15" rx="5" fill="currentColor" />
                   
-                  {/* Wheels */}
-                  <circle cx="20" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" className="animate-spin-wheel" />
-                  <circle cx="90" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" className="animate-spin-wheel" />
+                  {/* Wheels - Fixed positioning with proper rotation */}
+                  <g>
+                    {/* Front wheel */}
+                    <circle cx="20" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" />
+                    <g className="animate-spin-wheel" style={{ transformOrigin: '20px 45px' }}>
+                      <line x1="20" y1="33" x2="20" y2="57" stroke="currentColor" strokeWidth="2" />
+                      <line x1="8" y1="45" x2="32" y2="45" stroke="currentColor" strokeWidth="2" />
+                      <line x1="12.5" y1="36.5" x2="27.5" y2="53.5" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="12.5" y1="53.5" x2="27.5" y2="36.5" stroke="currentColor" strokeWidth="1.5" />
+                    </g>
+                    
+                    {/* Rear wheel */}
+                    <circle cx="90" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" />
+                    <g className="animate-spin-wheel" style={{ transformOrigin: '90px 45px' }}>
+                      <line x1="90" y1="33" x2="90" y2="57" stroke="currentColor" strokeWidth="2" />
+                      <line x1="78" y1="45" x2="102" y2="45" stroke="currentColor" strokeWidth="2" />
+                      <line x1="82.5" y1="36.5" x2="97.5" y2="53.5" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="82.5" y1="53.5" x2="97.5" y2="36.5" stroke="currentColor" strokeWidth="1.5" />
+                    </g>
+                  </g>
                   
                   {/* Handlebars */}
                   <line x1="25" y1="20" x2="35" y2="25" stroke="currentColor" strokeWidth="2" />
