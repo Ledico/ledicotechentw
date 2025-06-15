@@ -2,22 +2,8 @@
   publish = "dist"
   command = "npm run build"
 
-# Handle SPA routing - catch all routes and send to index.html
-# This must be the LAST redirect rule to work as a catch-all
+# Handle SPA routing - this is the correct way for Netlify
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = {Role = ["admin"], Country = ["US"]}
-  force = false
-
-# Alternative approach - more explicit SPA handling
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-  conditions = {Role = []}
-
-[build.environment]
-  NODE_VERSION = "18"
