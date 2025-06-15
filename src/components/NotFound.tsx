@@ -69,21 +69,6 @@ const NotFound = () => {
       {/* Main content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-6xl mx-auto">
-          
-          {/* Status bar */}
-          <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-red-500/30 max-w-md mx-auto">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center space-x-2">
-                  <WifiOff className="h-4 w-4 text-red-400 animate-pulse" />
-                  <span className="text-red-400 font-mono">CONNECTION LOST</span>
-                </div>
-                <div className="text-white/60 font-mono">
-                  {currentTime.toLocaleTimeString()}
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Giant 404 with multiple effects */}
           <div className={`mb-12 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
