@@ -196,7 +196,7 @@ const NotFound = () => {
               </p>
               <p>
                 <strong className="text-white">Die Wahrheit:</strong> Das ist leider nur eine urbane Legende! Der Code "404" bedeutet 
-                einfach "Not Found" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
+                einfach "Not Found\" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
               </p>
               <p>
                 <strong className="text-white">Warum die Geschichte so beliebt ist:</strong> Sie klingt plausibel und macht den 
