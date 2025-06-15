@@ -52,13 +52,25 @@
         .btn:hover {
             transform: translateY(-2px);
         }
+        .note {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
     </style>
+    <script>
+        // Redirect to React app for SPA handling
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 3000);
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>404</h1>
         <p>Diese Seite wurde nicht gefunden.</p>
         <a href="/" class="btn">Zur Startseite</a>
+        <div class="note">Sie werden automatisch in 3 Sekunden weitergeleitet...</div>
     </div>
 </body>
 </html>
