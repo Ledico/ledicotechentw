@@ -85,101 +85,112 @@ const NotFound = () => {
           {/* Motorcycle Animation */}
           <div className={`relative mb-12 h-40 transition-all duration-2000 ${motorcycleLeft ? 'transform translate-x-full opacity-0' : ''}`}>
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              {/* Realistic Motorcycle SVG */}
+              {/* Realistic Sportbike Silhouette */}
               <div className="relative animate-motorcycle-bounce">
-                <svg width="160" height="80" viewBox="0 0 160 80" className="text-purple-400">
-                  {/* Main frame */}
-                  <path d="M25 50 L45 35 L85 35 L105 45 L120 50" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  
-                  {/* Engine block */}
-                  <rect x="45" y="40" width="35" height="20" rx="3" fill="currentColor" opacity="0.8" />
-                  
-                  {/* Fuel tank */}
-                  <ellipse cx="65" cy="30" rx="20" ry="8" fill="currentColor" opacity="0.9" />
-                  
-                  {/* Seat */}
-                  <ellipse cx="90" cy="32" rx="15" ry="5" fill="currentColor" opacity="0.7" />
-                  
-                  {/* Front fork */}
-                  <line x1="25" y1="50" x2="25" y2="65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                  <line x1="23" y1="50" x2="27" y2="50" stroke="currentColor" strokeWidth="2" />
-                  
-                  {/* Rear suspension */}
-                  <line x1="120" y1="50" x2="120" y2="65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                  
-                  {/* Handlebars */}
-                  <line x1="20" y1="25" x2="30" y2="25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  <line x1="25" y1="25" x2="25" y2="35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  
-                  {/* Windshield */}
-                  <path d="M25 25 L35 15 L40 20 L30 30 Z" fill="currentColor" opacity="0.3" />
-                  
-                  {/* Exhaust system */}
-                  <path d="M80 55 Q100 58 125 52" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                  <circle cx="125" cy="52" r="3" fill="currentColor" />
-                  
-                  {/* Front wheel with detailed spokes */}
-                  <circle cx="25" cy="65" r="15" fill="none" stroke="currentColor" strokeWidth="4" />
-                  <circle cx="25" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                  <g className="animate-spin-wheel" style={{ transformOrigin: '25px 65px' }}>
-                    {/* Spokes */}
-                    <line x1="25" y1="50" x2="25" y2="80" stroke="currentColor" strokeWidth="2" />
-                    <line x1="10" y1="65" x2="40" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="14.4" y1="54.4" x2="35.6" y2="75.6" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="14.4" y1="75.6" x2="35.6" y2="54.4" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="18.8" y1="52.2" x2="31.2" y2="77.8" stroke="currentColor" strokeWidth="1" />
-                    <line x1="18.8" y1="77.8" x2="31.2" y2="52.2" stroke="currentColor" strokeWidth="1" />
-                    {/* Hub */}
-                    <circle cx="25" cy="65" r="4" fill="currentColor" />
+                <svg width="200" height="100" viewBox="0 0 200 100" className="text-purple-400">
+                  {/* Main motorcycle body - Sportbike silhouette */}
+                  <g fill="currentColor">
+                    {/* Front wheel */}
+                    <circle cx="35" cy="75" r="18" fill="none" stroke="currentColor" strokeWidth="4" />
+                    <g className="animate-spin-wheel" style={{ transformOrigin: '35px 75px' }}>
+                      <circle cx="35" cy="75" r="14" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+                      <circle cx="35" cy="75" r="10" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+                      <circle cx="35" cy="75" r="6" fill="currentColor" opacity="0.8" />
+                      {/* Spokes */}
+                      <line x1="35" y1="57" x2="35" y2="93" stroke="currentColor" strokeWidth="2" />
+                      <line x1="17" y1="75" x2="53" y2="75" stroke="currentColor" strokeWidth="2" />
+                      <line x1="22.3" y1="62.3" x2="47.7" y2="87.7" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="22.3" y1="87.7" x2="47.7" y2="62.3" stroke="currentColor" strokeWidth="1.5" />
+                    </g>
+                    
+                    {/* Rear wheel */}
+                    <circle cx="155" cy="75" r="18" fill="none" stroke="currentColor" strokeWidth="4" />
+                    <g className="animate-spin-wheel" style={{ transformOrigin: '155px 75px' }}>
+                      <circle cx="155" cy="75" r="14" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+                      <circle cx="155" cy="75" r="10" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+                      <circle cx="155" cy="75" r="6" fill="currentColor" opacity="0.8" />
+                      {/* Spokes */}
+                      <line x1="155" y1="57" x2="155" y2="93" stroke="currentColor" strokeWidth="2" />
+                      <line x1="137" y1="75" x2="173" y2="75" stroke="currentColor" strokeWidth="2" />
+                      <line x1="142.3" y1="62.3" x2="167.7" y2="87.7" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="142.3" y1="87.7" x2="167.7" y2="62.3" stroke="currentColor" strokeWidth="1.5" />
+                    </g>
+
+                    {/* Main frame and body - Sportbike shape */}
+                    <path d="M35 75 L50 60 L70 55 L90 50 L120 52 L140 55 L155 75" 
+                          fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                    
+                    {/* Engine block */}
+                    <rect x="60" y="60" width="40" height="20" rx="4" fill="currentColor" opacity="0.9" />
+                    
+                    {/* Fuel tank - sleek sportbike tank */}
+                    <ellipse cx="85" cy="45" rx="25" ry="12" fill="currentColor" opacity="0.8" />
+                    
+                    {/* Seat - racing seat */}
+                    <path d="M105 40 Q125 38 135 42 Q140 45 135 48 Q115 50 105 48 Z" fill="currentColor" opacity="0.7" />
+                    
+                    {/* Tail section - pointed sportbike tail */}
+                    <path d="M135 42 L160 38 L165 45 L155 50 L135 48 Z" fill="currentColor" opacity="0.8" />
+                    
+                    {/* Front fairing - aerodynamic nose */}
+                    <path d="M35 60 L25 50 L20 45 L25 40 L40 45 L50 55 Z" fill="currentColor" opacity="0.9" />
+                    
+                    {/* Windscreen */}
+                    <path d="M40 45 L35 30 L45 25 L55 35 L50 45 Z" fill="currentColor" opacity="0.3" />
+                    
+                    {/* Front fork */}
+                    <line x1="35" y1="60" x2="35" y2="75" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                    
+                    {/* Rear swingarm */}
+                    <line x1="120" y1="55" x2="155" y2="75" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+                    
+                    {/* Handlebars - clip-ons */}
+                    <line x1="30" y1="35" x2="45" y2="35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                    
+                    {/* Exhaust system */}
+                    <path d="M100 70 Q130 72 160 65" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                    <ellipse cx="160" cy="65" rx="8" ry="4" fill="currentColor" opacity="0.8" />
+                    
+                    {/* Rider in racing position */}
+                    {/* Helmet */}
+                    <circle cx="75" cy="25" r="12" fill="currentColor" opacity="0.9" />
+                    <path d="M70 20 Q75 15 80 20 Q85 25 80 30 Q75 35 70 30 Z" fill="currentColor" opacity="0.6" />
+                    
+                    {/* Body - leaning forward racing position */}
+                    <ellipse cx="80" cy="40" rx="12" ry="8" fill="currentColor" opacity="0.8" />
+                    
+                    {/* Arms - reaching forward to handlebars */}
+                    <ellipse cx="65" cy="35" rx="8" ry="4" fill="currentColor" opacity="0.7" transform="rotate(-20 65 35)" />
+                    <ellipse cx="50" cy="38" rx="6" ry="3" fill="currentColor" opacity="0.7" transform="rotate(-30 50 38)" />
+                    
+                    {/* Legs - tucked up racing position */}
+                    <ellipse cx="95" cy="50" rx="6" ry="10" fill="currentColor" opacity="0.7" transform="rotate(15 95 50)" />
+                    <ellipse cx="105" cy="55" rx="5" ry="8" fill="currentColor" opacity="0.7" transform="rotate(25 105 55)" />
+                    
+                    {/* Headlight */}
+                    <ellipse cx="22" cy="45" rx="8" ry="6" fill="yellow" opacity="0.9" />
+                    <ellipse cx="22" cy="45" rx="6" ry="4" fill="white" opacity="1" />
+                    
+                    {/* Taillight */}
+                    <ellipse cx="165" cy="42" rx="4" ry="3" fill="red" opacity="0.9" />
+                    
+                    {/* Brake discs */}
+                    <circle cx="35" cy="75" r="10" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+                    <circle cx="155" cy="75" r="10" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
                   </g>
-                  
-                  {/* Rear wheel with detailed spokes */}
-                  <circle cx="120" cy="65" r="15" fill="none" stroke="currentColor" strokeWidth="4" />
-                  <circle cx="120" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                  <g className="animate-spin-wheel" style={{ transformOrigin: '120px 65px' }}>
-                    {/* Spokes */}
-                    <line x1="120" y1="50" x2="120" y2="80" stroke="currentColor" strokeWidth="2" />
-                    <line x1="105" y1="65" x2="135" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="109.4" y1="54.4" x2="130.6" y2="75.6" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="109.4" y1="75.6" x2="130.6" y2="54.4" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="113.8" y1="52.2" x2="126.2" y2="77.8" stroke="currentColor" strokeWidth="1" />
-                    <line x1="113.8" y1="77.8" x2="126.2" y2="52.2" stroke="currentColor" strokeWidth="1" />
-                    {/* Hub */}
-                    <circle cx="120" cy="65" r="4" fill="currentColor" />
-                  </g>
-                  
-                  {/* Brake discs */}
-                  <circle cx="25" cy="65" r="8" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-                  <circle cx="120" cy="65" r="8" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-                  
-                  {/* Rider silhouette */}
-                  <circle cx="75" cy="20" r="8" fill="currentColor" opacity="0.8" />
-                  <ellipse cx="75" cy="32" rx="8" ry="12" fill="currentColor" opacity="0.8" />
-                  <ellipse cx="70" cy="45" rx="6" ry="8" fill="currentColor" opacity="0.8" />
-                  <ellipse cx="80" cy="45" rx="6" ry="8" fill="currentColor" opacity="0.8" />
-                  
-                  {/* Helmet */}
-                  <circle cx="75" cy="18" r="10" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6" />
-                  
-                  {/* Headlight */}
-                  <circle cx="15" cy="35" r="6" fill="yellow" opacity="0.8" />
-                  <circle cx="15" cy="35" r="4" fill="white" opacity="0.9" />
-                  
-                  {/* Taillight */}
-                  <circle cx="130" cy="45" r="3" fill="red" opacity="0.8" />
                 </svg>
 
                 {/* Enhanced exhaust smoke */}
                 <div className="absolute right-0 top-1/2 transform translate-x-full -translate-y-1/2">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(6)].map((_, i) => (
                     <div
                       key={i}
-                      className="absolute w-3 h-3 bg-gray-400/60 rounded-full animate-exhaust-smoke"
+                      className="absolute w-4 h-4 bg-gray-400/60 rounded-full animate-exhaust-smoke"
                       style={{
-                        left: `${i * 10}px`,
-                        top: `${Math.sin(i) * 5}px`,
-                        animationDelay: `${i * 0.2}s`,
-                        animationDuration: `${1.5 + i * 0.3}s`
+                        left: `${i * 12}px`,
+                        top: `${Math.sin(i) * 6}px`,
+                        animationDelay: `${i * 0.15}s`,
+                        animationDuration: `${1.2 + i * 0.2}s`
                       }}
                     ></div>
                   ))}
@@ -187,15 +198,15 @@ const NotFound = () => {
 
                 {/* Enhanced speed lines */}
                 <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
-                  {[...Array(8)].map((_, i) => (
+                  {[...Array(10)].map((_, i) => (
                     <div
                       key={i}
                       className="absolute h-0.5 bg-cyan-400/70 animate-speed-lines"
                       style={{
-                        width: `${25 + i * 8}px`,
-                        top: `${i * 3 - 12}px`,
-                        left: `-${i * 15}px`,
-                        animationDelay: `${i * 0.08}s`
+                        width: `${30 + i * 10}px`,
+                        top: `${i * 4 - 16}px`,
+                        left: `-${i * 20}px`,
+                        animationDelay: `${i * 0.06}s`
                       }}
                     ></div>
                   ))}
@@ -204,8 +215,8 @@ const NotFound = () => {
                 {/* Headlight beam */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
                   <div 
-                    className="w-20 h-8 bg-yellow-300/20 rounded-r-full animate-pulse"
-                    style={{ clipPath: 'polygon(0 0, 100% 25%, 100% 75%, 0 100%)' }}
+                    className="w-32 h-12 bg-yellow-300/25 rounded-r-full animate-pulse"
+                    style={{ clipPath: 'polygon(0 0, 100% 30%, 100% 70%, 0 100%)' }}
                   ></div>
                 </div>
               </div>
@@ -213,14 +224,14 @@ const NotFound = () => {
 
             {/* Enhanced ground dust effect */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-              {[...Array(10)].map((_, i) => (
+              {[...Array(12)].map((_, i) => (
                 <div
                   key={i}
                   className="absolute w-2 h-2 bg-yellow-600/50 rounded-full animate-dust-cloud"
                   style={{
-                    left: `${i * 6 - 30}px`,
-                    animationDelay: `${i * 0.15}s`,
-                    animationDuration: `${2 + Math.random()}s`
+                    left: `${i * 8 - 48}px`,
+                    animationDelay: `${i * 0.12}s`,
+                    animationDuration: `${1.8 + Math.random() * 0.8}s`
                   }}
                 ></div>
               ))}
@@ -233,7 +244,7 @@ const NotFound = () => {
               Seite nicht gefunden!
             </h2>
             <p className="text-xl text-white/80 mb-2">
-              Das Motorrad ist mit der gesuchten Seite davongefahren...
+              Das Sportmotorrad ist mit der gesuchten Seite davongerast...
             </p>
             <p className="text-lg text-white/60">
               Aber keine Sorge, wir bringen Sie sicher zurück!
