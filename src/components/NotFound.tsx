@@ -183,24 +183,24 @@ const NotFound = () => {
             </button>
           </div>
 
-          {/* Extended CERN Fun Fact with 404 explanation */}
+          {/* CERN Server Room 404 Legend */}
           <div className={`mt-12 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 transition-all duration-1000 delay-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="flex items-center justify-center space-x-2 mb-4">
               <div className="w-5 h-5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
-              <span className="text-white font-semibold">Fun Fact: Warum "404"?</span>
+              <span className="text-white font-semibold">Fun Fact: Die CERN 404-Legende</span>
             </div>
             <div className="text-white/70 text-sm space-y-3">
               <p>
-                <strong className="text-white">1990 am CERN:</strong> Tim Berners-Lee entwickelte das World Wide Web und die erste Webseite der Welt. 
-                Gleichzeitig entstanden die ersten HTTP-Statuscodes.
+                <strong className="text-white">Die berühmte Geschichte:</strong> Es wird oft erzählt, dass der HTTP-Fehlercode "404" 
+                daher stammt, dass am CERN der Server im Raum 404 stand und dieser oft nicht erreichbar war.
               </p>
               <p>
-                <strong className="text-white">Der Code "404":</strong> Bedeutet "Not Found" - die angeforderte Seite existiert nicht auf dem Server. 
-                Die Zahl 404 wurde Teil des HTTP-Standards und ist heute weltweit bekannt.
+                <strong className="text-white">Die Wahrheit:</strong> Das ist leider nur eine urbane Legende! Der Code "404" bedeutet 
+                einfach "Not Found" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
               </p>
               <p>
-                <strong className="text-white">Interessant:</strong> Ursprünglich sollten die Codes nur für Maschinen lesbar sein, 
-                doch 404 wurde zum kulturellen Phänomen und Symbol für "etwas ist verloren gegangen".
+                <strong className="text-white">Warum die Geschichte so beliebt ist:</strong> Sie klingt plausibel und macht den 
+                abstrakten Fehlercode menschlicher und greifbarer. Manchmal sind die schönsten Geschichten eben nicht wahr!
               </p>
             </div>
           </div>
