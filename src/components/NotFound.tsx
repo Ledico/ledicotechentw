@@ -98,11 +98,11 @@ const NotFound = () => {
                     </div>
                   </div>
                   
-                  {/* Cardinal directions - alle gleichmäßig entfernt */}
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">N</div>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">S</div>
-                  <div className="absolute top-1/2 -left-6 transform -translate-y-1/2 text-white font-bold text-lg">W</div>
-                  <div className="absolute top-1/2 -right-6 transform -translate-y-1/2 text-white font-bold text-lg">E</div>
+                  {/* Cardinal directions - alle auf gleiche Distanz wie E (-right-8) */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">N</div>
+                  <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">S</div>
+                  <div className="absolute top-1/2 -left-8 transform -translate-y-1/2 text-white font-bold text-lg">W</div>
+                  <div className="absolute top-1/2 -right-8 transform -translate-y-1/2 text-white font-bold text-lg">E</div>
                 </div>
 
                 {/* Compass glow effect */}
@@ -196,7 +196,7 @@ const NotFound = () => {
               </p>
               <p>
                 <strong className="text-white">Die Wahrheit:</strong> Das ist leider nur eine urbane Legende! Der Code "404" bedeutet 
-                einfach "Not Found\" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
+                einfach "Not Found" und wurde als Teil des HTTP-Standards definiert. Die Zahl hat keine Verbindung zu einem Raum.
               </p>
               <p>
                 <strong className="text-white">Warum die Geschichte so beliebt ist:</strong> Sie klingt plausibel und macht den 
