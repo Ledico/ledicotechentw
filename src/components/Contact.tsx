@@ -209,7 +209,7 @@ const Contact = () => {
         {/* Footer */}
         <div className={`text-center mt-20 pt-8 border-t border-slate-200 transition-all duration-1000 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
           <p className="text-slate-600">
-            © 2024 Leonardo Dias Costa. Mit Leidenschaft in der Schweiz entwickelt.
+            © 2025 Leonardo Dias Costa. Mit Leidenschaft in der Schweiz entwickelt.
           </p>
         </div>
       </div>
