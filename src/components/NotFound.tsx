@@ -83,88 +83,144 @@ const NotFound = () => {
           </div>
 
           {/* Motorcycle Animation */}
-          <div className={`relative mb-12 h-32 transition-all duration-2000 ${motorcycleLeft ? 'transform translate-x-full opacity-0' : ''}`}>
+          <div className={`relative mb-12 h-40 transition-all duration-2000 ${motorcycleLeft ? 'transform translate-x-full opacity-0' : ''}`}>
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              {/* Motorcycle SVG */}
+              {/* Realistic Motorcycle SVG */}
               <div className="relative animate-motorcycle-bounce">
-                <svg width="120" height="60" viewBox="0 0 120 60" className="text-purple-400">
-                  {/* Motorcycle body */}
-                  <rect x="30" y="25" width="50" height="15" rx="5" fill="currentColor" />
+                <svg width="160" height="80" viewBox="0 0 160 80" className="text-purple-400">
+                  {/* Main frame */}
+                  <path d="M25 50 L45 35 L85 35 L105 45 L120 50" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                   
-                  {/* Wheels - Fixed positioning with proper rotation */}
-                  <g>
-                    {/* Front wheel */}
-                    <circle cx="20" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" />
-                    <g className="animate-spin-wheel" style={{ transformOrigin: '20px 45px' }}>
-                      <line x1="20" y1="33" x2="20" y2="57" stroke="currentColor" strokeWidth="2" />
-                      <line x1="8" y1="45" x2="32" y2="45" stroke="currentColor" strokeWidth="2" />
-                      <line x1="12.5" y1="36.5" x2="27.5" y2="53.5" stroke="currentColor" strokeWidth="1.5" />
-                      <line x1="12.5" y1="53.5" x2="27.5" y2="36.5" stroke="currentColor" strokeWidth="1.5" />
-                    </g>
-                    
-                    {/* Rear wheel */}
-                    <circle cx="90" cy="45" r="12" fill="none" stroke="currentColor" strokeWidth="3" />
-                    <g className="animate-spin-wheel" style={{ transformOrigin: '90px 45px' }}>
-                      <line x1="90" y1="33" x2="90" y2="57" stroke="currentColor" strokeWidth="2" />
-                      <line x1="78" y1="45" x2="102" y2="45" stroke="currentColor" strokeWidth="2" />
-                      <line x1="82.5" y1="36.5" x2="97.5" y2="53.5" stroke="currentColor" strokeWidth="1.5" />
-                      <line x1="82.5" y1="53.5" x2="97.5" y2="36.5" stroke="currentColor" strokeWidth="1.5" />
-                    </g>
-                  </g>
+                  {/* Engine block */}
+                  <rect x="45" y="40" width="35" height="20" rx="3" fill="currentColor" opacity="0.8" />
+                  
+                  {/* Fuel tank */}
+                  <ellipse cx="65" cy="30" rx="20" ry="8" fill="currentColor" opacity="0.9" />
+                  
+                  {/* Seat */}
+                  <ellipse cx="90" cy="32" rx="15" ry="5" fill="currentColor" opacity="0.7" />
+                  
+                  {/* Front fork */}
+                  <line x1="25" y1="50" x2="25" y2="65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                  <line x1="23" y1="50" x2="27" y2="50" stroke="currentColor" strokeWidth="2" />
+                  
+                  {/* Rear suspension */}
+                  <line x1="120" y1="50" x2="120" y2="65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
                   
                   {/* Handlebars */}
-                  <line x1="25" y1="20" x2="35" y2="25" stroke="currentColor" strokeWidth="2" />
-                  <line x1="20" y1="18" x2="30" y2="18" stroke="currentColor" strokeWidth="2" />
+                  <line x1="20" y1="25" x2="30" y2="25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                  <line x1="25" y1="25" x2="25" y2="35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                   
-                  {/* Exhaust */}
-                  <rect x="75" y="35" width="20" height="3" rx="1" fill="currentColor" />
+                  {/* Windshield */}
+                  <path d="M25 25 L35 15 L40 20 L30 30 Z" fill="currentColor" opacity="0.3" />
+                  
+                  {/* Exhaust system */}
+                  <path d="M80 55 Q100 58 125 52" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="125" cy="52" r="3" fill="currentColor" />
+                  
+                  {/* Front wheel with detailed spokes */}
+                  <circle cx="25" cy="65" r="15" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <circle cx="25" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+                  <g className="animate-spin-wheel" style={{ transformOrigin: '25px 65px' }}>
+                    {/* Spokes */}
+                    <line x1="25" y1="50" x2="25" y2="80" stroke="currentColor" strokeWidth="2" />
+                    <line x1="10" y1="65" x2="40" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="14.4" y1="54.4" x2="35.6" y2="75.6" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="14.4" y1="75.6" x2="35.6" y2="54.4" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="18.8" y1="52.2" x2="31.2" y2="77.8" stroke="currentColor" strokeWidth="1" />
+                    <line x1="18.8" y1="77.8" x2="31.2" y2="52.2" stroke="currentColor" strokeWidth="1" />
+                    {/* Hub */}
+                    <circle cx="25" cy="65" r="4" fill="currentColor" />
+                  </g>
+                  
+                  {/* Rear wheel with detailed spokes */}
+                  <circle cx="120" cy="65" r="15" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <circle cx="120" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+                  <g className="animate-spin-wheel" style={{ transformOrigin: '120px 65px' }}>
+                    {/* Spokes */}
+                    <line x1="120" y1="50" x2="120" y2="80" stroke="currentColor" strokeWidth="2" />
+                    <line x1="105" y1="65" x2="135" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="109.4" y1="54.4" x2="130.6" y2="75.6" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="109.4" y1="75.6" x2="130.6" y2="54.4" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="113.8" y1="52.2" x2="126.2" y2="77.8" stroke="currentColor" strokeWidth="1" />
+                    <line x1="113.8" y1="77.8" x2="126.2" y2="52.2" stroke="currentColor" strokeWidth="1" />
+                    {/* Hub */}
+                    <circle cx="120" cy="65" r="4" fill="currentColor" />
+                  </g>
+                  
+                  {/* Brake discs */}
+                  <circle cx="25" cy="65" r="8" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+                  <circle cx="120" cy="65" r="8" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.6" />
                   
                   {/* Rider silhouette */}
-                  <circle cx="45" cy="15" r="8" fill="currentColor" opacity="0.8" />
-                  <rect x="40" y="20" width="10" height="15" rx="2" fill="currentColor" opacity="0.8" />
+                  <circle cx="75" cy="20" r="8" fill="currentColor" opacity="0.8" />
+                  <ellipse cx="75" cy="32" rx="8" ry="12" fill="currentColor" opacity="0.8" />
+                  <ellipse cx="70" cy="45" rx="6" ry="8" fill="currentColor" opacity="0.8" />
+                  <ellipse cx="80" cy="45" rx="6" ry="8" fill="currentColor" opacity="0.8" />
+                  
+                  {/* Helmet */}
+                  <circle cx="75" cy="18" r="10" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6" />
+                  
+                  {/* Headlight */}
+                  <circle cx="15" cy="35" r="6" fill="yellow" opacity="0.8" />
+                  <circle cx="15" cy="35" r="4" fill="white" opacity="0.9" />
+                  
+                  {/* Taillight */}
+                  <circle cx="130" cy="45" r="3" fill="red" opacity="0.8" />
                 </svg>
 
-                {/* Exhaust smoke */}
+                {/* Enhanced exhaust smoke */}
                 <div className="absolute right-0 top-1/2 transform translate-x-full -translate-y-1/2">
-                  {[...Array(3)].map((_, i) => (
+                  {[...Array(5)].map((_, i) => (
                     <div
                       key={i}
-                      className="absolute w-2 h-2 bg-gray-400/50 rounded-full animate-exhaust-smoke"
+                      className="absolute w-3 h-3 bg-gray-400/60 rounded-full animate-exhaust-smoke"
                       style={{
-                        left: `${i * 8}px`,
-                        animationDelay: `${i * 0.3}s`
+                        left: `${i * 10}px`,
+                        top: `${Math.sin(i) * 5}px`,
+                        animationDelay: `${i * 0.2}s`,
+                        animationDuration: `${1.5 + i * 0.3}s`
                       }}
                     ></div>
                   ))}
                 </div>
 
-                {/* Speed lines */}
+                {/* Enhanced speed lines */}
                 <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
-                  {[...Array(5)].map((_, i) => (
+                  {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className="absolute h-0.5 bg-cyan-400/60 animate-speed-lines"
+                      className="absolute h-0.5 bg-cyan-400/70 animate-speed-lines"
                       style={{
-                        width: `${20 + i * 5}px`,
-                        top: `${i * 4 - 8}px`,
-                        left: `-${i * 10}px`,
-                        animationDelay: `${i * 0.1}s`
+                        width: `${25 + i * 8}px`,
+                        top: `${i * 3 - 12}px`,
+                        left: `-${i * 15}px`,
+                        animationDelay: `${i * 0.08}s`
                       }}
                     ></div>
                   ))}
+                </div>
+
+                {/* Headlight beam */}
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
+                  <div 
+                    className="w-20 h-8 bg-yellow-300/20 rounded-r-full animate-pulse"
+                    style={{ clipPath: 'polygon(0 0, 100% 25%, 100% 75%, 0 100%)' }}
+                  ></div>
                 </div>
               </div>
             </div>
 
-            {/* Ground dust effect */}
+            {/* Enhanced ground dust effect */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-              {[...Array(6)].map((_, i) => (
+              {[...Array(10)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1 h-1 bg-yellow-600/40 rounded-full animate-dust-cloud"
+                  className="absolute w-2 h-2 bg-yellow-600/50 rounded-full animate-dust-cloud"
                   style={{
-                    left: `${i * 8 - 24}px`,
-                    animationDelay: `${i * 0.2}s`
+                    left: `${i * 6 - 30}px`,
+                    animationDelay: `${i * 0.15}s`,
+                    animationDuration: `${2 + Math.random()}s`
                   }}
                 ></div>
               ))}
