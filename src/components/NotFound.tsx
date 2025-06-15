@@ -125,7 +125,7 @@ const NotFound = () => {
             </p>
           </div>
 
-          {/* Animated Map/Route visualization */}
+          {/* Simplified Route visualization */}
           <div className={`mb-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 max-w-md mx-auto">
               <div className="flex items-center justify-center space-x-4 mb-4">
@@ -133,31 +133,26 @@ const NotFound = () => {
                 <span className="text-white font-semibold">Routenkorrektur</span>
               </div>
               
-              {/* Route visualization */}
-              <div className="relative h-20">
+              {/* Simplified route visualization */}
+              <div className="relative h-16 flex items-center justify-center">
                 {/* Start point */}
-                <div className="absolute left-4 top-1/2 w-4 h-4 bg-green-500 rounded-full transform -translate-y-1/2 animate-pulse">
+                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse relative">
                   <div className="absolute inset-0 bg-green-400 rounded-full animate-ping"></div>
                 </div>
                 
-                {/* Wrong path (dashed red line) */}
-                <div className="absolute left-8 top-1/2 w-16 h-0.5 bg-red-500 transform -translate-y-1/2 opacity-50" style={{ backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 4px, red 4px, red 8px)' }}></div>
-                
-                {/* Dead end */}
-                <div className="absolute left-24 top-1/2 w-3 h-3 bg-red-500 transform -translate-y-1/2">
-                  <div className="absolute inset-0 bg-red-400 animate-pulse"></div>
+                {/* Simple arrow pointing right */}
+                <div className="mx-8 flex items-center">
+                  <div className="w-16 h-0.5 bg-green-500"></div>
+                  <div className="w-0 h-0 border-l-4 border-l-green-500 border-t-2 border-t-transparent border-b-2 border-b-transparent"></div>
                 </div>
                 
-                {/* Correct path (solid green line) */}
-                <div className="absolute left-8 top-1/2 w-32 h-1 bg-green-500 transform -translate-y-1/2 rotate-12 animate-pulse"></div>
-                
                 {/* Destination */}
-                <div className="absolute right-4 top-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-y-1/2 animate-bounce">
+                <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce relative">
                   <Home className="h-3 w-3 text-white absolute inset-0.5" />
                 </div>
               </div>
               
-              <p className="text-white/70 text-sm mt-2">
+              <p className="text-white/70 text-sm mt-4">
                 Route wird neu berechnet...
               </p>
             </div>
@@ -182,15 +177,15 @@ const NotFound = () => {
             </button>
           </div>
 
-          {/* Travel tip */}
+          {/* CERN Fun Fact */}
           <div className={`mt-12 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 transition-all duration-1000 delay-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="flex items-center justify-center space-x-2 mb-3">
-              <Compass className="h-5 w-5 text-yellow-400 animate-spin-slow" />
-              <span className="text-white font-semibold">Reisetipp</span>
+              <div className="w-5 h-5 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
+              <span className="text-white font-semibold">Fun Fact</span>
             </div>
             <p className="text-white/70 text-sm">
-              "Nicht alle, die wandern, sind verloren" - J.R.R. Tolkien. 
-              Manchmal führen uns die besten Umwege zu den schönsten Entdeckungen!
+              Wussten Sie, dass die erste Webseite der Welt am CERN erstellt wurde? 
+              Tim Berners-Lee entwickelte 1990 das World Wide Web - und damit auch die erste 404-Seite!
             </p>
           </div>
         </div>
