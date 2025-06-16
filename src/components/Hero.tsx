@@ -17,8 +17,12 @@ const Hero = () => {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="https://cdn.pixabay.com/video/2025/03/09/263695.mov" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/2278095/2278095-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+          {/* Fallback for browsers that don't support video */}
         </video>
+        {/* Fallback background image if video fails to load */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
         {/* Darker overlay for better text readability */}
         <div className="absolute inset-0 bg-black/70"></div>
         {/* Additional gradient overlay */}
