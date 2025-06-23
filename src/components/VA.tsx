@@ -165,7 +165,7 @@ const VA = () => {
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = './documents/Unentdeckte Schönheiten-Leonardo_Costa.pdf';
+    link.href = './documents/Unentdeckte_Schönheiten-Leonardo_Costa.pdf';
     link.download = 'Unentdeckte_Schönheiten_Leonardo_Costa.pdf';
     document.body.appendChild(link);
     link.click();
