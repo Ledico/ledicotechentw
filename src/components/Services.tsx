@@ -103,15 +103,6 @@ const Services = () => {
             </div>
           ))}
         </div>
-
-        <div className={`text-center mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <button 
-            onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-pulse-glow"
-          >
-            Projekt starten
-          </button>
-        </div>
       </div>
     </section>
   );
