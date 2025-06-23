@@ -172,10 +172,10 @@ const VA = () => {
     document.body.removeChild(link);
   };
 
-  const handleDownloadPPTX = () => {
+  const handleDownloadUrkunde = () => {
     const link = document.createElement('a');
-    link.href = './documents/VA_Leonardo-Costa.pptx';
-    link.download = 'VA_Leonardo-Costa.pptx';
+    link.href = './documents/VA_urkunde.pdf';
+    link.download = 'VA_Urkunde_Leonardo_Costa.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -263,11 +263,11 @@ const VA = () => {
                 <span>PDF ansehen</span>
               </button>
               <button 
-                onClick={handleDownloadPPTX}
+                onClick={handleDownloadUrkunde}
                 className="flex items-center space-x-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105"
               >
-                <Presentation className="h-5 w-5" />
-                <span>Präsentation</span>
+                <Award className="h-5 w-5" />
+                <span>Auszeichnung TBZ</span>
               </button>
             </div>
           </div>
@@ -634,7 +634,7 @@ const VA = () => {
           <div className="animate-fade-in-up">
             <h2 className="text-4xl font-bold mb-6">Vollständige Dokumentation</h2>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Laden Sie die komplette Vertiefungsarbeit herunter oder betrachten Sie die Präsentation
+              Laden Sie die komplette Vertiefungsarbeit herunter oder betrachten Sie die Auszeichnung
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -646,11 +646,11 @@ const VA = () => {
                 <span>PDF herunterladen (51 Seiten)</span>
               </button>
               <button 
-                onClick={handleDownloadPPTX}
+                onClick={handleDownloadUrkunde}
                 className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2"
               >
-                <Presentation className="h-5 w-5" />
-                <span>Präsentation herunterladen</span>
+                <Award className="h-5 w-5" />
+                <span>Auszeichnung ansehen</span>
               </button>
             </div>
           </div>
