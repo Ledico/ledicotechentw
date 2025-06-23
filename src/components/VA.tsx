@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { downloadFile, getPublicUrl } from '../lib/supabase';
 
 const VA = () => {
   const [isVisible, setIsVisible] = useState(true); // Set to true immediately
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const slideInterval = useRef<NodeJS.Timeout | null>(null);
 
@@ -166,40 +163,25 @@ const VA = () => {
     };
   }, [isAutoPlaying, galleryImages.length]);
 
-  const handleDownloadPDF = async () => {
-    setIsLoading(true);
-    
-    try {
-      // Download der Vertiefungsarbeit aus dem Supabase Bucket "dias costa"
-      await downloadFile(
-        'dias costa', 
-        'Unentdeckte Schönheiten-Leonardo_Costa.pdf', 
-        'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf'
-      );
-    } catch (error) {
-      console.error('Fehler beim Herunterladen der Vertiefungsarbeit:', error);
-      alert('Beim Herunterladen der Vertiefungsarbeit ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.');
-    } finally {
-      setIsLoading(false);
-    }
+  // Direct download functions using the provided Supabase URLs
+  const handleDownloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = 'https://ayqitipxqhbubhtjiewb.supabase.co/storage/v1/object/public/diascosta//Unentdeckte_Schoenheiten-Leonardo_Costa.pdf';
+    link.download = 'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  const handleDownloadUrkunde = async () => {
-    setIsLoading(true);
-    
-    try {
-      // Download der Urkunde aus dem Supabase Bucket "dias costa"
-      await downloadFile(
-        'dias costa', 
-        'VA_urkunde.pdf', 
-        'VA_Urkunde_Leonardo_Costa.pdf'
-      );
-    } catch (error) {
-      console.error('Fehler beim Herunterladen der Urkunde:', error);
-      alert('Beim Herunterladen der Urkunde ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.');
-    } finally {
-      setIsLoading(false);
-    }
+  const handleDownloadUrkunde = () => {
+    const link = document.createElement('a');
+    link.href = 'https://ayqitipxqhbubhtjiewb.supabase.co/storage/v1/object/public/diascosta//VA_urkunde.pdf';
+    link.download = 'VA_Urkunde_Leonardo_Costa.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -278,37 +260,17 @@ const VA = () => {
             <div className="flex flex-col sm:flex-row gap-4 animate-bounce-in stagger-6">
               <button 
                 onClick={handleDownloadPDF}
-                disabled={isLoading}
-                className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-glow-pulse disabled:opacity-70 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-glow-pulse"
               >
-                {isLoading ? (
-                  <>
-                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Wird geladen...</span>
-                  </>
-                ) : (
-                  <>
-                    <FileText className="h-5 w-5" />
-                    <span>PDF ansehen</span>
-                  </>
-                )}
+                <FileText className="h-5 w-5" />
+                <span>PDF ansehen</span>
               </button>
               <button 
                 onClick={handleDownloadUrkunde}
-                disabled={isLoading}
-                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105"
               >
-                {isLoading ? (
-                  <>
-                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Wird geladen...</span>
-                  </>
-                ) : (
-                  <>
-                    <Award className="h-5 w-5" />
-                    <span>Auszeichnung TBZ</span>
-                  </>
-                )}
+                <Award className="h-5 w-5" />
+                <span>Auszeichnung TBZ</span>
               </button>
             </div>
           </div>
@@ -681,37 +643,17 @@ const VA = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={handleDownloadPDF}
-                disabled={isLoading}
-                className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce-in stagger-1 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-8 py-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-white/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce-in stagger-1"
               >
-                {isLoading ? (
-                  <>
-                    <div className="h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span>Wird geladen...</span>
-                  </>
-                ) : (
-                  <>
-                    <FileText className="h-5 w-5" />
-                    <span>PDF herunterladen (51 Seiten)</span>
-                  </>
-                )}
+                <FileText className="h-5 w-5" />
+                <span>PDF herunterladen (51 Seiten)</span>
               </button>
               <button 
                 onClick={handleDownloadUrkunde}
-                disabled={isLoading}
-                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2"
               >
-                {isLoading ? (
-                  <>
-                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Wird geladen...</span>
-                  </>
-                ) : (
-                  <>
-                    <Award className="h-5 w-5" />
-                    <span>Auszeichnung ansehen</span>
-                  </>
-                )}
+                <Award className="h-5 w-5" />
+                <span>Auszeichnung ansehen</span>
               </button>
             </div>
           </div>
