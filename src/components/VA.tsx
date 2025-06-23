@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Presentation, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 const VA = () => {
   const [isVisible, setIsVisible] = useState(true); // Set to true immediately
@@ -165,8 +165,8 @@ const VA = () => {
 
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = './documents/Unentdeckte_Schönheiten-Leonardo_Costa.pdf';
-    link.download = 'Unentdeckte_Schönheiten_Leonardo_Costa.pdf';
+    link.href = '/documents/Unentdeckte_Schoenheiten-Leonardo_Costa.pdf';
+    link.download = 'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -174,7 +174,7 @@ const VA = () => {
 
   const handleDownloadUrkunde = () => {
     const link = document.createElement('a');
-    link.href = './documents/VA_urkunde.pdf';
+    link.href = '/documents/VA_urkunde.pdf';
     link.download = 'VA_Urkunde_Leonardo_Costa.pdf';
     document.body.appendChild(link);
     link.click();
