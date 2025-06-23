@@ -9,24 +9,27 @@ const Hero = () => {
   return (
     <section id="home" className="min-h-screen relative overflow-hidden">
       {/* Video Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
           className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.7)' }}
         >
           <source src="https://cdn.pixabay.com/video/2025/03/09/263695.mov" type="video/mp4" />
+          {/* Fallback for browsers that don't support the video */}
+          Your browser does not support the video tag.
         </video>
-        {/* Darker overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/70"></div>
+        {/* Lighter overlay for better video visibility */}
+        <div className="absolute inset-0 bg-black/40"></div>
         {/* Additional gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30"></div>
       </div>
 
       {/* Floating particles animation */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-400/30 rounded-full animate-pulse"></div>
         <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-purple-300/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
@@ -34,7 +37,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+      <div className="relative z-20 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <div className="flex items-center justify-center mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <Sparkles className="h-8 w-8 text-cyan-400 mr-2 animate-spin-slow" />
@@ -71,7 +74,7 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <button 
           onClick={scrollToAbout}
           className="animate-bounce text-white/80 hover:text-white transition-colors drop-shadow-lg hover:scale-110 duration-300"
