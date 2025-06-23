@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { downloadFile } from '../lib/supabase';
 
 const VA = () => {
   const [isVisible, setIsVisible] = useState(true); // Set to true immediately
@@ -166,34 +165,46 @@ const VA = () => {
     };
   }, [isAutoPlaying, galleryImages.length]);
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = () => {
     setIsLoading(true);
-    try {
-      await downloadFile(
-        'va-documents', 
-        'Unentdeckte_Schoenheiten-Leonardo_Costa.pdf', 
-        'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf'
-      );
-    } catch (error) {
-      console.error('Download error:', error);
-    } finally {
+    
+    // Direkte Verlinkung zur PDF-Datei im public-Ordner
+    const pdfUrl = '/documents/Unentdeckte_Schoenheiten-Leonardo_Costa.pdf';
+    
+    // Erstellen eines unsichtbaren Links und Klicken
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.setAttribute('download', 'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf');
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    
+    // Verzögerung hinzufügen, um die Animation zu zeigen
+    setTimeout(() => {
+      link.click();
+      document.body.removeChild(link);
       setIsLoading(false);
-    }
+    }, 800);
   };
 
-  const handleDownloadUrkunde = async () => {
+  const handleDownloadUrkunde = () => {
     setIsLoading(true);
-    try {
-      await downloadFile(
-        'va-documents', 
-        'VA_urkunde.pdf', 
-        'VA_Urkunde_Leonardo_Costa.pdf'
-      );
-    } catch (error) {
-      console.error('Download error:', error);
-    } finally {
+    
+    // Direkte Verlinkung zur PDF-Datei im public-Ordner
+    const pdfUrl = '/documents/VA_urkunde.pdf';
+    
+    // Erstellen eines unsichtbaren Links und Klicken
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.setAttribute('download', 'VA_Urkunde_Leonardo_Costa.pdf');
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    
+    // Verzögerung hinzufügen, um die Animation zu zeigen
+    setTimeout(() => {
+      link.click();
+      document.body.removeChild(link);
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   return (
