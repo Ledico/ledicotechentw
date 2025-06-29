@@ -29,15 +29,8 @@ export type Profile = {
   updated_at: string;
 };
 
-export type AdminUserView = {
-  id: string;
-  email: string;
-  full_name?: string;
-  avatar_url?: string;
-  is_admin: boolean;
-  created_at: string;
-  updated_at: string;
-};
+// Remove AdminUserView type since we're using Profile directly
+export type AdminUserView = Profile;
 
 // Export configuration status for debugging
 export const supabaseConfig = {

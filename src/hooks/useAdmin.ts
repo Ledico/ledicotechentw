@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { supabase, AdminUserView } from '../lib/supabase';
+import { supabase, Profile } from '../lib/supabase';
 import { useAuth } from './useAuth';
+
+// Use Profile type instead of AdminUserView since we removed the view
+export type AdminUserView = Profile;
 
 export function useAdmin() {
   const [users, setUsers] = useState<AdminUserView[]>([]);
@@ -18,6 +21,7 @@ export function useAdmin() {
     setError(null);
 
     try {
+      // Query profiles table directly instead of using the view
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
