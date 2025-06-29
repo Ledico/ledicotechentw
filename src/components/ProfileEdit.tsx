@@ -8,10 +8,8 @@ import {
   EyeOff, 
   Lock, 
   Mail, 
-  Bell, 
   Globe, 
   Trash2,
-  Shield,
   Activity,
   Settings,
   Upload,
@@ -57,12 +55,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
     confirmPassword: '',
   });
 
-  // Settings state
+  // Settings state (simplified - removed email notifications and 2FA)
   const [settings, setSettings] = useState({
-    emailNotifications: true,
     language: 'de',
     theme: 'light',
-    twoFactorEnabled: false,
   });
 
   const [showPasswords, setShowPasswords] = useState({
@@ -468,26 +464,15 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                   </button>
                 </form>
 
-                {/* Two-Factor Authentication */}
-                <div className="mt-8 p-6 bg-slate-50 rounded-lg border border-slate-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-lg font-semibold text-slate-900">Zwei-Faktor-Authentifizierung</h4>
-                      <p className="text-slate-600 text-sm">Zusätzliche Sicherheit für Ihr Konto</p>
-                    </div>
-                    <button
-                      onClick={() => setSettings(prev => ({ ...prev, twoFactorEnabled: !prev.twoFactorEnabled }))}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
-                        settings.twoFactorEnabled ? 'bg-purple-600' : 'bg-slate-300'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                          settings.twoFactorEnabled ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </div>
+                {/* Security Info */}
+                <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
+                  <h4 className="text-lg font-semibold text-blue-900 mb-2">Sicherheitshinweise</h4>
+                  <ul className="text-blue-800 text-sm space-y-1">
+                    <li>• Verwenden Sie ein starkes, einzigartiges Passwort</li>
+                    <li>• Passwort sollte mindestens 8 Zeichen lang sein</li>
+                    <li>• Kombinieren Sie Groß- und Kleinbuchstaben, Zahlen und Symbole</li>
+                    <li>• Teilen Sie Ihr Passwort niemals mit anderen</li>
+                  </ul>
                 </div>
               </div>
             )}
@@ -498,31 +483,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                 <h3 className="text-2xl font-bold text-slate-900 mb-6">Einstellungen</h3>
                 
                 <div className="space-y-6">
-                  {/* Email Notifications */}
-                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Bell className="h-5 w-5 text-slate-600" />
-                        <div>
-                          <h4 className="text-lg font-semibold text-slate-900">E-Mail-Benachrichtigungen</h4>
-                          <p className="text-slate-600 text-sm">Erhalten Sie Updates per E-Mail</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setSettings(prev => ({ ...prev, emailNotifications: !prev.emailNotifications }))}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
-                          settings.emailNotifications ? 'bg-purple-600' : 'bg-slate-300'
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                            settings.emailNotifications ? 'translate-x-6' : 'translate-x-1'
-                          }`}
-                        />
-                      </button>
-                    </div>
-                  </div>
-
                   {/* Language */}
                   <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
                     <div className="flex items-center space-x-3 mb-4">
@@ -538,6 +498,32 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                       <option value="en">English</option>
                       <option value="fr">Français</option>
                     </select>
+                  </div>
+
+                  {/* Theme */}
+                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Settings className="h-5 w-5 text-slate-600" />
+                      <h4 className="text-lg font-semibold text-slate-900">Design</h4>
+                    </div>
+                    <select
+                      value={settings.theme}
+                      onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="light">Hell</option>
+                      <option value="dark">Dunkel</option>
+                      <option value="auto">Automatisch</option>
+                    </select>
+                  </div>
+
+                  {/* Privacy Info */}
+                  <div className="p-6 bg-green-50 rounded-lg border border-green-200">
+                    <h4 className="text-lg font-semibold text-green-900 mb-2">Datenschutz</h4>
+                    <p className="text-green-800 text-sm">
+                      Ihre Daten werden sicher gespeichert und niemals an Dritte weitergegeben. 
+                      Wir verwenden moderne Verschlüsselungstechnologien zum Schutz Ihrer Informationen.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -565,6 +551,16 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                       <div>
                         <p className="font-medium text-slate-900">Profil aktualisiert</p>
                         <p className="text-sm text-slate-600">Gestern um 16:45</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium text-slate-900">Konto erstellt</p>
+                        <p className="text-sm text-slate-600">Vor 3 Tagen</p>
                       </div>
                     </div>
                   </div>
