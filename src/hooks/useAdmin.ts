@@ -104,9 +104,9 @@ export function useAdmin() {
     console.log('🗑️ Admin deleting user:', userId);
 
     try {
-      // Use the new admin_delete_user function that handles both auth and profile deletion
+      // Use the corrected admin_delete_user function with user_id parameter
       const { error } = await supabase.rpc('admin_delete_user', {
-        target_user_id: userId
+        user_id: userId  // Changed from target_user_id to user_id
       });
 
       if (error) {
