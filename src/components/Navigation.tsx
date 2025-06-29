@@ -8,7 +8,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { user, loading, error, hasValidConfig } = useAuth();
+  const { user, loading, error } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,7 +65,12 @@ const Navigation = () => {
               {/* Auth Section */}
               <div className="flex items-center">
                 {loading ? (
-                  <div className="w-8 h-8 rounded-full bg-slate-300 animate-pulse"></div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-6 h-6 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+                    <span className={`text-sm ${scrolled ? 'text-slate-600' : 'text-white/80'}`}>
+                      Lädt...
+                    </span>
+                  </div>
                 ) : error ? (
                   <div className="flex items-center space-x-2 text-red-500">
                     <AlertTriangle className="h-4 w-4" />
@@ -115,8 +120,9 @@ const Navigation = () => {
                 {/* Mobile Auth Section */}
                 <div className="pt-2 border-t border-slate-200">
                   {loading ? (
-                    <div className="px-3 py-2">
-                      <div className="w-full h-10 rounded-lg bg-slate-200 animate-pulse"></div>
+                    <div className="px-3 py-2 flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
+                      <span className="text-slate-600">Lädt...</span>
                     </div>
                   ) : error ? (
                     <div className="px-3 py-2 text-red-600 text-sm flex items-center space-x-2">

@@ -1,32 +1,37 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Production Supabase configuration
+// Production Supabase configuration - these are the correct values
 const PRODUCTION_SUPABASE_URL = 'https://ayqitipxqhbubhtjiewb.supabase.co';
 const PRODUCTION_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWl0aXB4cWhidWJodGppZXdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDE2OTgsImV4cCI6MjA2NjI3NzY5OH0.0XVqzzFDFR_iAQHRMM46fbY_N8PhzpHGSUoYUt4KZlg';
 
-// Check if we're in production
-const isProduction = import.meta.env.PROD;
+// Always use production values for now to ensure connection works
+const supabaseUrl = PRODUCTION_SUPABASE_URL;
+const supabaseAnonKey = PRODUCTION_SUPABASE_ANON_KEY;
 
-// Use environment variables if available, otherwise use production values
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || PRODUCTION_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || PRODUCTION_SUPABASE_ANON_KEY;
+console.log('🔧 Supabase Configuration Debug:', {
+  url: supabaseUrl,
+  keyLength: supabaseAnonKey.length,
+  keyStart: supabaseAnonKey.substring(0, 10),
+  environment: import.meta.env.MODE,
+  isDev: import.meta.env.DEV,
+  isProd: import.meta.env.PROD
+});
 
-// Validate configuration
-const hasValidUrl = supabaseUrl && supabaseUrl.includes('supabase.co');
-const hasValidKey = supabaseAnonKey && supabaseAnonKey.startsWith('eyJ');
-
-if (!hasValidUrl || !hasValidKey) {
-  console.error('❌ Invalid Supabase configuration detected!');
-  console.error('URL valid:', hasValidUrl);
-  console.error('Key valid:', hasValidKey);
-}
-
-// Create Supabase client
+// Create Supabase client with explicit configuration
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: false, // Disable to prevent URL parsing issues
+    flowType: 'pkce'
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'portfolio-app'
+    }
+  },
+  db: {
+    schema: 'public'
   }
 });
 
@@ -46,27 +51,59 @@ export type AdminUserView = Profile;
 export const supabaseConfig = {
   url: supabaseUrl,
   keyPreview: supabaseAnonKey.substring(0, 20) + '...',
-  hasValidConfig: hasValidUrl && hasValidKey,
-  isProduction,
-  environment: isProduction ? 'production' : 'development'
+  hasValidConfig: true, // Always true since we're using hardcoded values
+  isProduction: import.meta.env.PROD,
+  environment: import.meta.env.MODE
 };
 
-// Debug logging
-console.log('🔧 Supabase Configuration:', {
-  url: supabaseUrl,
-  keyPreview: supabaseAnonKey.substring(0, 20) + '...',
-  isProduction,
-  hasValidConfig: hasValidUrl && hasValidKey,
-  environment: isProduction ? 'production' : 'development'
-});
+// Immediate connection test
+console.log('🔄 Testing Supabase connection...');
 
-// Test connection on initialization
-supabase.auth.getSession().then(({ data, error }) => {
-  if (error) {
-    console.error('❌ Supabase connection test failed:', error.message);
-  } else {
-    console.log('✅ Supabase connection successful');
+// Test the connection immediately
+const testConnection = async () => {
+  try {
+    console.log('🔄 Starting connection test...');
+    
+    // Simple health check
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('count', { count: 'exact', head: true });
+    
+    if (error) {
+      console.error('❌ Supabase connection test failed:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+    } else {
+      console.log('✅ Supabase connection successful!');
+      console.log('📊 Profiles count:', data);
+    }
+  } catch (error) {
+    console.error('❌ Connection test error:', error);
   }
-}).catch((error) => {
-  console.error('❌ Supabase connection error:', error);
-});
+};
+
+// Run test immediately
+testConnection();
+
+// Also test auth
+const testAuth = async () => {
+  try {
+    console.log('🔄 Testing auth connection...');
+    const { data, error } = await supabase.auth.getSession();
+    
+    if (error) {
+      console.error('❌ Auth test failed:', error);
+    } else {
+      console.log('✅ Auth connection successful');
+      console.log('👤 Current session:', data.session ? 'Active' : 'None');
+    }
+  } catch (error) {
+    console.error('❌ Auth test error:', error);
+  }
+};
+
+testAuth();

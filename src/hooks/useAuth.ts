@@ -14,49 +14,53 @@ export function useAuth() {
     let mounted = true;
 
     const initializeAuth = async () => {
-      // Check if Supabase is properly configured
-      if (!supabaseConfig.hasValidConfig) {
-        const errorMsg = 'Supabase-Verbindung konnte nicht hergestellt werden. Bitte versuchen Sie es später erneut.';
-        
-        if (mounted) {
-          setError(errorMsg);
-          setLoading(false);
-          setInitialized(true);
-        }
-        return;
-      }
-
+      console.log('🔄 Initializing auth...');
+      
       try {
-        // Get initial session
-        const { data: { session }, error } = await supabase.auth.getSession();
+        // Get initial session with timeout
+        console.log('📡 Getting session...');
+        
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session timeout')), 10000)
+        );
+        
+        const { data: { session }, error } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ]) as any;
         
         if (error) {
-          console.error('Error getting session:', error);
+          console.error('❌ Error getting session:', error);
           if (mounted) {
-            setError('Fehler beim Laden der Sitzung. Bitte laden Sie die Seite neu.');
+            setError('Fehler beim Laden der Sitzung: ' + error.message);
             setLoading(false);
             setInitialized(true);
           }
           return;
         }
 
+        console.log('✅ Session loaded:', session ? 'Active' : 'None');
+
         if (mounted) {
           setSession(session);
           setUser(session?.user ?? null);
-          setError(null); // Clear any previous errors
+          setError(null);
           
           if (session?.user) {
+            console.log('👤 User found, fetching profile...');
             await fetchProfile(session.user.id);
           } else {
+            console.log('👤 No user session');
             setProfile(null);
             setLoading(false);
           }
           setInitialized(true);
         }
       } catch (error) {
-        console.error('Error initializing auth:', error);
+        console.error('❌ Error initializing auth:', error);
         if (mounted) {
-          setError('Verbindungsfehler. Bitte überprüfen Sie Ihre Internetverbindung.');
+          setError('Verbindungsfehler beim Initialisieren');
           setLoading(false);
           setInitialized(true);
         }
@@ -65,72 +69,76 @@ export function useAuth() {
 
     initializeAuth();
 
-    // Only set up auth listener if Supabase is configured
-    if (supabaseConfig.hasValidConfig) {
-      // Listen for auth changes
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange(async (event, session) => {
-        if (!mounted) return;
+    // Set up auth listener
+    console.log('👂 Setting up auth listener...');
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!mounted) return;
 
-        console.log('Auth state changed:', event, session?.user?.email);
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        setError(null); // Clear any previous errors
-        
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-        } else {
-          setProfile(null);
-          setLoading(false);
-        }
-      });
-
-      return () => {
-        mounted = false;
-        subscription.unsubscribe();
-      };
-    }
+      console.log('🔄 Auth state changed:', event, session?.user?.email);
+      
+      setSession(session);
+      setUser(session?.user ?? null);
+      setError(null);
+      
+      if (session?.user) {
+        await fetchProfile(session.user.id);
+      } else {
+        setProfile(null);
+        setLoading(false);
+      }
+    });
 
     return () => {
       mounted = false;
+      subscription.unsubscribe();
     };
   }, []);
 
   const fetchProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      console.log('📡 Fetching profile for user:', userId);
+      
+      const profilePromise = supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
+        
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Profile fetch timeout')), 8000)
+      );
+      
+      const { data, error } = await Promise.race([
+        profilePromise,
+        timeoutPromise
+      ]) as any;
 
       if (error) {
-        console.error('Error fetching profile:', error);
-        // If profile doesn't exist, create it
+        console.error('❌ Error fetching profile:', error);
         if (error.code === 'PGRST116') {
-          console.log('Profile not found, will be created by trigger');
+          console.log('ℹ️ Profile not found, will be created by trigger');
+          // Wait a bit and try again
+          setTimeout(() => fetchProfile(userId), 2000);
         } else {
-          setError('Fehler beim Laden des Profils.');
+          setError('Fehler beim Laden des Profils');
         }
       } else {
+        console.log('✅ Profile loaded:', data);
         setProfile(data);
         setError(null);
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
-      setError('Verbindungsfehler beim Laden des Profils');
+      console.error('❌ Profile fetch error:', error);
+      setError('Timeout beim Laden des Profils');
     } finally {
       setLoading(false);
     }
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Verbindungsfehler. Bitte versuchen Sie es später erneut.') };
-    }
-
+    console.log('📝 Signing up user:', email);
     setLoading(true);
     setError(null);
     
@@ -146,11 +154,15 @@ export function useAuth() {
       });
       
       if (error) {
+        console.error('❌ Sign up error:', error);
         setError('Registrierungsfehler: ' + error.message);
+      } else {
+        console.log('✅ Sign up successful');
       }
       
       return { data, error };
     } catch (error) {
+      console.error('❌ Sign up exception:', error);
       const errorMsg = 'Verbindungsfehler bei der Registrierung';
       setError(errorMsg);
       return { data: null, error: new Error(errorMsg) };
@@ -160,10 +172,7 @@ export function useAuth() {
   };
 
   const signIn = async (email: string, password: string) => {
-    if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Verbindungsfehler. Bitte versuchen Sie es später erneut.') };
-    }
-
+    console.log('🔑 Signing in user:', email);
     setLoading(true);
     setError(null);
     
@@ -174,11 +183,15 @@ export function useAuth() {
       });
       
       if (error) {
+        console.error('❌ Sign in error:', error);
         setError('Anmeldefehler: ' + error.message);
+      } else {
+        console.log('✅ Sign in successful');
       }
       
       return { data, error };
     } catch (error) {
+      console.error('❌ Sign in exception:', error);
       const errorMsg = 'Verbindungsfehler bei der Anmeldung';
       setError(errorMsg);
       return { data: null, error: new Error(errorMsg) };
@@ -188,10 +201,7 @@ export function useAuth() {
   };
 
   const signOut = async () => {
-    if (!supabaseConfig.hasValidConfig) {
-      return { error: new Error('Verbindungsfehler') };
-    }
-
+    console.log('🚪 Signing out user');
     setLoading(true);
     setError(null);
     
@@ -201,11 +211,14 @@ export function useAuth() {
         setUser(null);
         setProfile(null);
         setSession(null);
+        console.log('✅ Sign out successful');
       } else {
+        console.error('❌ Sign out error:', error);
         setError('Abmeldefehler: ' + error.message);
       }
       return { error };
     } catch (error) {
+      console.error('❌ Sign out exception:', error);
       const errorMsg = 'Verbindungsfehler bei der Abmeldung';
       setError(errorMsg);
       return { error: new Error(errorMsg) };
@@ -216,9 +229,6 @@ export function useAuth() {
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('Kein Benutzer angemeldet') };
-    if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Verbindungsfehler') };
-    }
 
     try {
       const { data, error } = await supabase
@@ -259,6 +269,6 @@ export function useAuth() {
     signIn,
     signOut,
     updateProfile,
-    hasValidConfig: supabaseConfig.hasValidConfig,
+    hasValidConfig: true, // Always true now
   };
 }

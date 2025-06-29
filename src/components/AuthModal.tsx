@@ -17,26 +17,24 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const { signIn, signUp, hasValidConfig } = useAuth();
+  const { signIn, signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!hasValidConfig) {
-      setError('Supabase ist nicht konfiguriert. Bitte kontaktieren Sie den Administrator.');
-      return;
-    }
-
     setLoading(true);
     setError('');
     setSuccess('');
 
     try {
       if (isLogin) {
+        console.log('🔑 Attempting login for:', email);
         const { error } = await signIn(email, password);
         if (error) {
+          console.error('❌ Login failed:', error);
           setError(error.message);
         } else {
+          console.log('✅ Login successful');
           setSuccess('Erfolgreich angemeldet!');
           setTimeout(() => {
             onClose();
@@ -44,10 +42,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           }, 1000);
         }
       } else {
+        console.log('📝 Attempting registration for:', email);
         const { error } = await signUp(email, password, fullName);
         if (error) {
+          console.error('❌ Registration failed:', error);
           setError(error.message);
         } else {
+          console.log('✅ Registration successful');
           setSuccess('Registrierung erfolgreich! Bitte überprüfen Sie Ihre E-Mail.');
           setTimeout(() => {
             setIsLogin(true);
@@ -56,6 +57,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         }
       }
     } catch (err) {
+      console.error('❌ Auth error:', err);
       setError('Ein unerwarteter Fehler ist aufgetreten.');
     } finally {
       setLoading(false);
@@ -82,36 +84,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   };
 
   if (!isOpen) return null;
-
-  // Show configuration error if Supabase is not configured
-  if (!hasValidConfig) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose}></div>
-        <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
-          <div className="bg-red-600 px-6 py-4 text-white">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <AlertTriangle className="h-6 w-6" />
-                <h2 className="text-xl font-bold">Konfigurationsfehler</h2>
-              </div>
-              <button onClick={handleClose} className="p-1 hover:bg-white/20 rounded-full transition-colors duration-200">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-          <div className="p-6">
-            <p className="text-slate-600 mb-4">
-              Die Anwendung ist nicht korrekt konfiguriert. Supabase-Umgebungsvariablen fehlen.
-            </p>
-            <p className="text-sm text-slate-500">
-              Bitte kontaktieren Sie den Administrator oder konfigurieren Sie die .env Datei.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -142,7 +114,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <div className="p-6">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-fade-in-up">
-              {error}
+              <div className="flex items-center space-x-2">
+                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
             </div>
           )}
 
