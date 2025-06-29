@@ -296,16 +296,18 @@ export function useAuth() {
     console.log('🗑️ Deleting account for user:', user.email);
 
     try {
-      // Use the new delete_user function that handles both auth and profile deletion
-      console.log('🗑️ Calling complete user deletion function...');
+      // Use the corrected delete_user function (no parameters)
+      console.log('🗑️ Calling delete_user function...');
+      
+      // Call the function without any parameters
       const { error } = await supabase.rpc('delete_user');
 
       if (error) {
-        console.error('❌ Complete user deletion error:', error);
+        console.error('❌ User deletion error:', error);
         return { error: new Error('Fehler beim Löschen des Kontos: ' + error.message) };
       }
 
-      console.log('✅ Complete account deletion successful');
+      console.log('✅ Account deletion successful');
 
       // Clear local state
       setUser(null);
