@@ -7,6 +7,7 @@ import ProfileEdit from './ProfileEdit';
 const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileEdit, setShowProfileEdit] = useState(false);
+  const [profileEditTab, setProfileEditTab] = useState('profile');
   const { user, profile, signOut, isAdmin } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +28,13 @@ const UserMenu: React.FC = () => {
   };
 
   const handleProfileEdit = () => {
+    setProfileEditTab('profile');
+    setShowProfileEdit(true);
+    setIsOpen(false);
+  };
+
+  const handleSettings = () => {
+    setProfileEditTab('settings');
     setShowProfileEdit(true);
     setIsOpen(false);
   };
@@ -123,7 +131,10 @@ const UserMenu: React.FC = () => {
                 <span className="font-medium">Profil bearbeiten</span>
               </button>
               
-              <button className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors duration-200 group">
+              <button 
+                onClick={handleSettings}
+                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors duration-200 group"
+              >
                 <Settings className="h-5 w-5 text-slate-400 group-hover:text-purple-600 transition-colors duration-200" />
                 <span className="font-medium">Einstellungen</span>
               </button>
@@ -160,7 +171,8 @@ const UserMenu: React.FC = () => {
       {/* Profile Edit Modal */}
       <ProfileEdit 
         isOpen={showProfileEdit} 
-        onClose={() => setShowProfileEdit(false)} 
+        onClose={() => setShowProfileEdit(false)}
+        initialTab={profileEditTab}
       />
     </>
   );

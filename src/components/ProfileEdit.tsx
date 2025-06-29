@@ -21,16 +21,24 @@ import { useAuth } from '../hooks/useAuth';
 interface ProfileEditProps {
   isOpen: boolean;
   onClose: () => void;
+  initialTab?: string;
 }
 
-const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
+const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab = 'profile' }) => {
   const { user, profile, updateProfile, updatePassword, deleteAccount } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Update active tab when initialTab prop changes
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(initialTab);
+    }
+  }, [isOpen, initialTab]);
 
   // Profile form state - sync with actual profile data
   const [formData, setFormData] = useState({
@@ -244,7 +252,11 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
         <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-6 py-4 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <h2 className="text-xl font-bold">Profil bearbeiten</h2>
+              <h2 className="text-xl font-bold">
+                {activeTab === 'profile' && 'Profil bearbeiten'}
+                {activeTab === 'security' && 'Sicherheitseinstellungen'}
+                {activeTab === 'settings' && 'Einstellungen'}
+              </h2>
               {/* Show current profile info in header */}
               <div className="flex items-center space-x-2 text-white/80">
                 {formData.avatar_url ? (
