@@ -14,7 +14,10 @@ import {
   Calendar,
   AlertTriangle,
   CheckCircle,
-  X
+  X,
+  Activity,
+  TrendingUp,
+  TrendingDown
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
@@ -30,6 +33,8 @@ const AdminConsole: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [securityData, setSecurityData] = useState<any[]>([]);
+  const [securityLoading, setSecurityLoading] = useState(false);
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -39,6 +44,36 @@ const AdminConsole: React.FC = () => {
                          (filterRole === 'user' && !user.is_admin);
     return matchesSearch && matchesFilter;
   });
+
+  // Load security dashboard data (only for admins)
+  const loadSecurityData = async () => {
+    if (!profile?.is_admin) return;
+    
+    setSecurityLoading(true);
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const { data, error } = await supabase
+        .from('security_dashboard')
+        .select('*');
+      
+      if (error) {
+        console.error('Error loading security data:', error);
+      } else {
+        setSecurityData(data || []);
+      }
+    } catch (err) {
+      console.error('Error loading security dashboard:', err);
+    } finally {
+      setSecurityLoading(false);
+    }
+  };
+
+  // Load security data on component mount
+  React.useEffect(() => {
+    if (profile?.is_admin) {
+      loadSecurityData();
+    }
+  }, [profile?.is_admin]);
 
   const handlePromoteToAdmin = async (userId: string) => {
     setActionLoading(userId);
@@ -97,6 +132,22 @@ const AdminConsole: React.FC = () => {
     return email?.charAt(0).toUpperCase() || 'U';
   };
 
+  const getSecurityMetricIcon = (metric: string, alertLevel: string) => {
+    if (metric.includes('Failed')) {
+      return alertLevel === 'error' ? TrendingUp : alertLevel === 'warning' ? TrendingUp : TrendingDown;
+    }
+    return Activity;
+  };
+
+  const getSecurityMetricColor = (alertLevel: string) => {
+    switch (alertLevel) {
+      case 'error': return 'text-red-600 bg-red-100';
+      case 'warning': return 'text-yellow-600 bg-yellow-100';
+      case 'success': return 'text-green-600 bg-green-100';
+      default: return 'text-blue-600 bg-blue-100';
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -137,6 +188,43 @@ const AdminConsole: React.FC = () => {
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center space-x-2">
             <AlertTriangle className="h-5 w-5 flex-shrink-0" />
             <span>{error || actionError}</span>
+          </div>
+        )}
+
+        {/* Security Dashboard */}
+        {profile?.is_admin && (
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-slate-900">Sicherheits-Dashboard</h2>
+              <button
+                onClick={loadSecurityData}
+                disabled={securityLoading}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 disabled:opacity-50"
+              >
+                {securityLoading ? 'Lädt...' : 'Aktualisieren'}
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              {securityData.map((item, index) => {
+                const IconComponent = getSecurityMetricIcon(item.metric, item.alert_level);
+                const colorClass = getSecurityMetricColor(item.alert_level);
+                
+                return (
+                  <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+                    <div className="flex items-center space-x-3">
+                      <div className={`p-2 rounded-lg ${colorClass}`}>
+                        <IconComponent className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-600">{item.metric}</p>
+                        <p className="text-2xl font-bold text-slate-900">{item.value}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
