@@ -69,13 +69,13 @@ const testConnection = async () => {
   try {
     console.log('🔄 Starting optimized connection test...');
     
-    // Simple health check with timeout
+    // Simple health check with increased timeout
     const healthPromise = supabase
       .from('profiles')
       .select('count', { count: 'exact', head: true });
     
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Connection timeout')), 8000)
+      setTimeout(() => reject(new Error('Connection timeout')), 20000) // Increased from 8000ms to 20000ms
     );
     
     const { data, error } = await Promise.race([
@@ -110,7 +110,7 @@ const testAuth = async () => {
     
     const authPromise = supabase.auth.getSession();
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Auth timeout')), 6000)
+      setTimeout(() => reject(new Error('Auth timeout')), 15000) // Increased from 6000ms to 15000ms
     );
     
     const { data, error } = await Promise.race([
