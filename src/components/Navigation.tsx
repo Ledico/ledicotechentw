@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User, LogIn, AlertTriangle, Loader } from 'lucide-react';
+import { Menu, X, User, LogIn, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import AuthModal from './AuthModal';
 import UserMenu from './UserMenu';
@@ -62,11 +62,11 @@ const Navigation = () => {
                 </button>
               ))}
               
-              {/* Auth Section with improved loading state */}
+              {/* Auth Section */}
               <div className="flex items-center">
                 {loading ? (
                   <div className="flex items-center space-x-2">
-                    <Loader className={`w-5 h-5 animate-spin ${scrolled ? 'text-purple-600' : 'text-white'}`} />
+                    <div className="w-6 h-6 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
                     <span className={`text-sm ${scrolled ? 'text-slate-600' : 'text-white/80'}`}>
                       Lädt...
                     </span>
@@ -121,7 +121,7 @@ const Navigation = () => {
                 <div className="pt-2 border-t border-slate-200">
                   {loading ? (
                     <div className="px-3 py-2 flex items-center space-x-2">
-                      <Loader className="w-4 h-4 animate-spin text-purple-600" />
+                      <div className="w-4 h-4 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
                       <span className="text-slate-600">Lädt...</span>
                     </div>
                   ) : error ? (

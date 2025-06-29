@@ -17,7 +17,7 @@ console.log('🔧 Supabase Configuration Debug:', {
   isProd: import.meta.env.PROD
 });
 
-// Create Supabase client with optimized configuration
+// Create Supabase client with explicit configuration
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
@@ -32,12 +32,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
   db: {
     schema: 'public'
-  },
-  // Add realtime configuration for better performance
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
   }
 });
 
@@ -62,26 +56,18 @@ export const supabaseConfig = {
   environment: import.meta.env.MODE
 };
 
-// Optimized connection test with better error handling
+// Immediate connection test
 console.log('🔄 Testing Supabase connection...');
 
+// Test the connection immediately
 const testConnection = async () => {
   try {
-    console.log('🔄 Starting optimized connection test...');
+    console.log('🔄 Starting connection test...');
     
-    // Simple health check with timeout
-    const healthPromise = supabase
+    // Simple health check
+    const { data, error } = await supabase
       .from('profiles')
       .select('count', { count: 'exact', head: true });
-    
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Connection timeout')), 8000)
-    );
-    
-    const { data, error } = await Promise.race([
-      healthPromise,
-      timeoutPromise
-    ]) as any;
     
     if (error) {
       console.error('❌ Supabase connection test failed:', error);
@@ -93,30 +79,21 @@ const testConnection = async () => {
       });
     } else {
       console.log('✅ Supabase connection successful!');
-      console.log('📊 Connection verified');
+      console.log('📊 Profiles count:', data);
     }
   } catch (error) {
     console.error('❌ Connection test error:', error);
   }
 };
 
-// Run test with delay to avoid blocking
-setTimeout(testConnection, 1000);
+// Run test immediately
+testConnection();
 
-// Also test auth with better error handling
+// Also test auth
 const testAuth = async () => {
   try {
     console.log('🔄 Testing auth connection...');
-    
-    const authPromise = supabase.auth.getSession();
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Auth timeout')), 6000)
-    );
-    
-    const { data, error } = await Promise.race([
-      authPromise,
-      timeoutPromise
-    ]) as any;
+    const { data, error } = await supabase.auth.getSession();
     
     if (error) {
       console.error('❌ Auth test failed:', error);
@@ -129,5 +106,4 @@ const testAuth = async () => {
   }
 };
 
-// Test auth with delay
-setTimeout(testAuth, 1500);
+testAuth();
