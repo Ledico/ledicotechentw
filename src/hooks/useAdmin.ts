@@ -101,27 +101,17 @@ export function useAdmin() {
       throw new Error('Keine Berechtigung für Admin-Funktionen');
     }
 
-    console.log('🗑️ Admin deleting user:', userId);
+    const { error } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', userId);
 
-    try {
-      // Use the corrected admin_delete_user function with user_id parameter
-      const { error } = await supabase.rpc('admin_delete_user', {
-        user_id: userId  // Changed from target_user_id to user_id
-      });
-
-      if (error) {
-        console.error('❌ Admin user deletion failed:', error);
-        throw new Error(error.message);
-      }
-
-      console.log('✅ Admin user deletion successful');
-      
-      // Refresh users list
-      await fetchUsers();
-    } catch (error) {
-      console.error('❌ Admin user deletion exception:', error);
-      throw error;
+    if (error) {
+      throw new Error(error.message);
     }
+
+    // Refresh users list
+    await fetchUsers();
   };
 
   useEffect(() => {
