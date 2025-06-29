@@ -22,7 +22,7 @@ export function useAuth() {
         
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout')), 30000) // Increased from 15000ms to 30000ms
+          setTimeout(() => reject(new Error('Session timeout')), 15000) // Increased to 15 seconds
         );
         
         const { data: { session }, error } = await Promise.race([
@@ -98,7 +98,7 @@ export function useAuth() {
 
   const fetchProfile = async (userId: string, retryCount = 0) => {
     const maxRetries = 3;
-    const timeoutDuration = 25000; // Increased from 12000ms to 25000ms
+    const timeoutDuration = 12000; // 12 seconds timeout
     
     try {
       console.log(`📡 Fetching profile for user: ${userId} (attempt ${retryCount + 1})`);
