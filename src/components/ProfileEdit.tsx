@@ -10,7 +10,6 @@ import {
   Mail, 
   Globe, 
   Trash2,
-  Activity,
   Settings,
   Upload,
   AlertTriangle,
@@ -224,11 +223,11 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  // Removed Activity tab from tabs array
   const tabs = [
     { id: 'profile', label: 'Profil', icon: User },
     { id: 'security', label: 'Sicherheit', icon: Lock },
     { id: 'settings', label: 'Einstellungen', icon: Settings },
-    { id: 'activity', label: 'Aktivität', icon: Activity },
   ];
 
   return (
@@ -506,99 +505,8 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                     <li>• Teilen Sie Ihr Passwort niemals mit anderen</li>
                   </ul>
                 </div>
-              </div>
-            )}
 
-            {/* Settings Tab */}
-            {activeTab === 'settings' && (
-              <div className="animate-fade-in-up">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">Einstellungen</h3>
-                
-                <div className="space-y-6">
-                  {/* Language */}
-                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <Globe className="h-5 w-5 text-slate-600" />
-                      <h4 className="text-lg font-semibold text-slate-900">Sprache</h4>
-                    </div>
-                    <select
-                      value={settings.language}
-                      onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    >
-                      <option value="de">Deutsch</option>
-                      <option value="en">English</option>
-                      <option value="fr">Français</option>
-                    </select>
-                  </div>
-
-                  {/* Theme */}
-                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <Settings className="h-5 w-5 text-slate-600" />
-                      <h4 className="text-lg font-semibold text-slate-900">Design</h4>
-                    </div>
-                    <select
-                      value={settings.theme}
-                      onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    >
-                      <option value="light">Hell</option>
-                      <option value="dark">Dunkel</option>
-                      <option value="auto">Automatisch</option>
-                    </select>
-                  </div>
-
-                  {/* Privacy Info */}
-                  <div className="p-6 bg-green-50 rounded-lg border border-green-200">
-                    <h4 className="text-lg font-semibold text-green-900 mb-2">Datenschutz</h4>
-                    <p className="text-green-800 text-sm">
-                      Ihre Daten werden sicher gespeichert und niemals an Dritte weitergegeben. 
-                      Wir verwenden moderne Verschlüsselungstechnologien zum Schutz Ihrer Informationen.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Activity Tab */}
-            {activeTab === 'activity' && (
-              <div className="animate-fade-in-up">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">Konto-Aktivität</h3>
-                
-                <div className="space-y-4">
-                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <div>
-                        <p className="font-medium text-slate-900">Anmeldung erfolgreich</p>
-                        <p className="text-sm text-slate-600">Heute um 14:30</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <div>
-                        <p className="font-medium text-slate-900">Profil aktualisiert</p>
-                        <p className="text-sm text-slate-600">Gestern um 16:45</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                      <div>
-                        <p className="font-medium text-slate-900">Konto erstellt</p>
-                        <p className="text-sm text-slate-600">Vor 3 Tagen</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Danger Zone */}
+                {/* Danger Zone - Moved to Security Tab */}
                 <div className="mt-8 p-6 bg-red-50 rounded-lg border border-red-200">
                   <div className="flex items-center space-x-3 mb-4">
                     <Trash2 className="h-5 w-5 text-red-600" />
@@ -657,6 +565,58 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                       </div>
                     </div>
                   )}
+                </div>
+              </div>
+            )}
+
+            {/* Settings Tab */}
+            {activeTab === 'settings' && (
+              <div className="animate-fade-in-up">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Einstellungen</h3>
+                
+                <div className="space-y-6">
+                  {/* Language */}
+                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Globe className="h-5 w-5 text-slate-600" />
+                      <h4 className="text-lg font-semibold text-slate-900">Sprache</h4>
+                    </div>
+                    <select
+                      value={settings.language}
+                      onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="de">Deutsch</option>
+                      <option value="en">English</option>
+                      <option value="fr">Français</option>
+                    </select>
+                  </div>
+
+                  {/* Theme */}
+                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Settings className="h-5 w-5 text-slate-600" />
+                      <h4 className="text-lg font-semibold text-slate-900">Design</h4>
+                    </div>
+                    <select
+                      value={settings.theme}
+                      onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="light">Hell</option>
+                      <option value="dark">Dunkel</option>
+                      <option value="auto">Automatisch</option>
+                    </select>
+                  </div>
+
+                  {/* Privacy Info */}
+                  <div className="p-6 bg-green-50 rounded-lg border border-green-200">
+                    <h4 className="text-lg font-semibold text-green-900 mb-2">Datenschutz</h4>
+                    <p className="text-green-800 text-sm">
+                      Ihre Daten werden sicher gespeichert und niemals an Dritte weitergegeben. 
+                      Wir verwenden moderne Verschlüsselungstechnologien zum Schutz Ihrer Informationen.
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
