@@ -101,11 +101,17 @@ export function useAuth() {
     return { data, error };
   };
 
+  // Check if current user is admin
+  const isAdmin = () => {
+    return profile?.is_admin || false;
+  };
+
   return {
     user,
     profile,
     session,
     loading,
+    isAdmin: isAdmin(),
     signUp,
     signIn,
     signOut,

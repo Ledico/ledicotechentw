@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
+import { User, Settings, LogOut, ChevronDown, Shield, Crown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isAdmin } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,6 +58,12 @@ const UserMenu: React.FC = () => {
             </div>
           )}
           <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+          {/* Admin Crown */}
+          {isAdmin && (
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+              <Crown className="h-2 w-2 text-yellow-800" />
+            </div>
+          )}
         </div>
 
         {/* Name and chevron */}
@@ -84,8 +91,16 @@ const UserMenu: React.FC = () => {
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold truncate">{getDisplayName()}</p>
+                <div className="flex items-center space-x-2">
+                  <p className="font-semibold truncate">{getDisplayName()}</p>
+                  {isAdmin && (
+                    <Crown className="h-4 w-4 text-yellow-300 flex-shrink-0" title="Administrator" />
+                  )}
+                </div>
                 <p className="text-sm text-white/80 truncate">{user?.email}</p>
+                {isAdmin && (
+                  <p className="text-xs text-yellow-200 font-medium">Administrator</p>
+                )}
               </div>
             </div>
           </div>
@@ -101,6 +116,21 @@ const UserMenu: React.FC = () => {
               <Settings className="h-5 w-5 text-slate-400 group-hover:text-purple-600 transition-colors duration-200" />
               <span className="font-medium">Einstellungen</span>
             </button>
+
+            {/* Admin Console Link */}
+            {isAdmin && (
+              <>
+                <hr className="my-2 border-slate-200" />
+                <Link
+                  to="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center space-x-3 px-4 py-3 text-purple-700 hover:bg-purple-50 transition-colors duration-200 group"
+                >
+                  <Shield className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                  <span className="font-medium">Admin-Konsole</span>
+                </Link>
+              </>
+            )}
 
             <hr className="my-2 border-slate-200" />
 

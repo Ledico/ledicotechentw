@@ -14,6 +14,17 @@ export type Profile = {
   email: string;
   full_name?: string;
   avatar_url?: string;
+  is_admin: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminUserView = {
+  id: string;
+  email: string;
+  full_name?: string;
+  avatar_url?: string;
+  is_admin: boolean;
   created_at: string;
   updated_at: string;
 };
