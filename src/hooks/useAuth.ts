@@ -230,23 +230,36 @@ export function useAuth() {
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('Kein Benutzer angemeldet') };
 
+    console.log('🔄 Updating profile:', updates);
+
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .update(updates)
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
         .eq('id', user.id)
         .select()
         .single();
 
       if (!error && data) {
+        console.log('✅ Profile updated successfully:', data);
         setProfile(data);
         setError(null);
+        
+        // Force a re-fetch to ensure we have the latest data
+        setTimeout(() => {
+          fetchProfile(user.id);
+        }, 500);
       } else if (error) {
+        console.error('❌ Profile update error:', error);
         setError('Fehler beim Aktualisieren des Profils: ' + error.message);
       }
 
       return { data, error };
     } catch (error) {
+      console.error('❌ Profile update exception:', error);
       const errorMsg = 'Verbindungsfehler beim Aktualisieren des Profils';
       setError(errorMsg);
       return { data: null, error: new Error(errorMsg) };

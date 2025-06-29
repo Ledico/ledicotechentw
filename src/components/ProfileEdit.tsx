@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   User, 
   Camera, 
@@ -34,11 +34,21 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('profile');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Profile form state
+  // Profile form state - sync with actual profile data
   const [formData, setFormData] = useState({
-    full_name: profile?.full_name || '',
-    avatar_url: profile?.avatar_url || '',
+    full_name: '',
+    avatar_url: '',
   });
+
+  // Sync form data with profile when profile changes or modal opens
+  useEffect(() => {
+    if (isOpen && profile) {
+      setFormData({
+        full_name: profile.full_name || '',
+        avatar_url: profile.avatar_url || '',
+      });
+    }
+  }, [isOpen, profile]);
 
   // Password form state
   const [passwordData, setPasswordData] = useState({
@@ -119,9 +129,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
       // In a real app, you'd upload to Supabase Storage
       const reader = new FileReader();
       reader.onload = (event) => {
+        const newAvatarUrl = event.target?.result as string;
         setFormData(prev => ({
           ...prev,
-          avatar_url: event.target?.result as string
+          avatar_url: newAvatarUrl
         }));
       };
       reader.readAsDataURL(file);
@@ -153,6 +164,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
       .slice(0, 2);
   };
 
+  // Reset form when modal closes
+  const handleClose = () => {
+    setError('');
+    setSuccess('');
+    setActiveTab('profile');
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   const tabs = [
@@ -167,7 +186,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
       ></div>
       
       {/* Modal */}
@@ -175,9 +194,28 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-6 py-4 text-white">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Profil bearbeiten</h2>
+            <div className="flex items-center space-x-3">
+              <h2 className="text-xl font-bold">Profil bearbeiten</h2>
+              {/* Show current profile info in header */}
+              <div className="flex items-center space-x-2 text-white/80">
+                {formData.avatar_url ? (
+                  <img
+                    src={formData.avatar_url}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-white/30"
+                  />
+                ) : (
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                    {getInitials(formData.full_name)}
+                  </div>
+                )}
+                <span className="text-sm font-medium">
+                  {formData.full_name || user?.email?.split('@')[0] || 'Benutzer'}
+                </span>
+              </div>
+            </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="p-1 hover:bg-white/20 rounded-full transition-colors duration-200"
             >
               <X className="h-5 w-5" />
@@ -250,7 +288,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="absolute -bottom-2 -right-2 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors duration-200 shadow-lg"
+                        className="absolute -bottom-2 -right-2 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors duration-200 shadow-lg hover:scale-110"
                       >
                         <Camera className="h-4 w-4" />
                       </button>
@@ -261,7 +299,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="mt-2 flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors duration-200"
+                        className="mt-2 flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors duration-200 hover:scale-105"
                       >
                         <Upload className="h-4 w-4" />
                         <span>Bild hochladen</span>
