@@ -266,6 +266,30 @@ export function useAuth() {
     }
   };
 
+  const updatePassword = async (newPassword: string) => {
+    if (!user) return { error: new Error('Kein Benutzer angemeldet') };
+
+    console.log('🔐 Updating password for user:', user.email);
+
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) {
+        console.error('❌ Password update error:', error);
+        return { error };
+      } else {
+        console.log('✅ Password updated successfully');
+        return { data, error: null };
+      }
+    } catch (error) {
+      console.error('❌ Password update exception:', error);
+      const errorMsg = 'Verbindungsfehler beim Ändern des Passworts';
+      return { data: null, error: new Error(errorMsg) };
+    }
+  };
+
   // Check if current user is admin
   const isAdmin = () => {
     return profile?.is_admin || false;
@@ -282,6 +306,7 @@ export function useAuth() {
     signIn,
     signOut,
     updateProfile,
+    updatePassword,
     hasValidConfig: true, // Always true now
   };
 }

@@ -25,7 +25,7 @@ interface ProfileEditProps {
 }
 
 const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
-  const { user, profile, updateProfile, signOut } = useAuth();
+  const { user, profile, updateProfile, updatePassword, signOut } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -41,16 +41,19 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
   // Sync form data with profile when profile changes or modal opens
   useEffect(() => {
     if (isOpen && profile) {
+      console.log('🔄 Syncing form data with profile:', profile);
       setFormData({
         full_name: profile.full_name || '',
         avatar_url: profile.avatar_url || '',
       });
+      // Clear any previous messages
+      setError('');
+      setSuccess('');
     }
   }, [isOpen, profile]);
 
   // Password form state
   const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
@@ -62,7 +65,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
   });
 
   const [showPasswords, setShowPasswords] = useState({
-    current: false,
     new: false,
     confirm: false,
   });
@@ -74,14 +76,18 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
     setSuccess('');
 
     try {
+      console.log('💾 Submitting profile update:', formData);
       const { error } = await updateProfile(formData);
       if (error) {
+        console.error('❌ Profile update failed:', error);
         setError(error.message);
       } else {
+        console.log('✅ Profile update successful');
         setSuccess('Profil erfolgreich aktualisiert!');
         setTimeout(() => setSuccess(''), 3000);
       }
     } catch (err) {
+      console.error('❌ Profile update exception:', err);
       setError('Fehler beim Aktualisieren des Profils');
     } finally {
       setLoading(false);
@@ -106,13 +112,20 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
     setSuccess('');
 
     try {
-      // Here you would implement password change via Supabase
-      // For now, we'll simulate it
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccess('Passwort erfolgreich geändert!');
-      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-      setTimeout(() => setSuccess(''), 3000);
+      console.log('🔐 Submitting password change');
+      const { error } = await updatePassword(passwordData.newPassword);
+      
+      if (error) {
+        console.error('❌ Password change failed:', error);
+        setError('Fehler beim Ändern des Passworts: ' + error.message);
+      } else {
+        console.log('✅ Password change successful');
+        setSuccess('Passwort erfolgreich geändert!');
+        setPasswordData({ newPassword: '', confirmPassword: '' });
+        setTimeout(() => setSuccess(''), 3000);
+      }
     } catch (err) {
+      console.error('❌ Password change exception:', err);
       setError('Fehler beim Ändern des Passworts');
     } finally {
       setLoading(false);
@@ -122,14 +135,33 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Check file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setError('Datei ist zu groß. Maximale Größe: 2MB');
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        setError('Nur Bilddateien sind erlaubt');
+        return;
+      }
+
+      console.log('📷 Processing image upload:', file.name);
+      
       // In a real app, you'd upload to Supabase Storage
       const reader = new FileReader();
       reader.onload = (event) => {
         const newAvatarUrl = event.target?.result as string;
+        console.log('✅ Image processed, updating form data');
         setFormData(prev => ({
           ...prev,
           avatar_url: newAvatarUrl
         }));
+        setError(''); // Clear any previous errors
+      };
+      reader.onerror = () => {
+        setError('Fehler beim Laden des Bildes');
       };
       reader.readAsDataURL(file);
     }
@@ -165,6 +197,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
     setError('');
     setSuccess('');
     setActiveTab('profile');
+    setPasswordData({ newPassword: '', confirmPassword: '' });
     onClose();
   };
 
@@ -374,30 +407,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                 
                 <form onSubmit={handlePasswordSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="currentPassword" className="block text-sm font-medium text-slate-700 mb-2">
-                      Aktuelles Passwort
-                    </label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
-                      <input
-                        type={showPasswords.current ? 'text' : 'password'}
-                        id="currentPassword"
-                        value={passwordData.currentPassword}
-                        onChange={(e) => setPasswordData(prev => ({ ...prev, currentPassword: e.target.value }))}
-                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                        placeholder="Aktuelles Passwort"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPasswords(prev => ({ ...prev, current: !prev.current }))}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
-                      >
-                        {showPasswords.current ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
                     <label htmlFor="newPassword" className="block text-sm font-medium text-slate-700 mb-2">
                       Neues Passwort
                     </label>
@@ -410,6 +419,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                         onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
                         className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                         placeholder="Neues Passwort"
+                        required
                       />
                       <button
                         type="button"
@@ -434,6 +444,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                         onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
                         className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                         placeholder="Passwort bestätigen"
+                        required
                       />
                       <button
                         type="button"
@@ -447,7 +458,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
 
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || !passwordData.newPassword || !passwordData.confirmPassword}
                     className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
                     {loading ? (
@@ -469,7 +480,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                   <h4 className="text-lg font-semibold text-blue-900 mb-2">Sicherheitshinweise</h4>
                   <ul className="text-blue-800 text-sm space-y-1">
                     <li>• Verwenden Sie ein starkes, einzigartiges Passwort</li>
-                    <li>• Passwort sollte mindestens 8 Zeichen lang sein</li>
+                    <li>• Passwort sollte mindestens 6 Zeichen lang sein</li>
                     <li>• Kombinieren Sie Groß- und Kleinbuchstaben, Zahlen und Symbole</li>
                     <li>• Teilen Sie Ihr Passwort niemals mit anderen</li>
                   </ul>
