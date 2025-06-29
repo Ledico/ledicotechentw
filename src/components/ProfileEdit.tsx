@@ -1,0 +1,562 @@
+import React, { useState, useRef } from 'react';
+import { 
+  User, 
+  Camera, 
+  Save, 
+  X, 
+  Eye, 
+  EyeOff, 
+  Lock, 
+  Mail, 
+  Bell, 
+  Globe, 
+  Trash2,
+  Shield,
+  Activity,
+  Settings,
+  Upload,
+  AlertTriangle,
+  CheckCircle,
+  Loader
+} from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+
+interface ProfileEditProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
+  const { user, profile, updateProfile, signOut } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [activeTab, setActiveTab] = useState('profile');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Profile form state
+  const [formData, setFormData] = useState({
+    full_name: profile?.full_name || '',
+    avatar_url: profile?.avatar_url || '',
+  });
+
+  // Password form state
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+
+  // Settings state
+  const [settings, setSettings] = useState({
+    emailNotifications: true,
+    language: 'de',
+    theme: 'light',
+    twoFactorEnabled: false,
+  });
+
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const handleProfileSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const { error } = await updateProfile(formData);
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess('Profil erfolgreich aktualisiert!');
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err) {
+      setError('Fehler beim Aktualisieren des Profils');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setError('Passwörter stimmen nicht überein');
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      setError('Passwort muss mindestens 6 Zeichen lang sein');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      // Here you would implement password change via Supabase
+      // For now, we'll simulate it
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess('Passwort erfolgreich geändert!');
+      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (err) {
+      setError('Fehler beim Ändern des Passworts');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // In a real app, you'd upload to Supabase Storage
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setFormData(prev => ({
+          ...prev,
+          avatar_url: event.target?.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm('Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+      setLoading(true);
+      try {
+        // Implement account deletion
+        await signOut();
+        onClose();
+      } catch (err) {
+        setError('Fehler beim Löschen des Kontos');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const getInitials = (name?: string) => {
+    if (!name) return user?.email?.charAt(0).toUpperCase() || 'U';
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  if (!isOpen) return null;
+
+  const tabs = [
+    { id: 'profile', label: 'Profil', icon: User },
+    { id: 'security', label: 'Sicherheit', icon: Lock },
+    { id: 'settings', label: 'Einstellungen', icon: Settings },
+    { id: 'activity', label: 'Aktivität', icon: Activity },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+      
+      {/* Modal */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden animate-bounce-in">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-6 py-4 text-white">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold">Profil bearbeiten</h2>
+            <button
+              onClick={onClose}
+              className="p-1 hover:bg-white/20 rounded-full transition-colors duration-200"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex h-[600px]">
+          {/* Sidebar */}
+          <div className="w-64 bg-slate-50 border-r border-slate-200 p-4">
+            <div className="space-y-2">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'bg-purple-100 text-purple-700 border border-purple-200'
+                      : 'text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  <tab.icon className="h-5 w-5" />
+                  <span className="font-medium">{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 p-6 overflow-y-auto">
+            {/* Error/Success Messages */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-fade-in-up">
+                <div className="flex items-center space-x-2">
+                  <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                  <span>{error}</span>
+                </div>
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm animate-fade-in-up">
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-4 w-4 flex-shrink-0" />
+                  <span>{success}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Profile Tab */}
+            {activeTab === 'profile' && (
+              <div className="animate-fade-in-up">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Profil-Informationen</h3>
+                
+                <form onSubmit={handleProfileSubmit} className="space-y-6">
+                  {/* Avatar Section */}
+                  <div className="flex items-center space-x-6">
+                    <div className="relative">
+                      {formData.avatar_url ? (
+                        <img
+                          src={formData.avatar_url}
+                          alt="Profile"
+                          className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                        />
+                      ) : (
+                        <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-lg">
+                          {getInitials(formData.full_name)}
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="absolute -bottom-2 -right-2 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center hover:bg-purple-700 transition-colors duration-200 shadow-lg"
+                      >
+                        <Camera className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-900">Profilbild</h4>
+                      <p className="text-slate-600 text-sm">JPG, PNG oder GIF. Max. 2MB.</p>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="mt-2 flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors duration-200"
+                      >
+                        <Upload className="h-4 w-4" />
+                        <span>Bild hochladen</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+
+                  {/* Name Field */}
+                  <div>
+                    <label htmlFor="full_name" className="block text-sm font-medium text-slate-700 mb-2">
+                      Vollständiger Name
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type="text"
+                        id="full_name"
+                        value={formData.full_name}
+                        onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
+                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        placeholder="Ihr vollständiger Name"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email (Read-only) */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      E-Mail-Adresse
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type="email"
+                        value={user?.email || ''}
+                        disabled
+                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-500 cursor-not-allowed"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">E-Mail-Adresse kann nicht geändert werden</p>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader className="h-5 w-5 animate-spin" />
+                        <span>Wird gespeichert...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-5 w-5" />
+                        <span>Änderungen speichern</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* Security Tab */}
+            {activeTab === 'security' && (
+              <div className="animate-fade-in-up">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Sicherheitseinstellungen</h3>
+                
+                <form onSubmit={handlePasswordSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="currentPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                      Aktuelles Passwort
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type={showPasswords.current ? 'text' : 'password'}
+                        id="currentPassword"
+                        value={passwordData.currentPassword}
+                        onChange={(e) => setPasswordData(prev => ({ ...prev, currentPassword: e.target.value }))}
+                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        placeholder="Aktuelles Passwort"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPasswords(prev => ({ ...prev, current: !prev.current }))}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                      >
+                        {showPasswords.current ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="newPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                      Neues Passwort
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type={showPasswords.new ? 'text' : 'password'}
+                        id="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
+                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        placeholder="Neues Passwort"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                      >
+                        {showPasswords.new ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                      Passwort bestätigen
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type={showPasswords.confirm ? 'text' : 'password'}
+                        id="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        placeholder="Passwort bestätigen"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                      >
+                        {showPasswords.confirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader className="h-5 w-5 animate-spin" />
+                        <span>Wird geändert...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="h-5 w-5" />
+                        <span>Passwort ändern</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                {/* Two-Factor Authentication */}
+                <div className="mt-8 p-6 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-900">Zwei-Faktor-Authentifizierung</h4>
+                      <p className="text-slate-600 text-sm">Zusätzliche Sicherheit für Ihr Konto</p>
+                    </div>
+                    <button
+                      onClick={() => setSettings(prev => ({ ...prev, twoFactorEnabled: !prev.twoFactorEnabled }))}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
+                        settings.twoFactorEnabled ? 'bg-purple-600' : 'bg-slate-300'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                          settings.twoFactorEnabled ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Settings Tab */}
+            {activeTab === 'settings' && (
+              <div className="animate-fade-in-up">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Einstellungen</h3>
+                
+                <div className="space-y-6">
+                  {/* Email Notifications */}
+                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Bell className="h-5 w-5 text-slate-600" />
+                        <div>
+                          <h4 className="text-lg font-semibold text-slate-900">E-Mail-Benachrichtigungen</h4>
+                          <p className="text-slate-600 text-sm">Erhalten Sie Updates per E-Mail</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSettings(prev => ({ ...prev, emailNotifications: !prev.emailNotifications }))}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
+                          settings.emailNotifications ? 'bg-purple-600' : 'bg-slate-300'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                            settings.emailNotifications ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Language */}
+                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Globe className="h-5 w-5 text-slate-600" />
+                      <h4 className="text-lg font-semibold text-slate-900">Sprache</h4>
+                    </div>
+                    <select
+                      value={settings.language}
+                      onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      <option value="de">Deutsch</option>
+                      <option value="en">English</option>
+                      <option value="fr">Français</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Activity Tab */}
+            {activeTab === 'activity' && (
+              <div className="animate-fade-in-up">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Konto-Aktivität</h3>
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium text-slate-900">Anmeldung erfolgreich</p>
+                        <p className="text-sm text-slate-600">Heute um 14:30</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium text-slate-900">Profil aktualisiert</p>
+                        <p className="text-sm text-slate-600">Gestern um 16:45</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Danger Zone */}
+                <div className="mt-8 p-6 bg-red-50 rounded-lg border border-red-200">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Trash2 className="h-5 w-5 text-red-600" />
+                    <h4 className="text-lg font-semibold text-red-900">Gefahrenbereich</h4>
+                  </div>
+                  <p className="text-red-700 text-sm mb-4">
+                    Das Löschen Ihres Kontos ist unwiderruflich. Alle Ihre Daten werden permanent entfernt.
+                  </p>
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={loading}
+                    className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    <span>Konto löschen</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileEdit;
