@@ -1,20 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Use environment variables with fallbacks for development
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-project.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key';
 
-// Fallback values for development (you should set these in your .env file)
-const defaultUrl = 'https://your-project.supabase.co';
-const defaultKey = 'your-anon-key';
+// Check if we're in production and missing environment variables
+const isProduction = import.meta.env.PROD;
+const hasMissingEnvVars = !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const url = supabaseUrl || defaultUrl;
-const key = supabaseAnonKey || defaultKey;
+if (isProduction && hasMissingEnvVars) {
+  console.error('❌ Missing Supabase environment variables in production!');
+  console.error('Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+}
 
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!isProduction && hasMissingEnvVars) {
   console.warn('⚠️ Supabase environment variables are missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.');
 }
 
-export const supabase = createClient(url, key);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export type Profile = {
   id: string;
@@ -34,4 +37,11 @@ export type AdminUserView = {
   is_admin: boolean;
   created_at: string;
   updated_at: string;
+};
+
+// Export configuration status for debugging
+export const supabaseConfig = {
+  url: supabaseUrl,
+  hasValidConfig: !hasMissingEnvVars,
+  isProduction,
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User, LogIn } from 'lucide-react';
+import { Menu, X, User, LogIn, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import AuthModal from './AuthModal';
 import UserMenu from './UserMenu';
@@ -8,7 +8,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, loading, error, hasValidConfig } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +33,25 @@ const Navigation = () => {
     }
     setIsOpen(false);
   };
+
+  // Show configuration error if Supabase is not configured
+  if (!hasValidConfig) {
+    return (
+      <nav className="fixed w-full z-50 bg-red-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-2">
+              <AlertTriangle className="h-6 w-6" />
+              <span className="font-medium">Konfigurationsfehler</span>
+            </div>
+            <div className="text-sm">
+              Supabase-Verbindung nicht verfügbar
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <>
@@ -66,6 +85,11 @@ const Navigation = () => {
               <div className="flex items-center">
                 {loading ? (
                   <div className="w-8 h-8 rounded-full bg-slate-300 animate-pulse"></div>
+                ) : error ? (
+                  <div className="flex items-center space-x-2 text-red-500">
+                    <AlertTriangle className="h-4 w-4" />
+                    <span className="text-sm">Verbindungsfehler</span>
+                  </div>
                 ) : user ? (
                   <UserMenu />
                 ) : (
@@ -112,6 +136,11 @@ const Navigation = () => {
                   {loading ? (
                     <div className="px-3 py-2">
                       <div className="w-full h-10 rounded-lg bg-slate-200 animate-pulse"></div>
+                    </div>
+                  ) : error ? (
+                    <div className="px-3 py-2 text-red-600 text-sm flex items-center space-x-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      <span>Verbindungsfehler</span>
                     </div>
                   ) : user ? (
                     <div className="px-3 py-2">

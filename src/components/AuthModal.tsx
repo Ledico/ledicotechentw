@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User, Eye, EyeOff, Loader } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff, Loader, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 interface AuthModalProps {
@@ -17,10 +17,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, hasValidConfig } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!hasValidConfig) {
+      setError('Supabase ist nicht konfiguriert. Bitte kontaktieren Sie den Administrator.');
+      return;
+    }
+
     setLoading(true);
     setError('');
     setSuccess('');
@@ -76,6 +82,36 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   };
 
   if (!isOpen) return null;
+
+  // Show configuration error if Supabase is not configured
+  if (!hasValidConfig) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose}></div>
+        <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+          <div className="bg-red-600 px-6 py-4 text-white">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <AlertTriangle className="h-6 w-6" />
+                <h2 className="text-xl font-bold">Konfigurationsfehler</h2>
+              </div>
+              <button onClick={handleClose} className="p-1 hover:bg-white/20 rounded-full transition-colors duration-200">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+          <div className="p-6">
+            <p className="text-slate-600 mb-4">
+              Die Anwendung ist nicht korrekt konfiguriert. Supabase-Umgebungsvariablen fehlen.
+            </p>
+            <p className="text-sm text-slate-500">
+              Bitte kontaktieren Sie den Administrator oder konfigurieren Sie die .env Datei.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
