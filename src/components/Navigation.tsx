@@ -34,25 +34,6 @@ const Navigation = () => {
     setIsOpen(false);
   };
 
-  // Show configuration error if Supabase is not configured
-  if (!hasValidConfig) {
-    return (
-      <nav className="fixed w-full z-50 bg-red-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-6 w-6" />
-              <span className="font-medium">Konfigurationsfehler</span>
-            </div>
-            <div className="text-sm">
-              Supabase-Verbindung nicht verfügbar
-            </div>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-
   return (
     <>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
