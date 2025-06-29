@@ -17,12 +17,12 @@ export function useAuth() {
       console.log('🔄 Initializing auth...');
       
       try {
-        // Get initial session with timeout
+        // Get initial session with longer timeout
         console.log('📡 Getting session...');
         
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout')), 10000)
+          setTimeout(() => reject(new Error('Session timeout')), 15000) // Increased to 15 seconds
         );
         
         const { data: { session }, error } = await Promise.race([
@@ -96,9 +96,12 @@ export function useAuth() {
     };
   }, []);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string, retryCount = 0) => {
+    const maxRetries = 3;
+    const timeoutDuration = 12000; // 12 seconds timeout
+    
     try {
-      console.log('📡 Fetching profile for user:', userId);
+      console.log(`📡 Fetching profile for user: ${userId} (attempt ${retryCount + 1})`);
       
       const profilePromise = supabase
         .from('profiles')
@@ -107,7 +110,7 @@ export function useAuth() {
         .single();
         
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Profile fetch timeout')), 8000)
+        setTimeout(() => reject(new Error('Profile fetch timeout')), timeoutDuration)
       );
       
       const { data, error } = await Promise.race([
@@ -117,12 +120,28 @@ export function useAuth() {
 
       if (error) {
         console.error('❌ Error fetching profile:', error);
+        
         if (error.code === 'PGRST116') {
           console.log('ℹ️ Profile not found, will be created by trigger');
-          // Wait a bit and try again
-          setTimeout(() => fetchProfile(userId), 2000);
+          
+          // If profile doesn't exist and we haven't retried too many times, wait and retry
+          if (retryCount < maxRetries) {
+            console.log(`⏳ Waiting 2 seconds before retry ${retryCount + 1}...`);
+            setTimeout(() => fetchProfile(userId, retryCount + 1), 2000);
+            return;
+          } else {
+            console.log('⚠️ Max retries reached, profile may need manual creation');
+            setError('Profil wird erstellt...');
+          }
         } else {
-          setError('Fehler beim Laden des Profils');
+          // For other errors, retry if we haven't exceeded max retries
+          if (retryCount < maxRetries) {
+            console.log(`⏳ Retrying profile fetch in 1 second... (${retryCount + 1}/${maxRetries})`);
+            setTimeout(() => fetchProfile(userId, retryCount + 1), 1000);
+            return;
+          } else {
+            setError('Fehler beim Laden des Profils');
+          }
         }
       } else {
         console.log('✅ Profile loaded:', data);
@@ -131,9 +150,20 @@ export function useAuth() {
       }
     } catch (error) {
       console.error('❌ Profile fetch error:', error);
-      setError('Timeout beim Laden des Profils');
+      
+      // Retry on timeout or network errors
+      if (retryCount < maxRetries) {
+        console.log(`⏳ Retrying after error in 2 seconds... (${retryCount + 1}/${maxRetries})`);
+        setTimeout(() => fetchProfile(userId, retryCount + 1), 2000);
+        return;
+      } else {
+        setError('Timeout beim Laden des Profils');
+      }
     } finally {
-      setLoading(false);
+      // Only set loading to false if this is the final attempt or success
+      if (retryCount >= maxRetries || profile) {
+        setLoading(false);
+      }
     }
   };
 
