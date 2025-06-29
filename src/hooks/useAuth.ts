@@ -16,9 +16,7 @@ export function useAuth() {
     const initializeAuth = async () => {
       // Check if Supabase is properly configured
       if (!supabaseConfig.hasValidConfig) {
-        const errorMsg = supabaseConfig.isProduction 
-          ? 'Supabase ist nicht konfiguriert. Bitte kontaktieren Sie den Administrator.'
-          : 'Supabase Umgebungsvariablen fehlen. Bitte .env Datei konfigurieren.';
+        const errorMsg = 'Supabase-Verbindung konnte nicht hergestellt werden. Bitte versuchen Sie es später erneut.';
         
         if (mounted) {
           setError(errorMsg);
@@ -35,7 +33,7 @@ export function useAuth() {
         if (error) {
           console.error('Error getting session:', error);
           if (mounted) {
-            setError('Fehler beim Laden der Sitzung: ' + error.message);
+            setError('Fehler beim Laden der Sitzung. Bitte laden Sie die Seite neu.');
             setLoading(false);
             setInitialized(true);
           }
@@ -45,6 +43,7 @@ export function useAuth() {
         if (mounted) {
           setSession(session);
           setUser(session?.user ?? null);
+          setError(null); // Clear any previous errors
           
           if (session?.user) {
             await fetchProfile(session.user.id);
@@ -57,7 +56,7 @@ export function useAuth() {
       } catch (error) {
         console.error('Error initializing auth:', error);
         if (mounted) {
-          setError('Verbindungsfehler: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'));
+          setError('Verbindungsfehler. Bitte überprüfen Sie Ihre Internetverbindung.');
           setLoading(false);
           setInitialized(true);
         }
@@ -113,7 +112,7 @@ export function useAuth() {
         if (error.code === 'PGRST116') {
           console.log('Profile not found, will be created by trigger');
         } else {
-          setError('Fehler beim Laden des Profils: ' + error.message);
+          setError('Fehler beim Laden des Profils.');
         }
       } else {
         setProfile(data);
@@ -129,7 +128,7 @@ export function useAuth() {
 
   const signUp = async (email: string, password: string, fullName: string) => {
     if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Supabase ist nicht konfiguriert') };
+      return { data: null, error: new Error('Verbindungsfehler. Bitte versuchen Sie es später erneut.') };
     }
 
     setLoading(true);
@@ -162,7 +161,7 @@ export function useAuth() {
 
   const signIn = async (email: string, password: string) => {
     if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Supabase ist nicht konfiguriert') };
+      return { data: null, error: new Error('Verbindungsfehler. Bitte versuchen Sie es später erneut.') };
     }
 
     setLoading(true);
@@ -190,7 +189,7 @@ export function useAuth() {
 
   const signOut = async () => {
     if (!supabaseConfig.hasValidConfig) {
-      return { error: new Error('Supabase ist nicht konfiguriert') };
+      return { error: new Error('Verbindungsfehler') };
     }
 
     setLoading(true);
@@ -218,7 +217,7 @@ export function useAuth() {
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user) return { error: new Error('Kein Benutzer angemeldet') };
     if (!supabaseConfig.hasValidConfig) {
-      return { data: null, error: new Error('Supabase ist nicht konfiguriert') };
+      return { data: null, error: new Error('Verbindungsfehler') };
     }
 
     try {
