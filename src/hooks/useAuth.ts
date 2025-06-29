@@ -296,39 +296,23 @@ export function useAuth() {
     console.log('🗑️ Deleting account for user:', user.email);
 
     try {
-      // First delete the profile from our database
-      console.log('🗑️ Deleting profile from database...');
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('id', user.id);
+      // Use the new delete_user function that handles both auth and profile deletion
+      console.log('🗑️ Calling complete user deletion function...');
+      const { error } = await supabase.rpc('delete_user');
 
-      if (profileError) {
-        console.error('❌ Profile deletion error:', profileError);
-        return { error: new Error('Fehler beim Löschen des Profils: ' + profileError.message) };
+      if (error) {
+        console.error('❌ Complete user deletion error:', error);
+        return { error: new Error('Fehler beim Löschen des Kontos: ' + error.message) };
       }
 
-      console.log('✅ Profile deleted from database');
+      console.log('✅ Complete account deletion successful');
 
-      // Then delete the user from Supabase Auth
-      console.log('🗑️ Deleting user from auth...');
-      const { error: authError } = await supabase.rpc('delete_user');
-
-      if (authError) {
-        console.error('❌ Auth user deletion error:', authError);
-        // Even if auth deletion fails, we've already deleted the profile
-        // So we should still sign out the user
-      } else {
-        console.log('✅ User deleted from auth');
-      }
-
-      // Clear local state regardless of auth deletion result
+      // Clear local state
       setUser(null);
       setProfile(null);
       setSession(null);
       setError(null);
 
-      console.log('✅ Account deletion completed');
       return { error: null };
 
     } catch (error) {
