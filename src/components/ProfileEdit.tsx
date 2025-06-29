@@ -25,11 +25,12 @@ interface ProfileEditProps {
 }
 
 const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
-  const { user, profile, updateProfile, updatePassword, signOut } = useAuth();
+  const { user, profile, updateProfile, updatePassword, deleteAccount } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [activeTab, setActiveTab] = useState('profile');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Profile form state - sync with actual profile data
@@ -168,17 +169,36 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
   };
 
   const handleDeleteAccount = async () => {
-    if (window.confirm('Sind Sie sicher, dass Sie Ihr Konto löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-      setLoading(true);
-      try {
-        // Implement account deletion
-        await signOut();
+    if (!showDeleteConfirm) {
+      setShowDeleteConfirm(true);
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      console.log('🗑️ Initiating account deletion...');
+      const { error } = await deleteAccount();
+      
+      if (error) {
+        console.error('❌ Account deletion failed:', error);
+        setError('Fehler beim Löschen des Kontos: ' + error.message);
+        setShowDeleteConfirm(false);
+      } else {
+        console.log('✅ Account deletion successful');
+        // Account deleted successfully, user will be signed out automatically
+        // Close the modal
         onClose();
-      } catch (err) {
-        setError('Fehler beim Löschen des Kontos');
-      } finally {
-        setLoading(false);
+        // Optionally show a success message or redirect
+        window.location.href = '/';
       }
+    } catch (err) {
+      console.error('❌ Account deletion exception:', err);
+      setError('Fehler beim Löschen des Kontos');
+      setShowDeleteConfirm(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -198,6 +218,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
     setSuccess('');
     setActiveTab('profile');
     setPasswordData({ newPassword: '', confirmPassword: '' });
+    setShowDeleteConfirm(false);
     onClose();
   };
 
@@ -586,14 +607,56 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose }) => {
                   <p className="text-red-700 text-sm mb-4">
                     Das Löschen Ihres Kontos ist unwiderruflich. Alle Ihre Daten werden permanent entfernt.
                   </p>
-                  <button
-                    onClick={handleDeleteAccount}
-                    disabled={loading}
-                    className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    <span>Konto löschen</span>
-                  </button>
+                  
+                  {!showDeleteConfirm ? (
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      disabled={loading}
+                      className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span>Konto löschen</span>
+                    </button>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="p-4 bg-red-100 border border-red-300 rounded-lg">
+                        <p className="text-red-800 font-medium mb-2">
+                          ⚠️ Sind Sie sicher, dass Sie Ihr Konto löschen möchten?
+                        </p>
+                        <p className="text-red-700 text-sm">
+                          Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten, 
+                          einschließlich Profil und Einstellungen, werden permanent gelöscht.
+                        </p>
+                      </div>
+                      
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={() => setShowDeleteConfirm(false)}
+                          disabled={loading}
+                          className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 disabled:opacity-50"
+                        >
+                          Abbrechen
+                        </button>
+                        <button
+                          onClick={handleDeleteAccount}
+                          disabled={loading}
+                          className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
+                        >
+                          {loading ? (
+                            <>
+                              <Loader className="h-4 w-4 animate-spin" />
+                              <span>Wird gelöscht...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Trash2 className="h-4 w-4" />
+                              <span>Endgültig löschen</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

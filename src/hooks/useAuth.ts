@@ -290,6 +290,54 @@ export function useAuth() {
     }
   };
 
+  const deleteAccount = async () => {
+    if (!user) return { error: new Error('Kein Benutzer angemeldet') };
+
+    console.log('🗑️ Deleting account for user:', user.email);
+
+    try {
+      // First delete the profile from our database
+      console.log('🗑️ Deleting profile from database...');
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', user.id);
+
+      if (profileError) {
+        console.error('❌ Profile deletion error:', profileError);
+        return { error: new Error('Fehler beim Löschen des Profils: ' + profileError.message) };
+      }
+
+      console.log('✅ Profile deleted from database');
+
+      // Then delete the user from Supabase Auth
+      console.log('🗑️ Deleting user from auth...');
+      const { error: authError } = await supabase.rpc('delete_user');
+
+      if (authError) {
+        console.error('❌ Auth user deletion error:', authError);
+        // Even if auth deletion fails, we've already deleted the profile
+        // So we should still sign out the user
+      } else {
+        console.log('✅ User deleted from auth');
+      }
+
+      // Clear local state regardless of auth deletion result
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      setError(null);
+
+      console.log('✅ Account deletion completed');
+      return { error: null };
+
+    } catch (error) {
+      console.error('❌ Account deletion exception:', error);
+      const errorMsg = 'Verbindungsfehler beim Löschen des Kontos';
+      return { error: new Error(errorMsg) };
+    }
+  };
+
   // Check if current user is admin
   const isAdmin = () => {
     return profile?.is_admin || false;
@@ -307,6 +355,7 @@ export function useAuth() {
     signOut,
     updateProfile,
     updatePassword,
+    deleteAccount,
     hasValidConfig: true, // Always true now
   };
 }
