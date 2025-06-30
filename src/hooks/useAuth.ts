@@ -17,12 +17,12 @@ export function useAuth() {
       console.log('🔄 Initializing auth...');
       
       try {
-        // Get initial session with timeout
+        // Get initial session with increased timeout
         console.log('📡 Getting session...');
         
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout')), 10000)
+          setTimeout(() => reject(new Error('Session timeout')), 30000) // Increased from 10s to 30s
         );
         
         const { data: { session }, error } = await Promise.race([
@@ -107,7 +107,7 @@ export function useAuth() {
         .single();
         
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Profile fetch timeout')), 15000)
+        setTimeout(() => reject(new Error('Profile fetch timeout')), 30000) // Increased from 15s to 30s
       );
       
       const { data, error } = await Promise.race([
