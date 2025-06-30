@@ -14,9 +14,12 @@ import {
   Upload,
   AlertTriangle,
   CheckCircle,
-  Loader
+  Loader,
+  Moon,
+  Sun
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ProfileEditProps {
   isOpen: boolean;
@@ -26,6 +29,7 @@ interface ProfileEditProps {
 
 const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab = 'profile' }) => {
   const { user, profile, updateProfile, updatePassword, deleteAccount } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -66,11 +70,16 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     confirmPassword: '',
   });
 
-  // Settings state (simplified - removed email notifications and 2FA)
+  // Settings state
   const [settings, setSettings] = useState({
     language: 'de',
-    theme: 'light',
+    theme: theme,
   });
+
+  // Update settings when theme changes
+  useEffect(() => {
+    setSettings(prev => ({ ...prev, theme }));
+  }, [theme]);
 
   const [showPasswords, setShowPasswords] = useState({
     new: false,
@@ -209,6 +218,13 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     }
   };
 
+  const handleThemeChange = (newTheme: 'light' | 'dark') => {
+    setTheme(newTheme);
+    setSettings(prev => ({ ...prev, theme: newTheme }));
+    setSuccess('Design erfolgreich geändert!');
+    setTimeout(() => setSuccess(''), 2000);
+  };
+
   const getInitials = (name?: string) => {
     if (!name) return user?.email?.charAt(0).toUpperCase() || 'U';
     return name
@@ -231,7 +247,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
 
   if (!isOpen) return null;
 
-  // Removed Activity tab from tabs array
   const tabs = [
     { id: 'profile', label: 'Profil', icon: User },
     { id: 'security', label: 'Sicherheit', icon: Lock },
@@ -247,7 +262,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
       ></div>
       
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden animate-bounce-in">
+      <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden animate-bounce-in transition-colors duration-300">
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-6 py-4 text-white">
           <div className="flex items-center justify-between">
@@ -286,7 +301,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
 
         <div className="flex h-[600px]">
           {/* Sidebar */}
-          <div className="w-64 bg-slate-50 border-r border-slate-200 p-4">
+          <div className="w-64 bg-slate-50 dark:bg-slate-700 border-r border-slate-200 dark:border-slate-600 p-4 transition-colors duration-300">
             <div className="space-y-2">
               {tabs.map((tab) => (
                 <button
@@ -294,8 +309,8 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-700'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600'
                   }`}
                 >
                   <tab.icon className="h-5 w-5" />
@@ -306,10 +321,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
           </div>
 
           {/* Content */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-6 overflow-y-auto bg-white dark:bg-slate-800 transition-colors duration-300">
             {/* Error/Success Messages */}
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-fade-in-up">
+              <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-lg text-red-700 dark:text-red-300 text-sm animate-fade-in-up">
                 <div className="flex items-center space-x-2">
                   <AlertTriangle className="h-4 w-4 flex-shrink-0" />
                   <span>{error}</span>
@@ -318,7 +333,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
             )}
 
             {success && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm animate-fade-in-up">
+              <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-700 rounded-lg text-green-700 dark:text-green-300 text-sm animate-fade-in-up">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 flex-shrink-0" />
                   <span>{success}</span>
@@ -329,7 +344,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
             {/* Profile Tab */}
             {activeTab === 'profile' && (
               <div className="animate-fade-in-up">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">Profil-Informationen</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Profil-Informationen</h3>
                 
                 <form onSubmit={handleProfileSubmit} className="space-y-6">
                   {/* Avatar Section */}
@@ -339,10 +354,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         <img
                           src={formData.avatar_url}
                           alt="Profile"
-                          className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                          className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-slate-600 shadow-lg"
                         />
                       ) : (
-                        <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white shadow-lg">
+                        <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-600 shadow-lg">
                           {getInitials(formData.full_name)}
                         </div>
                       )}
@@ -355,12 +370,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                       </button>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-slate-900">Profilbild</h4>
-                      <p className="text-slate-600 text-sm">JPG, PNG oder GIF. Max. 2MB.</p>
+                      <h4 className="text-lg font-semibold text-slate-900 dark:text-white">Profilbild</h4>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm">JPG, PNG oder GIF. Max. 2MB.</p>
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="mt-2 flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors duration-200 hover:scale-105"
+                        className="mt-2 flex items-center space-x-2 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200 hover:scale-105"
                       >
                         <Upload className="h-4 w-4" />
                         <span>Bild hochladen</span>
@@ -378,7 +393,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
 
                   {/* Name Field */}
                   <div>
-                    <label htmlFor="full_name" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="full_name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Vollständiger Name
                     </label>
                     <div className="relative">
@@ -388,7 +403,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        className="w-full pl-10 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                         placeholder="Ihr vollständiger Name"
                       />
                     </div>
@@ -396,7 +411,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
 
                   {/* Email (Read-only) */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       E-Mail-Adresse
                     </label>
                     <div className="relative">
@@ -405,10 +420,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         type="email"
                         value={user?.email || ''}
                         disabled
-                        className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-500 cursor-not-allowed"
+                        className="w-full pl-10 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
                       />
                     </div>
-                    <p className="text-xs text-slate-500 mt-1">E-Mail-Adresse kann nicht geändert werden</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">E-Mail-Adresse kann nicht geändert werden</p>
                   </div>
 
                   <button
@@ -435,11 +450,11 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
             {/* Security Tab */}
             {activeTab === 'security' && (
               <div className="animate-fade-in-up">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">Sicherheitseinstellungen</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Sicherheitseinstellungen</h3>
                 
                 <form onSubmit={handlePasswordSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="newPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="newPassword" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Neues Passwort
                     </label>
                     <div className="relative">
@@ -449,14 +464,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         id="newPassword"
                         value={passwordData.newPassword}
                         onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
-                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        className="w-full pl-10 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                         placeholder="Neues Passwort"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-200"
                       >
                         {showPasswords.new ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                       </button>
@@ -464,7 +479,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                   </div>
 
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Passwort bestätigen
                     </label>
                     <div className="relative">
@@ -474,14 +489,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         id="confirmPassword"
                         value={passwordData.confirmPassword}
                         onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                        className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                        className="w-full pl-10 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                         placeholder="Passwort bestätigen"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-200"
                       >
                         {showPasswords.confirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                       </button>
@@ -508,9 +523,9 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                 </form>
 
                 {/* Security Info */}
-                <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-                  <h4 className="text-lg font-semibold text-blue-900 mb-2">Sicherheitshinweise</h4>
-                  <ul className="text-blue-800 text-sm space-y-1">
+                <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h4 className="text-lg font-semibold text-blue-900 dark:text-blue-300 mb-2">Sicherheitshinweise</h4>
+                  <ul className="text-blue-800 dark:text-blue-400 text-sm space-y-1">
                     <li>• Verwenden Sie ein starkes, einzigartiges Passwort</li>
                     <li>• Passwort sollte mindestens 6 Zeichen lang sein</li>
                     <li>• Kombinieren Sie Groß- und Kleinbuchstaben, Zahlen und Symbole</li>
@@ -519,12 +534,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                 </div>
 
                 {/* Danger Zone - Moved to Security Tab */}
-                <div className="mt-8 p-6 bg-red-50 rounded-lg border border-red-200">
+                <div className="mt-8 p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
                   <div className="flex items-center space-x-3 mb-4">
-                    <Trash2 className="h-5 w-5 text-red-600" />
-                    <h4 className="text-lg font-semibold text-red-900">Gefahrenbereich</h4>
+                    <Trash2 className="h-5 w-5 text-red-600 dark:text-red-400" />
+                    <h4 className="text-lg font-semibold text-red-900 dark:text-red-300">Gefahrenbereich</h4>
                   </div>
-                  <p className="text-red-700 text-sm mb-4">
+                  <p className="text-red-700 dark:text-red-400 text-sm mb-4">
                     Das Löschen Ihres Kontos ist unwiderruflich. Alle Ihre Daten werden permanent entfernt.
                   </p>
                   
@@ -539,11 +554,11 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                     </button>
                   ) : (
                     <div className="space-y-4">
-                      <div className="p-4 bg-red-100 border border-red-300 rounded-lg">
-                        <p className="text-red-800 font-medium mb-2">
+                      <div className="p-4 bg-red-100 dark:bg-red-900/50 border border-red-300 dark:border-red-700 rounded-lg">
+                        <p className="text-red-800 dark:text-red-300 font-medium mb-2">
                           ⚠️ Sind Sie sicher, dass Sie Ihr Konto löschen möchten?
                         </p>
-                        <p className="text-red-700 text-sm">
+                        <p className="text-red-700 dark:text-red-400 text-sm">
                           Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten, 
                           einschließlich Profil und Einstellungen, werden permanent gelöscht.
                         </p>
@@ -553,7 +568,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                         <button
                           onClick={() => setShowDeleteConfirm(false)}
                           disabled={loading}
-                          className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200 disabled:opacity-50"
+                          className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200 disabled:opacity-50"
                         >
                           Abbrechen
                         </button>
@@ -584,19 +599,19 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
             {/* Settings Tab */}
             {activeTab === 'settings' && (
               <div className="animate-fade-in-up">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">Einstellungen</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Einstellungen</h3>
                 
                 <div className="space-y-6">
                   {/* Language */}
-                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="p-6 bg-slate-50 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
                     <div className="flex items-center space-x-3 mb-4">
-                      <Globe className="h-5 w-5 text-slate-600" />
-                      <h4 className="text-lg font-semibold text-slate-900">Sprache</h4>
+                      <Globe className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                      <h4 className="text-lg font-semibold text-slate-900 dark:text-white">Sprache</h4>
                     </div>
                     <select
                       value={settings.language}
                       onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
                     >
                       <option value="de">Deutsch</option>
                       <option value="en">English</option>
@@ -605,26 +620,45 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
                   </div>
 
                   {/* Theme */}
-                  <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="p-6 bg-slate-50 dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600">
                     <div className="flex items-center space-x-3 mb-4">
-                      <Settings className="h-5 w-5 text-slate-600" />
-                      <h4 className="text-lg font-semibold text-slate-900">Design</h4>
+                      {theme === 'dark' ? (
+                        <Moon className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                      ) : (
+                        <Sun className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                      )}
+                      <h4 className="text-lg font-semibold text-slate-900 dark:text-white">Design</h4>
                     </div>
-                    <select
-                      value={settings.theme}
-                      onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    >
-                      <option value="light">Hell</option>
-                      <option value="dark">Dunkel</option>
-                      <option value="auto">Automatisch</option>
-                    </select>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => handleThemeChange('light')}
+                        className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all duration-200 ${
+                          theme === 'light'
+                            ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300'
+                            : 'border-slate-300 dark:border-slate-600 hover:border-purple-300 dark:hover:border-purple-600'
+                        }`}
+                      >
+                        <Sun className="h-5 w-5" />
+                        <span className="font-medium">Hell</span>
+                      </button>
+                      <button
+                        onClick={() => handleThemeChange('dark')}
+                        className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all duration-200 ${
+                          theme === 'dark'
+                            ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300'
+                            : 'border-slate-300 dark:border-slate-600 hover:border-purple-300 dark:hover:border-purple-600'
+                        }`}
+                      >
+                        <Moon className="h-5 w-5" />
+                        <span className="font-medium">Dunkel</span>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Privacy Info */}
-                  <div className="p-6 bg-green-50 rounded-lg border border-green-200">
-                    <h4 className="text-lg font-semibold text-green-900 mb-2">Datenschutz</h4>
-                    <p className="text-green-800 text-sm">
+                  <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <h4 className="text-lg font-semibold text-green-900 dark:text-green-300 mb-2">Datenschutz</h4>
+                    <p className="text-green-800 dark:text-green-400 text-sm">
                       Ihre Daten werden sicher gespeichert und niemals an Dritte weitergegeben. 
                       Wir verwenden moderne Verschlüsselungstechnologien zum Schutz Ihrer Informationen.
                     </p>
