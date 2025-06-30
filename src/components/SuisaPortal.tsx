@@ -359,7 +359,17 @@ const SuisaPortal: React.FC = () => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
-    const matchesStatus = filterStatus === 'all' || item.status === filterStatus;
+    
+    // Updated status filtering logic
+    let matchesStatus = false;
+    if (filterStatus === 'all') {
+      matchesStatus = true;
+    } else if (filterStatus === 'verfügbar') {
+      matchesStatus = item.status === 'verfügbar' && !isLowStock(item.quantity);
+    } else if (filterStatus === 'knapp') {
+      matchesStatus = item.status === 'verfügbar' && isLowStock(item.quantity);
+    }
+    
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
@@ -603,8 +613,7 @@ const SuisaPortal: React.FC = () => {
                   >
                     <option value="all">Alle Status</option>
                     <option value="verfügbar">Verfügbar</option>
-                    <option value="ausgeliehen">Ausgeliehen</option>
-                    <option value="defekt">Defekt</option>
+                    <option value="knapp">Knapp</option>
                   </select>
                 </div>
                 <button
