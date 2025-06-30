@@ -25,58 +25,100 @@ serve(async (req) => {
       )
     }
 
-    // Prepare email content
+    // Prepare email content with German localization
     const emailSubject = `🚨 SUISA Inventar: Knapper Bestand - ${record.name}`
     const emailBody = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, #dc2626, #ef4444); color: white; padding: 20px; border-radius: 8px 8px 0 0;">
-          <h1 style="margin: 0; font-size: 24px;">⚠️ Knapper Bestand Warnung</h1>
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #dc2626, #ef4444); color: white; padding: 25px; border-radius: 12px 12px 0 0; text-align: center;">
+          <h1 style="margin: 0; font-size: 28px; font-weight: bold;">⚠️ Knapper Bestand Warnung</h1>
+          <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">SUISA Inventarverwaltung</p>
         </div>
         
-        <div style="background: #f9fafb; padding: 20px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-          <h2 style="color: #dc2626; margin-top: 0;">Artikel mit kritischem Bestand:</h2>
+        <!-- Main Content -->
+        <div style="background: #f8fafc; padding: 30px; border: 1px solid #e2e8f0; border-top: none;">
+          <h2 style="color: #dc2626; margin: 0 0 20px 0; font-size: 20px;">Artikel mit kritischem Bestand:</h2>
           
-          <div style="background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #dc2626; margin: 15px 0;">
-            <h3 style="margin: 0 0 10px 0; color: #1f2937;">${record.name}</h3>
-            <p style="margin: 5px 0; color: #6b7280;"><strong>Kategorie:</strong> ${record.category}</p>
-            <p style="margin: 5px 0; color: #6b7280;"><strong>Aktuelle Menge:</strong> <span style="color: #dc2626; font-weight: bold;">${record.quantity} ${record.unit}</span></p>
-            ${record.description ? `<p style="margin: 5px 0; color: #6b7280;"><strong>Beschreibung:</strong> ${record.description}</p>` : ''}
+          <!-- Item Details Card -->
+          <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #dc2626; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0 0 15px 0; color: #1f2937; font-size: 22px; font-weight: bold;">${record.name}</h3>
+            
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+                <span style="color: #64748b; font-weight: 500;">Kategorie:</span>
+                <span style="color: #334155; font-weight: 600;">${record.category}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+                <span style="color: #64748b; font-weight: 500;">Aktuelle Menge:</span>
+                <span style="color: #dc2626; font-weight: bold; font-size: 18px;">${record.quantity} ${record.unit}</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+                <span style="color: #64748b; font-weight: 500;">Status:</span>
+                <span style="color: #059669; font-weight: 600;">${record.status}</span>
+              </div>
+              
+              ${record.description ? `
+              <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                <span style="color: #64748b; font-weight: 500;">Beschreibung:</span>
+                <span style="color: #334155; max-width: 300px; text-align: right;">${record.description}</span>
+              </div>
+              ` : ''}
+            </div>
           </div>
           
-          <div style="background: #fef3c7; padding: 15px; border-radius: 6px; border: 1px solid #f59e0b; margin: 15px 0;">
-            <h4 style="margin: 0 0 10px 0; color: #92400e;">📋 Empfohlene Maßnahmen:</h4>
-            <ul style="margin: 0; padding-left: 20px; color: #92400e;">
-              <li>Sofortige Nachbestellung prüfen</li>
-              <li>Lieferanten kontaktieren</li>
-              <li>Alternative Artikel evaluieren</li>
-              <li>Bestand im SUISA Portal aktualisieren</li>
+          <!-- Alert Box -->
+          <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 20px; border-radius: 8px; border: 1px solid #f59e0b; margin: 20px 0;">
+            <h4 style="margin: 0 0 15px 0; color: #92400e; font-size: 18px; display: flex; align-items: center;">
+              📋 Empfohlene Maßnahmen:
+            </h4>
+            <ul style="margin: 0; padding-left: 20px; color: #92400e; line-height: 1.6;">
+              <li style="margin-bottom: 8px;"><strong>Sofortige Nachbestellung prüfen</strong></li>
+              <li style="margin-bottom: 8px;">Lieferanten kontaktieren</li>
+              <li style="margin-bottom: 8px;">Alternative Artikel evaluieren</li>
+              <li style="margin-bottom: 8px;">Bestand im SUISA Portal aktualisieren</li>
             </ul>
           </div>
           
-          <div style="text-align: center; margin: 20px 0;">
-            <a href="https://your-domain.com/suisa" 
-               style="background: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+          <!-- Action Button -->
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://ledicotechentw.netlify.app/suisa" 
+               style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 16px; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3); transition: all 0.3s ease;">
               🔗 SUISA Portal öffnen
             </a>
           </div>
           
-          <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
+          <!-- Separator -->
+          <hr style="border: none; border-top: 2px solid #e2e8f0; margin: 30px 0;">
           
-          <p style="color: #6b7280; font-size: 14px; margin: 0;">
-            Diese automatische Benachrichtigung wurde vom SUISA Inventarsystem gesendet.<br>
-            Zeitpunkt: ${new Date().toLocaleString('de-DE', { timeZone: 'Europe/Zurich' })}
-          </p>
+          <!-- Footer -->
+          <div style="text-align: center; color: #64748b; font-size: 14px;">
+            <p style="margin: 0 0 10px 0;">
+              <strong>Diese automatische Benachrichtigung wurde vom SUISA Inventarsystem gesendet.</strong>
+            </p>
+            <p style="margin: 0; opacity: 0.8;">
+              📅 Zeitpunkt: ${new Date().toLocaleString('de-DE', { 
+                timeZone: 'Europe/Zurich',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}
+            </p>
+            <p style="margin: 10px 0 0 0; opacity: 0.6; font-size: 12px;">
+              SUISA Portal - Inventarverwaltung | Leonardo Dias Costa
+            </p>
+          </div>
         </div>
       </div>
     `
 
-    // Send email using Resend (you'll need to set up Resend API key)
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    // Send email using Resend with your API key
+    const resendApiKey = 're_9LLvy2d9_8RyW36jCSRcoGnhuRYVQDynZ'
     
-    if (!resendApiKey) {
-      throw new Error('RESEND_API_KEY environment variable is not set')
-    }
-
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -84,7 +126,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'SUISA Inventar <noreply@your-domain.com>',
+        from: 'SUISA Inventar <noreply@ledicotechentw.netlify.app>',
         to: ['leonardorafael.costa04@gmail.com'],
         subject: emailSubject,
         html: emailBody,
@@ -93,17 +135,20 @@ serve(async (req) => {
 
     if (!emailResponse.ok) {
       const errorText = await emailResponse.text()
+      console.error('Resend API Error:', errorText)
       throw new Error(`Failed to send email: ${errorText}`)
     }
 
     const emailResult = await emailResponse.json()
+    console.log('Email sent successfully:', emailResult)
 
     return new Response(
       JSON.stringify({ 
         message: 'Low stock alert sent successfully',
         emailId: emailResult.id,
         item: record.name,
-        quantity: record.quantity
+        quantity: record.quantity,
+        recipient: 'leonardorafael.costa04@gmail.com'
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
