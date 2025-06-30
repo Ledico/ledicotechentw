@@ -617,82 +617,82 @@ const SuisaPortal: React.FC = () => {
               </div>
             </div>
 
-            {/* Inventory Table with Fixed Column Widths */}
+            {/* Fixed Width Inventory Table */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full table-fixed">
                   <colgroup>
-                    <col className="w-[25%]" /> {/* Artikel */}
-                    <col className="w-[12%]" /> {/* Kategorie */}
-                    <col className="w-[15%]" /> {/* Menge */}
-                    <col className="w-[18%]" /> {/* Nachbestellung */}
-                    <col className="w-[10%]" /> {/* Status */}
-                    <col className="w-[12%]" /> {/* Zuletzt geändert */}
-                    <col className="w-[8%]" />  {/* Aktionen */}
+                    <col style={{ width: '22%' }} />  {/* Artikel */}
+                    <col style={{ width: '10%' }} />  {/* Kategorie */}
+                    <col style={{ width: '12%' }} />  {/* Menge */}
+                    <col style={{ width: '18%' }} />  {/* Nachbestellung */}
+                    <col style={{ width: '10%' }} />  {/* Status */}
+                    <col style={{ width: '16%' }} />  {/* Zuletzt geändert */}
+                    <col style={{ width: '12%' }} />  {/* Aktionen */}
                   </colgroup>
                   <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                     <tr>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Artikel</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Kategorie</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Menge</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Nachbestellung</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Status</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Zuletzt geändert</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Aktionen</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Artikel</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Kategorie</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Menge</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Nachbestellung</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Status</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Zuletzt geändert</th>
+                      <th className="text-left py-4 px-4 font-semibold text-slate-900 dark:text-white">Aktionen</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-slate-600">
                     {filteredInventory.map((item) => (
                       <tr key={item.id} className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-150 ${isLowStock(item.quantity) && item.status === 'verfügbar' ? 'bg-red-50 dark:bg-red-900/10' : ''}`}>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4">
                           <div className="flex items-center space-x-3">
                             {isLowStock(item.quantity) && item.status === 'verfügbar' && (
                               <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 animate-pulse" />
                             )}
                             <div className="min-w-0 flex-1">
-                              <p className="font-medium text-slate-900 dark:text-white truncate">{item.name}</p>
+                              <p className="font-medium text-slate-900 dark:text-white truncate" title={item.name}>{item.name}</p>
                               {item.description && (
-                                <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{item.description}</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 truncate" title={item.description}>{item.description}</p>
                               )}
                             </div>
                           </div>
                         </td>
-                        <td className="py-4 px-6">
-                          <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-sm truncate block">
+                        <td className="py-4 px-4">
+                          <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-sm truncate block" title={item.category}>
                             {item.category}
                           </span>
                         </td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center space-x-2">
+                        <td className="py-4 px-4">
+                          <div className="flex items-center space-x-1">
                             <button
                               onClick={() => adjustQuantity(item.id, -1)}
                               disabled={loading || item.quantity <= 0}
-                              className="w-8 h-8 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                              className="w-7 h-7 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             >
-                              <Minus className="h-4 w-4" />
+                              <Minus className="h-3 w-3" />
                             </button>
-                            <span className={`font-medium min-w-[60px] text-center ${isLowStock(item.quantity) && item.status === 'verfügbar' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-slate-900 dark:text-white'}`}>
+                            <span className={`font-medium min-w-[50px] text-center text-sm ${isLowStock(item.quantity) && item.status === 'verfügbar' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-slate-900 dark:text-white'}`}>
                               {item.quantity} {item.unit}
                             </span>
                             <button
                               onClick={() => adjustQuantity(item.id, 1)}
                               disabled={loading}
-                              className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                              className="w-7 h-7 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             >
-                              <Plus className="h-4 w-4" />
+                              <Plus className="h-3 w-3" />
                             </button>
                           </div>
                         </td>
-                        <td className="py-4 px-6">
-                          <div className="space-y-2">
+                        <td className="py-4 px-4">
+                          <div className="space-y-1">
                             {item.restock_date ? (
                               <>
-                                <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
+                                <div className="flex items-center space-x-1 text-xs text-slate-600 dark:text-slate-400">
                                   <Calendar className="h-3 w-3 flex-shrink-0" />
                                   <span className="truncate">{formatDate(item.restock_date)}</span>
                                 </div>
                                 {item.restock_notes && (
-                                  <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-500">
+                                  <div className="flex items-center space-x-1 text-xs text-slate-500 dark:text-slate-500">
                                     <StickyNote className="h-3 w-3 flex-shrink-0" />
                                     <span className="truncate" title={item.restock_notes}>
                                       {item.restock_notes}
@@ -701,38 +701,38 @@ const SuisaPortal: React.FC = () => {
                                 )}
                               </>
                             ) : (
-                              <span className="text-sm text-slate-400 dark:text-slate-500">Keine Nachbestellung</span>
+                              <span className="text-xs text-slate-400 dark:text-slate-500">Keine Nachbestellung</span>
                             )}
                             <button
                               onClick={() => startRestock(item)}
-                              className="flex items-center space-x-1 px-3 py-1.5 text-sm bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/40 transition-colors duration-200 font-medium"
+                              className="flex items-center space-x-1 px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 rounded hover:bg-orange-200 dark:hover:bg-orange-900/40 transition-colors duration-200 font-medium"
                             >
-                              <ShoppingCart className="h-4 w-4" />
+                              <ShoppingCart className="h-3 w-3" />
                               <span>Nachbestellen</span>
                             </button>
                           </div>
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4">
                           {getStatusBadge(item)}
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="py-4 px-4">
                           <div className="space-y-1">
                             {item.last_modified_user_name && (
-                              <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
+                              <div className="flex items-center space-x-1 text-xs text-slate-600 dark:text-slate-400">
                                 <User className="h-3 w-3 flex-shrink-0" />
-                                <span className="truncate">{item.last_modified_user_name}</span>
+                                <span className="truncate" title={item.last_modified_user_name}>{item.last_modified_user_name}</span>
                               </div>
                             )}
                             {item.last_modified_at && (
-                              <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-500">
+                              <div className="flex items-center space-x-1 text-xs text-slate-500 dark:text-slate-500">
                                 <Clock className="h-3 w-3 flex-shrink-0" />
                                 <span className="truncate">{formatDate(item.last_modified_at)}</span>
                               </div>
                             )}
                           </div>
                         </td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center space-x-2">
+                        <td className="py-4 px-4">
+                          <div className="flex items-center space-x-1">
                             <button
                               onClick={() => startEdit(item)}
                               className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
