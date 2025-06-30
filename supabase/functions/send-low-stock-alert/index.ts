@@ -14,8 +14,15 @@ serve(async (req) => {
   try {
     const { record } = await req.json()
     
+    console.log('📦 Processing inventory item:', {
+      name: record.name,
+      quantity: record.quantity,
+      status: record.status
+    })
+    
     // Check if this is a low stock situation (quantity <= 2)
     if (record.quantity > 2) {
+      console.log('✅ Stock level is sufficient, no alert needed')
       return new Response(
         JSON.stringify({ message: 'Stock level is sufficient, no alert needed' }),
         { 
@@ -25,14 +32,16 @@ serve(async (req) => {
       )
     }
 
+    console.log('🚨 Low stock detected, sending alert email...')
+
     // Prepare email content with German localization
-    const emailSubject = `🚨 SUISA Inventar: Knapper Bestand - ${record.name}`
+    const emailSubject = `🚨 SUISA Werkstatt: Knapper Bestand - ${record.name}`
     const emailBody = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #dc2626, #ef4444); color: white; padding: 25px; border-radius: 12px 12px 0 0; text-align: center;">
           <h1 style="margin: 0; font-size: 28px; font-weight: bold;">⚠️ Knapper Bestand Warnung</h1>
-          <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">SUISA Inventarverwaltung</p>
+          <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">SUISA Werkstatt Zubehör Inventar</p>
         </div>
         
         <!-- Main Content -->
@@ -95,7 +104,7 @@ serve(async (req) => {
           <!-- Footer -->
           <div style="text-align: center; color: #64748b; font-size: 14px;">
             <p style="margin: 0 0 10px 0;">
-              <strong>Diese automatische Benachrichtigung wurde vom SUISA Inventarsystem gesendet.</strong>
+              <strong>Diese automatische Benachrichtigung wurde vom SUISA Werkstatt Inventarsystem gesendet.</strong>
             </p>
             <p style="margin: 0; opacity: 0.8;">
               📅 Zeitpunkt: ${new Date().toLocaleString('de-DE', { 
@@ -109,7 +118,7 @@ serve(async (req) => {
               })}
             </p>
             <p style="margin: 10px 0 0 0; opacity: 0.6; font-size: 12px;">
-              SUISA Portal - Inventarverwaltung | Leonardo Dias Costa
+              SUISA Portal - Werkstatt Zubehör Inventar | Leonardo Dias Costa
             </p>
           </div>
         </div>
@@ -119,6 +128,8 @@ serve(async (req) => {
     // Send email using Resend with your API key
     const resendApiKey = 're_9LLvy2d9_8RyW36jCSRcoGnhuRYVQDynZ'
     
+    console.log('📧 Sending email via Resend API...')
+    
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -126,7 +137,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'SUISA Inventar <noreply@ledicotechentw.netlify.app>',
+        from: 'SUISA Werkstatt <noreply@ledicotechentw.netlify.app>',
         to: ['leonardorafael.costa04@gmail.com'],
         subject: emailSubject,
         html: emailBody,
@@ -135,20 +146,26 @@ serve(async (req) => {
 
     if (!emailResponse.ok) {
       const errorText = await emailResponse.text()
-      console.error('Resend API Error:', errorText)
-      throw new Error(`Failed to send email: ${errorText}`)
+      console.error('❌ Resend API Error:', {
+        status: emailResponse.status,
+        statusText: emailResponse.statusText,
+        error: errorText
+      })
+      throw new Error(`Failed to send email: ${emailResponse.status} ${errorText}`)
     }
 
     const emailResult = await emailResponse.json()
-    console.log('Email sent successfully:', emailResult)
+    console.log('✅ Email sent successfully:', emailResult)
 
     return new Response(
       JSON.stringify({ 
+        success: true,
         message: 'Low stock alert sent successfully',
         emailId: emailResult.id,
         item: record.name,
         quantity: record.quantity,
-        recipient: 'leonardorafael.costa04@gmail.com'
+        recipient: 'leonardorafael.costa04@gmail.com',
+        timestamp: new Date().toISOString()
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -157,12 +174,14 @@ serve(async (req) => {
     )
 
   } catch (error) {
-    console.error('Error sending low stock alert:', error)
+    console.error('❌ Error in send-low-stock-alert function:', error)
     
     return new Response(
       JSON.stringify({ 
+        success: false,
         error: 'Failed to send low stock alert',
-        details: error.message 
+        details: error.message,
+        timestamp: new Date().toISOString()
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
