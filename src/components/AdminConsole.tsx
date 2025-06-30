@@ -20,7 +20,8 @@ import {
   TrendingDown,
   Building2,
   UserPlus,
-  UserMinus
+  UserMinus,
+  ArrowLeft
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
@@ -219,6 +220,15 @@ const AdminConsole: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
+              {/* Zurück-Button */}
+              <button
+                onClick={() => window.history.back()}
+                className="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-all duration-200 hover:scale-105"
+                title="Zurück"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </button>
+              
               <div className="p-2 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg">
                 <Shield className="h-6 w-6 text-white" />
               </div>
