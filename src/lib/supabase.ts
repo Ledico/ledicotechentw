@@ -41,11 +41,39 @@ export type Profile = {
   full_name?: string;
   avatar_url?: string;
   is_admin: boolean;
+  group_name?: string;
   created_at: string;
   updated_at: string;
 };
 
 export type AdminUserView = Profile;
+
+export type InventoryItem = {
+  id: string;
+  name: string;
+  category: string;
+  description?: string;
+  quantity: number;
+  unit: string;
+  location?: string;
+  status: 'verfügbar' | 'ausgeliehen' | 'wartung' | 'defekt';
+  created_at: string;
+  updated_at: string;
+  created_by?: string;
+};
+
+export type Accessory = {
+  id: string;
+  name: string;
+  category: string;
+  description?: string;
+  compatibility: string[];
+  price?: number;
+  supplier?: string;
+  part_number?: string;
+  created_at: string;
+  updated_at: string;
+};
 
 // Export configuration status for debugging
 export const supabaseConfig = {

@@ -17,17 +17,20 @@ import {
   X,
   Activity,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Building2,
+  UserPlus,
+  UserMinus
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
 import { AdminUserView } from '../lib/supabase';
 
 const AdminConsole: React.FC = () => {
-  const { users, loading, error, promoteToAdmin, revokeAdmin, updateUser, deleteUser } = useAdmin();
+  const { users, loading, error, promoteToAdmin, revokeAdmin, assignToSuisa, removeFromSuisa, updateUser, deleteUser } = useAdmin();
   const { profile } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
+  const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'suisa' | 'user'>('all');
   const [selectedUser, setSelectedUser] = useState<AdminUserView | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,7 +44,8 @@ const AdminConsole: React.FC = () => {
                          user.full_name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterRole === 'all' || 
                          (filterRole === 'admin' && user.is_admin) ||
-                         (filterRole === 'user' && !user.is_admin);
+                         (filterRole === 'suisa' && user.group_name === 'SUISA') ||
+                         (filterRole === 'user' && !user.is_admin && user.group_name !== 'SUISA');
     return matchesSearch && matchesFilter;
   });
 
@@ -99,6 +103,30 @@ const AdminConsole: React.FC = () => {
     }
   };
 
+  const handleAssignToSuisa = async (userId: string) => {
+    setActionLoading(userId);
+    setActionError(null);
+    try {
+      await assignToSuisa(userId);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Fehler beim Zuweisen zur SUISA-Gruppe');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRemoveFromSuisa = async (userId: string) => {
+    setActionLoading(userId);
+    setActionError(null);
+    try {
+      await removeFromSuisa(userId);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Fehler beim Entfernen aus der SUISA-Gruppe');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const handleDeleteUser = async () => {
     if (!selectedUser) return;
     
@@ -145,6 +173,31 @@ const AdminConsole: React.FC = () => {
       case 'warning': return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-400';
       case 'success': return 'text-green-600 bg-green-100 dark:bg-green-900/20 dark:text-green-400';
       default: return 'text-blue-600 bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400';
+    }
+  };
+
+  const getUserRoleBadge = (user: AdminUserView) => {
+    if (user.is_admin) {
+      return (
+        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
+          <Crown className="h-3 w-3" />
+          <span>Administrator</span>
+        </span>
+      );
+    } else if (user.group_name === 'SUISA') {
+      return (
+        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
+          <Building2 className="h-3 w-3" />
+          <span>SUISA</span>
+        </span>
+      );
+    } else {
+      return (
+        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-sm font-medium">
+          <User className="h-3 w-3" />
+          <span>Benutzer</span>
+        </span>
+      );
     }
   };
 
@@ -229,7 +282,7 @@ const AdminConsole: React.FC = () => {
         )}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
@@ -258,13 +311,27 @@ const AdminConsole: React.FC = () => {
 
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center space-x-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <p className="text-sm text-slate-600 dark:text-slate-400">SUISA Mitglieder</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                  {users.filter(user => user.group_name === 'SUISA').length}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-center space-x-3">
               <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
                 <User className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
                 <p className="text-sm text-slate-600 dark:text-slate-400">Normale Benutzer</p>
                 <p className="text-2xl font-bold text-slate-900 dark:text-white">
-                  {users.filter(user => !user.is_admin).length}
+                  {users.filter(user => !user.is_admin && user.group_name !== 'SUISA').length}
                 </p>
               </div>
             </div>
@@ -288,11 +355,12 @@ const AdminConsole: React.FC = () => {
               <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
               <select
                 value={filterRole}
-                onChange={(e) => setFilterRole(e.target.value as 'all' | 'admin' | 'user')}
+                onChange={(e) => setFilterRole(e.target.value as 'all' | 'admin' | 'suisa' | 'user')}
                 className="pl-10 pr-8 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
               >
                 <option value="all">Alle Rollen</option>
                 <option value="admin">Nur Admins</option>
+                <option value="suisa">Nur SUISA</option>
                 <option value="user">Nur Benutzer</option>
               </select>
             </div>
@@ -306,7 +374,7 @@ const AdminConsole: React.FC = () => {
               <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                 <tr>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Benutzer</th>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Rolle</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Rolle/Gruppe</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Registriert</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Aktionen</th>
                 </tr>
@@ -339,17 +407,7 @@ const AdminConsole: React.FC = () => {
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      {user.is_admin ? (
-                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
-                          <Crown className="h-3 w-3" />
-                          <span>Administrator</span>
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-sm font-medium">
-                          <User className="h-3 w-3" />
-                          <span>Benutzer</span>
-                        </span>
-                      )}
+                      {getUserRoleBadge(user)}
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-400">
@@ -361,6 +419,7 @@ const AdminConsole: React.FC = () => {
                       <div className="flex items-center space-x-2">
                         {user.id !== profile?.id && (
                           <>
+                            {/* Admin Actions */}
                             {user.is_admin ? (
                               <button
                                 onClick={() => handleRevokeAdmin(user.id)}
@@ -388,6 +447,36 @@ const AdminConsole: React.FC = () => {
                                 )}
                               </button>
                             )}
+
+                            {/* SUISA Actions */}
+                            {user.group_name === 'SUISA' ? (
+                              <button
+                                onClick={() => handleRemoveFromSuisa(user.id)}
+                                disabled={actionLoading === user.id}
+                                className="p-2 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                                title="Aus SUISA-Gruppe entfernen"
+                              >
+                                {actionLoading === user.id ? (
+                                  <div className="w-4 h-4 border-2 border-orange-300 border-t-orange-600 rounded-full animate-spin"></div>
+                                ) : (
+                                  <UserMinus className="h-4 w-4" />
+                                )}
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleAssignToSuisa(user.id)}
+                                disabled={actionLoading === user.id}
+                                className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                                title="Zur SUISA-Gruppe hinzufügen"
+                              >
+                                {actionLoading === user.id ? (
+                                  <div className="w-4 h-4 border-2 border-blue-300 border-t-blue-600 rounded-full animate-spin"></div>
+                                ) : (
+                                  <UserPlus className="h-4 w-4" />
+                                )}
+                              </button>
+                            )}
+
                             <button
                               onClick={() => {
                                 setSelectedUser(user);

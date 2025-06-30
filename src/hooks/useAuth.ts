@@ -343,6 +343,11 @@ export function useAuth() {
     return profile?.is_admin || false;
   };
 
+  // Check if current user is SUISA member
+  const isSuisaMember = () => {
+    return profile?.group_name === 'SUISA' || profile?.is_admin || false;
+  };
+
   return {
     user,
     profile,
@@ -350,6 +355,7 @@ export function useAuth() {
     loading: loading || !initialized,
     error,
     isAdmin: isAdmin(),
+    isSuisaMember: isSuisaMember(),
     signUp,
     signIn,
     signOut,

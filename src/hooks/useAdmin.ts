@@ -75,6 +75,42 @@ export function useAdmin() {
     return data;
   };
 
+  const assignToSuisa = async (userId: string) => {
+    if (!isAdmin) {
+      throw new Error('Keine Berechtigung für Admin-Funktionen');
+    }
+
+    const { data, error } = await supabase.rpc('assign_to_suisa', {
+      user_id: userId
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Refresh users list
+    await fetchUsers();
+    return data;
+  };
+
+  const removeFromSuisa = async (userId: string) => {
+    if (!isAdmin) {
+      throw new Error('Keine Berechtigung für Admin-Funktionen');
+    }
+
+    const { data, error } = await supabase.rpc('remove_from_suisa', {
+      user_id: userId
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Refresh users list
+    await fetchUsers();
+    return data;
+  };
+
   const updateUser = async (userId: string, updates: Partial<AdminUserView>) => {
     if (!isAdmin) {
       throw new Error('Keine Berechtigung für Admin-Funktionen');
@@ -127,6 +163,8 @@ export function useAdmin() {
     fetchUsers,
     promoteToAdmin,
     revokeAdmin,
+    assignToSuisa,
+    removeFromSuisa,
     updateUser,
     deleteUser,
   };

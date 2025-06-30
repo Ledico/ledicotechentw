@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, Settings, LogOut, ChevronDown, Shield, Crown } from 'lucide-react';
+import { User, Settings, LogOut, ChevronDown, Shield, Crown, Building2 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import ProfileEdit from './ProfileEdit';
@@ -8,7 +8,7 @@ const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [profileEditTab, setProfileEditTab] = useState('profile');
-  const { user, profile, signOut, isAdmin } = useAuth();
+  const { user, profile, signOut, isAdmin, isSuisaMember } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,6 +53,14 @@ const UserMenu: React.FC = () => {
     return profile?.full_name || user?.email?.split('@')[0] || 'Benutzer';
   };
 
+  const getGroupBadge = () => {
+    if (isAdmin) return { icon: Crown, label: 'Administrator', color: 'text-yellow-300' };
+    if (isSuisaMember) return { icon: Building2, label: 'SUISA', color: 'text-blue-300' };
+    return null;
+  };
+
+  const groupBadge = getGroupBadge();
+
   return (
     <>
       <div className="relative" ref={menuRef}>
@@ -74,10 +82,10 @@ const UserMenu: React.FC = () => {
               </div>
             )}
             <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
-            {/* Admin Crown */}
-            {isAdmin && (
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
-                <Crown className="h-2 w-2 text-yellow-800" />
+            {/* Group Badge */}
+            {groupBadge && (
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
+                <groupBadge.icon className="h-2 w-2 text-white" />
               </div>
             )}
           </div>
@@ -109,13 +117,13 @@ const UserMenu: React.FC = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2">
                     <p className="font-semibold truncate">{getDisplayName()}</p>
-                    {isAdmin && (
-                      <Crown className="h-4 w-4 text-yellow-300 flex-shrink-0" title="Administrator" />
+                    {groupBadge && (
+                      <groupBadge.icon className={`h-4 w-4 ${groupBadge.color} flex-shrink-0`} title={groupBadge.label} />
                     )}
                   </div>
                   <p className="text-sm text-white/80 truncate">{user?.email}</p>
-                  {isAdmin && (
-                    <p className="text-xs text-yellow-200 font-medium">Administrator</p>
+                  {groupBadge && (
+                    <p className="text-xs text-yellow-200 font-medium">{groupBadge.label}</p>
                   )}
                 </div>
               </div>
@@ -138,6 +146,21 @@ const UserMenu: React.FC = () => {
                 <Settings className="h-5 w-5 text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200" />
                 <span className="font-medium">Einstellungen</span>
               </button>
+
+              {/* SUISA Access */}
+              {isSuisaMember && (
+                <>
+                  <hr className="my-2 border-slate-200 dark:border-slate-600" />
+                  <Link
+                    to="/suisa"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full flex items-center space-x-3 px-4 py-3 text-blue-700 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors duration-200 group"
+                  >
+                    <Building2 className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                    <span className="font-medium">SUISA Portal</span>
+                  </Link>
+                </>
+              )}
 
               {/* Admin Console Link */}
               {isAdmin && (
