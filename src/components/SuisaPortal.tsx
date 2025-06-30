@@ -628,7 +628,7 @@ const SuisaPortal: React.FC = () => {
                           </div>
                         </td>
                         <td className="py-4 px-6">
-                          <div className="space-y-1">
+                          <div className="space-y-2">
                             {item.restock_date ? (
                               <>
                                 <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
@@ -649,9 +649,10 @@ const SuisaPortal: React.FC = () => {
                             )}
                             <button
                               onClick={() => startRestock(item)}
-                              className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                              className="flex items-center space-x-1 px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 rounded-md hover:bg-orange-200 dark:hover:bg-orange-900/40 transition-colors duration-200"
                             >
-                              Nachbestellen
+                              <ShoppingCart className="h-3 w-3" />
+                              <span>Nachbestellen</span>
                             </button>
                           </div>
                         </td>
