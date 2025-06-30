@@ -102,12 +102,12 @@ const SuisaPortal: React.FC = () => {
         .rpc('get_inventory_with_last_transaction');
 
       if (error) {
-        setError('Fehler beim Laden des Inventars: ' + error.message);
+        setError('Fehler beim Laden des Werkstatt Zubehör Inventars: ' + error.message);
       } else {
         setInventory(data || []);
       }
     } catch (err) {
-      setError('Verbindungsfehler beim Laden des Inventars');
+      setError('Verbindungsfehler beim Laden des Werkstatt Zubehör Inventars');
     } finally {
       setLoading(false);
     }
@@ -463,7 +463,7 @@ const SuisaPortal: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white">SUISA Portal</h1>
-                <p className="text-slate-600 dark:text-slate-400">Inventarverwaltung und Zubehör-Generator</p>
+                <p className="text-slate-600 dark:text-slate-400">Werkstatt Zubehör Inventarverwaltung und Zubehör-Generator</p>
               </div>
             </div>
             <div className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400">
@@ -504,7 +504,7 @@ const SuisaPortal: React.FC = () => {
               >
                 <div className="flex items-center space-x-2">
                   <Package className="h-4 w-4" />
-                  <span>Inventar</span>
+                  <span>Werkstatt Zubehör Inventar</span>
                 </div>
               </button>
               <button
