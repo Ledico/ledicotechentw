@@ -21,28 +21,16 @@ import {
   ArrowLeft,
   Minus,
   History,
-  User,
   Calendar,
-  TrendingUp,
-  TrendingDown,
-  RotateCcw
+  User,
+  Clock
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { supabase, InventoryItem, Accessory } from '../lib/supabase';
 
-// Enhanced inventory item type with transaction info
-interface EnhancedInventoryItem extends InventoryItem {
-  last_modified_by?: string;
-  last_modified_at?: string;
-  last_transaction_type?: string;
-  last_transaction_date?: string;
-  last_modified_user_name?: string;
-}
-
 interface InventoryTransaction {
   id: string;
-  inventory_id: string;
-  transaction_type: 'adjustment' | 'restock' | 'usage' | 'correction';
+  transaction_type: string;
   quantity_change: number;
   quantity_before: number;
   quantity_after: number;
@@ -52,6 +40,13 @@ interface InventoryTransaction {
   created_by: string;
   created_at: string;
   user_name?: string;
+}
+
+interface EnhancedInventoryItem extends InventoryItem {
+  last_modified_by?: string;
+  last_modified_at?: string;
+  last_modified_user_name?: string;
+  last_transaction_type?: string;
 }
 
 const SuisaPortal: React.FC = () => {
@@ -74,19 +69,12 @@ const SuisaPortal: React.FC = () => {
 
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<EnhancedInventoryItem | null>(null);
-  const [showTransactionsModal, setShowTransactionsModal] = useState(false);
-  const [selectedItemTransactions, setSelectedItemTransactions] = useState<InventoryTransaction[]>([]);
-  const [selectedItemName, setSelectedItemName] = useState('');
-
-  // Restock modal state
+  const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [showRestockModal, setShowRestockModal] = useState(false);
   const [restockingItem, setRestockingItem] = useState<EnhancedInventoryItem | null>(null);
-  const [restockData, setRestockData] = useState({
-    quantity: 0,
-    date: new Date().toISOString().split('T')[0],
-    reason: ''
-  });
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [historyItem, setHistoryItem] = useState<EnhancedInventoryItem | null>(null);
+  const [transactions, setTransactions] = useState<InventoryTransaction[]>([]);
 
   // Form state for adding/editing inventory
   const [formData, setFormData] = useState({
@@ -99,6 +87,13 @@ const SuisaPortal: React.FC = () => {
     status: 'verfügbar' as const
   });
 
+  // Restock form state
+  const [restockData, setRestockData] = useState({
+    quantity: 0,
+    date: new Date().toISOString().split('T')[0],
+    reason: ''
+  });
+
   useEffect(() => {
     if (isSuisaMember) {
       loadInventory();
@@ -109,13 +104,25 @@ const SuisaPortal: React.FC = () => {
   const loadInventory = async () => {
     setLoading(true);
     try {
+      // Use a simpler query to avoid ambiguous column references
       const { data, error } = await supabase
-        .rpc('get_inventory_with_last_transaction');
+        .from('inventory')
+        .select(`
+          *,
+          created_by_profile:profiles!inventory_created_by_fkey(full_name),
+          last_modified_by_profile:profiles!inventory_last_modified_by_fkey(full_name)
+        `)
+        .order('updated_at', { ascending: false });
 
       if (error) {
         setError('Fehler beim Laden des Inventars: ' + error.message);
       } else {
-        setInventory(data || []);
+        // Transform the data to include user names
+        const enhancedData = (data || []).map(item => ({
+          ...item,
+          last_modified_user_name: item.last_modified_by_profile?.full_name || 'Unbekannt'
+        }));
+        setInventory(enhancedData);
       }
     } catch (err) {
       setError('Verbindungsfehler beim Laden des Inventars');
@@ -141,16 +148,39 @@ const SuisaPortal: React.FC = () => {
     }
   };
 
-  const adjustQuantity = async (itemId: string, change: number, reason?: string) => {
-    setLoading(true);
-    setError(null);
+  const loadTransactionHistory = async (itemId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('inventory_transactions')
+        .select(`
+          *,
+          profiles!inventory_transactions_created_by_fkey(full_name)
+        `)
+        .eq('inventory_id', itemId)
+        .order('created_at', { ascending: false });
 
+      if (error) {
+        setError('Fehler beim Laden der Transaktionshistorie: ' + error.message);
+      } else {
+        const enhancedTransactions = (data || []).map(transaction => ({
+          ...transaction,
+          user_name: transaction.profiles?.full_name || 'Unbekannt'
+        }));
+        setTransactions(enhancedTransactions);
+      }
+    } catch (err) {
+      setError('Verbindungsfehler beim Laden der Transaktionshistorie');
+    }
+  };
+
+  const adjustQuantity = async (item: EnhancedInventoryItem, change: number) => {
+    setLoading(true);
     try {
       const { error } = await supabase.rpc('adjust_inventory_quantity', {
-        item_id: itemId,
+        item_id: item.id,
         quantity_change: change,
         transaction_type: change > 0 ? 'adjustment' : 'usage',
-        reason: reason || (change > 0 ? 'Bestand erhöht' : 'Bestand reduziert')
+        reason: change > 0 ? 'Bestand erhöht' : 'Bestand reduziert'
       });
 
       if (error) {
@@ -172,8 +202,6 @@ const SuisaPortal: React.FC = () => {
     if (!restockingItem) return;
 
     setLoading(true);
-    setError(null);
-
     try {
       const { error } = await supabase.rpc('adjust_inventory_quantity', {
         item_id: restockingItem.id,
@@ -198,34 +226,6 @@ const SuisaPortal: React.FC = () => {
       setError('Verbindungsfehler bei der Nachbestellung');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const loadTransactions = async (itemId: string, itemName: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('inventory_transactions')
-        .select(`
-          *,
-          profiles!inventory_transactions_created_by_fkey(full_name, email)
-        `)
-        .eq('inventory_id', itemId)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        setError('Fehler beim Laden der Transaktionen: ' + error.message);
-      } else {
-        const transactionsWithUserNames = data?.map(transaction => ({
-          ...transaction,
-          user_name: transaction.profiles?.full_name || transaction.profiles?.email || 'Unbekannt'
-        })) || [];
-        
-        setSelectedItemTransactions(transactionsWithUserNames);
-        setSelectedItemName(itemName);
-        setShowTransactionsModal(true);
-      }
-    } catch (err) {
-      setError('Verbindungsfehler beim Laden der Transaktionen');
     }
   };
 
@@ -271,7 +271,8 @@ const SuisaPortal: React.FC = () => {
         .from('inventory')
         .update({
           ...formData,
-          last_modified_by: profile?.id
+          last_modified_by: profile?.id,
+          last_modified_at: new Date().toISOString()
         })
         .eq('id', editingItem.id);
 
@@ -364,7 +365,7 @@ const SuisaPortal: React.FC = () => {
     });
   };
 
-  const startEdit = (item: EnhancedInventoryItem) => {
+  const startEdit = (item: InventoryItem) => {
     setEditingItem(item);
     setFormData({
       name: item.name,
@@ -377,14 +378,15 @@ const SuisaPortal: React.FC = () => {
     });
   };
 
-  const startRestock = (item: EnhancedInventoryItem) => {
+  const openRestockModal = (item: EnhancedInventoryItem) => {
     setRestockingItem(item);
-    setRestockData({
-      quantity: 0,
-      date: new Date().toISOString().split('T')[0],
-      reason: ''
-    });
     setShowRestockModal(true);
+  };
+
+  const openHistoryModal = async (item: EnhancedInventoryItem) => {
+    setHistoryItem(item);
+    setShowHistoryModal(true);
+    await loadTransactionHistory(item.id);
   };
 
   const filteredInventory = inventory.filter(item => {
@@ -408,13 +410,13 @@ const SuisaPortal: React.FC = () => {
     });
   };
 
-  const getTransactionIcon = (type: string) => {
+  const getTransactionTypeColor = (type: string) => {
     switch (type) {
-      case 'restock': return <TrendingUp className="h-4 w-4 text-green-600" />;
-      case 'usage': return <TrendingDown className="h-4 w-4 text-red-600" />;
-      case 'adjustment': return <RotateCcw className="h-4 w-4 text-blue-600" />;
-      case 'correction': return <Edit className="h-4 w-4 text-yellow-600" />;
-      default: return <History className="h-4 w-4 text-gray-600" />;
+      case 'restock': return 'text-green-600 bg-green-100 dark:bg-green-900/20 dark:text-green-400';
+      case 'usage': return 'text-red-600 bg-red-100 dark:bg-red-900/20 dark:text-red-400';
+      case 'adjustment': return 'text-blue-600 bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400';
+      case 'correction': return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-400';
+      default: return 'text-gray-600 bg-gray-100 dark:bg-gray-900/20 dark:text-gray-400';
     }
   };
 
@@ -641,7 +643,7 @@ const SuisaPortal: React.FC = () => {
                     <tr>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Artikel</th>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Kategorie</th>
-                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Bestand</th>
+                      <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Menge</th>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Standort</th>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Status</th>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Zuletzt geändert</th>
@@ -667,10 +669,10 @@ const SuisaPortal: React.FC = () => {
                         <td className="py-4 px-6">
                           <div className="flex items-center space-x-2">
                             <button
-                              onClick={() => adjustQuantity(item.id, -1)}
+                              onClick={() => adjustQuantity(item, -1)}
                               disabled={loading || item.quantity <= 0}
-                              className="w-8 h-8 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                              title="Bestand reduzieren"
+                              className="w-8 h-8 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Menge reduzieren"
                             >
                               <Minus className="h-4 w-4" />
                             </button>
@@ -678,10 +680,10 @@ const SuisaPortal: React.FC = () => {
                               {item.quantity} {item.unit}
                             </span>
                             <button
-                              onClick={() => adjustQuantity(item.id, 1)}
+                              onClick={() => adjustQuantity(item, 1)}
                               disabled={loading}
-                              className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                              title="Bestand erhöhen"
+                              className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Menge erhöhen"
                             >
                               <Plus className="h-4 w-4" />
                             </button>
@@ -701,25 +703,29 @@ const SuisaPortal: React.FC = () => {
                         </td>
                         <td className="py-4 px-6">
                           <div className="text-sm">
-                            <div className="text-slate-900 dark:text-white">
-                              {item.last_modified_user_name || 'Unbekannt'}
+                            <div className="flex items-center space-x-1 text-slate-600 dark:text-slate-400">
+                              <User className="h-3 w-3" />
+                              <span>{item.last_modified_user_name || 'Unbekannt'}</span>
                             </div>
-                            <div className="text-slate-500 dark:text-slate-400">
-                              {item.last_modified_at ? formatDate(item.last_modified_at) : '-'}
-                            </div>
+                            {item.last_modified_at && (
+                              <div className="flex items-center space-x-1 text-slate-500 dark:text-slate-500">
+                                <Clock className="h-3 w-3" />
+                                <span>{formatDate(item.last_modified_at)}</span>
+                              </div>
+                            )}
                           </div>
                         </td>
                         <td className="py-4 px-6">
                           <div className="flex items-center space-x-2">
                             <button
-                              onClick={() => startRestock(item)}
+                              onClick={() => openRestockModal(item)}
                               className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors duration-200"
                               title="Nachbestellen"
                             >
                               <ShoppingCart className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() => loadTransactions(item.id, item.name)}
+                              onClick={() => openHistoryModal(item)}
                               className="p-2 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors duration-200"
                               title="Verlauf anzeigen"
                             >
@@ -1052,77 +1058,79 @@ const SuisaPortal: React.FC = () => {
         </div>
       )}
 
-      {/* Transactions Modal */}
-      {showTransactionsModal && (
+      {/* History Modal */}
+      {showHistoryModal && historyItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowTransactionsModal(false)}></div>
-          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[80vh] overflow-hidden">
-            <div className="p-6 border-b border-slate-200 dark:border-slate-600">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  Verlauf: {selectedItemName}
-                </h3>
-                <button
-                  onClick={() => setShowTransactionsModal(false)}
-                  className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-lg transition-colors duration-200"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowHistoryModal(false)}></div>
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl mx-4 p-6 max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                Transaktionshistorie: {historyItem.name}
+              </h3>
+              <button
+                onClick={() => setShowHistoryModal(false)}
+                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
             
-            <div className="p-6 overflow-y-auto max-h-[60vh]">
-              {selectedItemTransactions.length === 0 ? (
+            <div className="overflow-y-auto max-h-96">
+              {transactions.length > 0 ? (
+                <div className="space-y-4">
+                  {transactions.map((transaction) => (
+                    <div key={transaction.id} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`px-2 py-1 rounded text-sm font-medium ${getTransactionTypeColor(transaction.transaction_type)}`}>
+                          {getTransactionTypeLabel(transaction.transaction_type)}
+                        </span>
+                        <span className="text-sm text-slate-500 dark:text-slate-400">
+                          {formatDate(transaction.created_at)}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Änderung:</span>
+                          <span className={`ml-2 font-medium ${
+                            transaction.quantity_change > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                          }`}>
+                            {transaction.quantity_change > 0 ? '+' : ''}{transaction.quantity_change}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Bestand:</span>
+                          <span className="ml-2 text-slate-900 dark:text-white">
+                            {transaction.quantity_before} → {transaction.quantity_after}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-600 dark:text-slate-400">Benutzer:</span>
+                          <span className="ml-2 text-slate-900 dark:text-white">{transaction.user_name}</span>
+                        </div>
+                        {transaction.restock_date && (
+                          <div>
+                            <span className="text-slate-600 dark:text-slate-400">Bestelldatum:</span>
+                            <span className="ml-2 text-slate-900 dark:text-white">
+                              {new Date(transaction.restock_date).toLocaleDateString('de-DE')}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {transaction.reason && (
+                        <div className="mt-2 text-sm">
+                          <span className="text-slate-600 dark:text-slate-400">Grund:</span>
+                          <span className="ml-2 text-slate-900 dark:text-white">{transaction.reason}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
                 <div className="text-center py-8">
                   <History className="h-12 w-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
                   <p className="text-slate-500 dark:text-slate-400">Keine Transaktionen gefunden</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {selectedItemTransactions.map((transaction) => (
-                    <div key={transaction.id} className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start space-x-3">
-                          {getTransactionIcon(transaction.transaction_type)}
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <span className="font-medium text-slate-900 dark:text-white">
-                                {getTransactionTypeLabel(transaction.transaction_type)}
-                              </span>
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                transaction.quantity_change > 0 
-                                  ? 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300'
-                                  : 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300'
-                              }`}>
-                                {transaction.quantity_change > 0 ? '+' : ''}{transaction.quantity_change}
-                              </span>
-                            </div>
-                            <div className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                              {transaction.quantity_before} → {transaction.quantity_after}
-                            </div>
-                            {transaction.reason && (
-                              <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                {transaction.reason}
-                              </div>
-                            )}
-                            {transaction.restock_date && (
-                              <div className="text-sm text-blue-600 dark:text-blue-400 mt-1">
-                                Bestelldatum: {new Date(transaction.restock_date).toLocaleDateString('de-DE')}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <div className="text-right text-sm">
-                          <div className="text-slate-900 dark:text-white">
-                            {transaction.user_name}
-                          </div>
-                          <div className="text-slate-500 dark:text-slate-400">
-                            {formatDate(transaction.created_at)}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               )}
             </div>
