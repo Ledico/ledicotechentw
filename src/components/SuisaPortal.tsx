@@ -40,6 +40,11 @@ interface ExtendedInventoryItem extends Omit<InventoryItem, 'location'> {
   last_modified_user_name?: string;
 }
 
+// Function to check if item is low stock (2 or less) - moved outside component
+const isLowStock = (quantity: number) => {
+  return quantity <= 2;
+};
+
 const SuisaPortal: React.FC = () => {
   const { profile, isSuisaMember } = useAuth();
   const [activeTab, setActiveTab] = useState('inventory');
@@ -379,11 +384,6 @@ const SuisaPortal: React.FC = () => {
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString('de-DE');
-  };
-
-  // Function to check if item is low stock (2 or less)
-  const isLowStock = (quantity: number) => {
-    return quantity <= 2;
   };
 
   // Function to get status badge with low stock warning

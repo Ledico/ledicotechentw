@@ -1,12 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Production Supabase configuration - these are the correct values
-const PRODUCTION_SUPABASE_URL = 'https://ayqitipxqhbubhtjiewb.supabase.co';
-const PRODUCTION_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWl0aXB4cWhidWJodGppZXdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDE2OTgsImV4cCI6MjA2NjI3NzY5OH0.0XVqzzFDFR_iAQHRMM46fbY_N8PhzpHGSUoYUt4KZlg';
-
-// Always use production values for now to ensure connection works
-const supabaseUrl = PRODUCTION_SUPABASE_URL;
-const supabaseAnonKey = PRODUCTION_SUPABASE_ANON_KEY;
+// Use environment variables with fallback to production values for debugging
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://ayqitipxqhbubhtjiewb.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWl0aXB4cWhidWJodGppZXdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDE2OTgsImV4cCI6MjA2NjI3NzY5OH0.0XVqzzFDFR_iAQHRMM46fbY_N8PhzpHGSUoYUt4KZlg';
 
 console.log('🔧 Supabase Configuration Debug:', {
   url: supabaseUrl,
@@ -14,7 +10,9 @@ console.log('🔧 Supabase Configuration Debug:', {
   keyStart: supabaseAnonKey.substring(0, 10),
   environment: import.meta.env.MODE,
   isDev: import.meta.env.DEV,
-  isProd: import.meta.env.PROD
+  isProd: import.meta.env.PROD,
+  hasEnvUrl: !!import.meta.env.VITE_SUPABASE_URL,
+  hasEnvKey: !!import.meta.env.VITE_SUPABASE_ANON_KEY
 });
 
 // Create Supabase client with explicit configuration
@@ -79,9 +77,10 @@ export type Accessory = {
 export const supabaseConfig = {
   url: supabaseUrl,
   keyPreview: supabaseAnonKey.substring(0, 20) + '...',
-  hasValidConfig: true, // Always true since we're using hardcoded values
+  hasValidConfig: !!(supabaseUrl && supabaseAnonKey),
   isProduction: import.meta.env.PROD,
-  environment: import.meta.env.MODE
+  environment: import.meta.env.MODE,
+  usingEnvVars: !!(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY)
 };
 
 // Immediate connection test
