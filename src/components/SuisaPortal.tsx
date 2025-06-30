@@ -617,10 +617,19 @@ const SuisaPortal: React.FC = () => {
               </div>
             </div>
 
-            {/* Inventory Table */}
+            {/* Inventory Table with Fixed Column Widths */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full table-fixed">
+                  <colgroup>
+                    <col className="w-[25%]" /> {/* Artikel */}
+                    <col className="w-[12%]" /> {/* Kategorie */}
+                    <col className="w-[15%]" /> {/* Menge */}
+                    <col className="w-[18%]" /> {/* Nachbestellung */}
+                    <col className="w-[10%]" /> {/* Status */}
+                    <col className="w-[12%]" /> {/* Zuletzt geändert */}
+                    <col className="w-[8%]" />  {/* Aktionen */}
+                  </colgroup>
                   <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                     <tr>
                       <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Artikel</th>
@@ -640,16 +649,16 @@ const SuisaPortal: React.FC = () => {
                             {isLowStock(item.quantity) && item.status === 'verfügbar' && (
                               <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 animate-pulse" />
                             )}
-                            <div>
-                              <p className="font-medium text-slate-900 dark:text-white">{item.name}</p>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium text-slate-900 dark:text-white truncate">{item.name}</p>
                               {item.description && (
-                                <p className="text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{item.description}</p>
                               )}
                             </div>
                           </div>
                         </td>
                         <td className="py-4 px-6">
-                          <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-sm">
+                          <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-sm truncate block">
                             {item.category}
                           </span>
                         </td>
@@ -658,7 +667,7 @@ const SuisaPortal: React.FC = () => {
                             <button
                               onClick={() => adjustQuantity(item.id, -1)}
                               disabled={loading || item.quantity <= 0}
-                              className="w-8 h-8 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="w-8 h-8 flex items-center justify-center bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             >
                               <Minus className="h-4 w-4" />
                             </button>
@@ -668,7 +677,7 @@ const SuisaPortal: React.FC = () => {
                             <button
                               onClick={() => adjustQuantity(item.id, 1)}
                               disabled={loading}
-                              className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="w-8 h-8 flex items-center justify-center bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-full hover:bg-green-200 dark:hover:bg-green-900/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             >
                               <Plus className="h-4 w-4" />
                             </button>
@@ -679,13 +688,13 @@ const SuisaPortal: React.FC = () => {
                             {item.restock_date ? (
                               <>
                                 <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
-                                  <Calendar className="h-3 w-3" />
-                                  <span>{formatDate(item.restock_date)}</span>
+                                  <Calendar className="h-3 w-3 flex-shrink-0" />
+                                  <span className="truncate">{formatDate(item.restock_date)}</span>
                                 </div>
                                 {item.restock_notes && (
                                   <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-500">
-                                    <StickyNote className="h-3 w-3" />
-                                    <span className="truncate max-w-[120px]" title={item.restock_notes}>
+                                    <StickyNote className="h-3 w-3 flex-shrink-0" />
+                                    <span className="truncate" title={item.restock_notes}>
                                       {item.restock_notes}
                                     </span>
                                   </div>
@@ -710,14 +719,14 @@ const SuisaPortal: React.FC = () => {
                           <div className="space-y-1">
                             {item.last_modified_user_name && (
                               <div className="flex items-center space-x-1 text-sm text-slate-600 dark:text-slate-400">
-                                <User className="h-3 w-3" />
-                                <span>{item.last_modified_user_name}</span>
+                                <User className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">{item.last_modified_user_name}</span>
                               </div>
                             )}
                             {item.last_modified_at && (
                               <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-500">
-                                <Clock className="h-3 w-3" />
-                                <span>{formatDate(item.last_modified_at)}</span>
+                                <Clock className="h-3 w-3 flex-shrink-0" />
+                                <span className="truncate">{formatDate(item.last_modified_at)}</span>
                               </div>
                             )}
                           </div>
