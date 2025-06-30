@@ -141,28 +141,28 @@ const AdminConsole: React.FC = () => {
 
   const getSecurityMetricColor = (alertLevel: string) => {
     switch (alertLevel) {
-      case 'error': return 'text-red-600 bg-red-100';
-      case 'warning': return 'text-yellow-600 bg-yellow-100';
-      case 'success': return 'text-green-600 bg-green-100';
-      default: return 'text-blue-600 bg-blue-100';
+      case 'error': return 'text-red-600 bg-red-100 dark:bg-red-900/20 dark:text-red-400';
+      case 'warning': return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20 dark:text-yellow-400';
+      case 'success': return 'text-green-600 bg-green-100 dark:bg-green-900/20 dark:text-green-400';
+      default: return 'text-blue-600 bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400';
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">Lade Benutzerdaten...</p>
+          <p className="text-slate-600 dark:text-slate-400">Lade Benutzerdaten...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-slate-200">
+      <div className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -170,11 +170,11 @@ const AdminConsole: React.FC = () => {
                 <Shield className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">Admin-Konsole</h1>
-                <p className="text-slate-600">Benutzerverwaltung und Systemkontrolle</p>
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Admin-Konsole</h1>
+                <p className="text-slate-600 dark:text-slate-400">Benutzerverwaltung und Systemkontrolle</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-slate-500">
+            <div className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400">
               <Crown className="h-4 w-4 text-yellow-500" />
               <span>Angemeldet als: {profile?.full_name || profile?.email}</span>
             </div>
@@ -185,7 +185,7 @@ const AdminConsole: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Error Display */}
         {(error || actionError) && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center space-x-2">
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400 flex items-center space-x-2">
             <AlertTriangle className="h-5 w-5 flex-shrink-0" />
             <span>{error || actionError}</span>
           </div>
@@ -195,7 +195,7 @@ const AdminConsole: React.FC = () => {
         {profile?.is_admin && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-slate-900">Sicherheits-Dashboard</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Sicherheits-Dashboard</h2>
               <button
                 onClick={loadSecurityData}
                 disabled={securityLoading}
@@ -211,14 +211,14 @@ const AdminConsole: React.FC = () => {
                 const colorClass = getSecurityMetricColor(item.alert_level);
                 
                 return (
-                  <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+                  <div key={index} className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
                     <div className="flex items-center space-x-3">
                       <div className={`p-2 rounded-lg ${colorClass}`}>
                         <IconComponent className="h-6 w-6" />
                       </div>
                       <div>
-                        <p className="text-sm text-slate-600">{item.metric}</p>
-                        <p className="text-2xl font-bold text-slate-900">{item.value}</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">{item.metric}</p>
+                        <p className="text-2xl font-bold text-slate-900 dark:text-white">{item.value}</p>
                       </div>
                     </div>
                   </div>
@@ -230,40 +230,40 @@ const AdminConsole: React.FC = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Users className="h-6 w-6 text-blue-600" />
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-sm text-slate-600">Gesamt Benutzer</p>
-                <p className="text-2xl font-bold text-slate-900">{users.length}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Gesamt Benutzer</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">{users.length}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <ShieldCheck className="h-6 w-6 text-purple-600" />
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                <ShieldCheck className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <p className="text-sm text-slate-600">Administratoren</p>
-                <p className="text-2xl font-bold text-slate-900">
+                <p className="text-sm text-slate-600 dark:text-slate-400">Administratoren</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   {users.filter(user => user.is_admin).length}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-200">
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <User className="h-6 w-6 text-green-600" />
+              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                <User className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <p className="text-sm text-slate-600">Normale Benutzer</p>
-                <p className="text-2xl font-bold text-slate-900">
+                <p className="text-sm text-slate-600 dark:text-slate-400">Normale Benutzer</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
                   {users.filter(user => !user.is_admin).length}
                 </p>
               </div>
@@ -272,7 +272,7 @@ const AdminConsole: React.FC = () => {
         </div>
 
         {/* Controls */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 transition-colors duration-300">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -281,7 +281,7 @@ const AdminConsole: React.FC = () => {
                 placeholder="Benutzer suchen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
               />
             </div>
             <div className="relative">
@@ -289,7 +289,7 @@ const AdminConsole: React.FC = () => {
               <select
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value as 'all' | 'admin' | 'user')}
-                className="pl-10 pr-8 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none bg-white"
+                className="pl-10 pr-8 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
               >
                 <option value="all">Alle Rollen</option>
                 <option value="admin">Nur Admins</option>
@@ -300,20 +300,20 @@ const AdminConsole: React.FC = () => {
         </div>
 
         {/* Users Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-50 border-b border-slate-200">
+              <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                 <tr>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900">Benutzer</th>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900">Rolle</th>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900">Registriert</th>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900">Aktionen</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Benutzer</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Rolle</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Registriert</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Aktionen</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-600">
                 {filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-slate-50 transition-colors duration-150">
+                  <tr key={user.id} className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-150">
                     <td className="py-4 px-6">
                       <div className="flex items-center space-x-3">
                         {user.avatar_url ? (
@@ -328,10 +328,10 @@ const AdminConsole: React.FC = () => {
                           </div>
                         )}
                         <div>
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-slate-900 dark:text-white">
                             {user.full_name || 'Kein Name'}
                           </p>
-                          <p className="text-sm text-slate-500 flex items-center space-x-1">
+                          <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center space-x-1">
                             <Mail className="h-3 w-3" />
                             <span>{user.email}</span>
                           </p>
@@ -340,19 +340,19 @@ const AdminConsole: React.FC = () => {
                     </td>
                     <td className="py-4 px-6">
                       {user.is_admin ? (
-                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/20 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
                           <Crown className="h-3 w-3" />
                           <span>Administrator</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">
+                        <span className="inline-flex items-center space-x-1 px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-sm font-medium">
                           <User className="h-3 w-3" />
                           <span>Benutzer</span>
                         </span>
                       )}
                     </td>
                     <td className="py-4 px-6">
-                      <div className="flex items-center space-x-1 text-sm text-slate-500">
+                      <div className="flex items-center space-x-1 text-sm text-slate-500 dark:text-slate-400">
                         <Calendar className="h-3 w-3" />
                         <span>{formatDate(user.created_at)}</span>
                       </div>
@@ -365,7 +365,7 @@ const AdminConsole: React.FC = () => {
                               <button
                                 onClick={() => handleRevokeAdmin(user.id)}
                                 disabled={actionLoading === user.id}
-                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                                className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200 disabled:opacity-50"
                                 title="Admin-Rechte entziehen"
                               >
                                 {actionLoading === user.id ? (
@@ -378,7 +378,7 @@ const AdminConsole: React.FC = () => {
                               <button
                                 onClick={() => handlePromoteToAdmin(user.id)}
                                 disabled={actionLoading === user.id}
-                                className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                                className="p-2 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors duration-200 disabled:opacity-50"
                                 title="Zum Admin befördern"
                               >
                                 {actionLoading === user.id ? (
@@ -393,7 +393,7 @@ const AdminConsole: React.FC = () => {
                                 setSelectedUser(user);
                                 setShowDeleteModal(true);
                               }}
-                              className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                              className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors duration-200"
                               title="Benutzer löschen"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -413,8 +413,8 @@ const AdminConsole: React.FC = () => {
 
           {filteredUsers.length === 0 && (
             <div className="text-center py-12">
-              <Users className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-500">Keine Benutzer gefunden</p>
+              <Users className="h-12 w-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+              <p className="text-slate-500 dark:text-slate-400">Keine Benutzer gefunden</p>
             </div>
           )}
         </div>
@@ -424,15 +424,15 @@ const AdminConsole: React.FC = () => {
       {showDeleteModal && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowDeleteModal(false)}></div>
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 transition-colors duration-300">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="p-2 bg-red-100 rounded-lg">
-                <AlertTriangle className="h-6 w-6 text-red-600" />
+              <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
+                <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">Benutzer löschen</h3>
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Benutzer löschen</h3>
             </div>
             
-            <p className="text-slate-600 mb-6">
+            <p className="text-slate-600 dark:text-slate-400 mb-6">
               Sind Sie sicher, dass Sie den Benutzer <strong>{selectedUser.full_name || selectedUser.email}</strong> löschen möchten? 
               Diese Aktion kann nicht rückgängig gemacht werden.
             </p>
@@ -440,7 +440,7 @@ const AdminConsole: React.FC = () => {
             <div className="flex space-x-3">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors duration-200"
+                className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200"
               >
                 Abbrechen
               </button>

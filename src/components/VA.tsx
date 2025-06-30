@@ -185,21 +185,21 @@ const VA = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-lg animate-slide-in-left">
+      <nav className="fixed w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg animate-slide-in-left transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <button 
               onClick={() => window.history.back()}
-              className="flex items-center space-x-2 text-slate-700 hover:text-purple-600 transition-colors duration-200 hover:scale-105"
+              className="flex items-center space-x-2 text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200 hover:scale-105"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>Zurück zum Portfolio</span>
             </button>
             <div className="flex items-center space-x-2">
-              <User className="h-8 w-8 text-slate-900 animate-bounce" />
-              <span className="text-xl font-bold text-slate-900">Leonardo Dias Costa</span>
+              <User className="h-8 w-8 text-slate-900 dark:text-white animate-bounce" />
+              <span className="text-xl font-bold text-slate-900 dark:text-white">Leonardo Dias Costa</span>
             </div>
           </div>
         </div>
@@ -458,30 +458,30 @@ const VA = () => {
       </section>
 
       {/* Project Overview - Only Objectives */}
-      <section ref={sectionRef} className="py-20 bg-white">
+      <section ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-in-left">
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Projektübersicht</h2>
-              <p className="text-slate-600 mb-6 leading-relaxed">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Projektübersicht</h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                 Am 25. Oktober 2024 habe ich meine Vertiefungsarbeit begonnen. Ziel ist es, weniger bekannte Orte 
                 in der Deutschschweiz zu erforschen und ihre Besonderheiten aufzuzeigen. Die Arbeit umfasst 
                 8 Schulwochen und gliedert sich in Prozess, Produkt und Präsentation. 
               </p>
-              <p className="text-slate-600 mb-8 leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
                 Ich führe Roadtrips durch, dokumentiere die Orte fotografisch und in einem Video, führe zwei Interviews 
                 (mit einem Tourismusexperten und einer Weltreisenden) und starte eine Umfrage. Zudem analysiere ich 
                 statistische Daten zur Tourismusentwicklung in der Schweiz.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-1">
+                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-1">
                   <div className="text-2xl font-bold text-purple-600 mb-1">{projectDetails.duration}</div>
-                  <div className="text-sm text-slate-600">Projektdauer</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Projektdauer</div>
                 </div>
-                <div className="bg-slate-50 p-4 rounded-lg hover:bg-slate-100 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2">
+                <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 animate-bounce-in stagger-2">
                   <div className="text-2xl font-bold text-purple-600 mb-1">51 Seiten</div>
-                  <div className="text-sm text-slate-600">Dokumentation</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Dokumentation</div>
                 </div>
               </div>
             </div>
@@ -504,14 +504,14 @@ const VA = () => {
       </section>
 
       {/* Technologies Used */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-in-left">
-              <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">
                 Verwendete <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Methoden</span>
               </h2>
-              <p className="text-xl text-slate-600 mb-8">
+              <p className="text-xl text-slate-600 dark:text-slate-400 mb-8">
                 Die verschiedenen Forschungsmethoden und Medien, die in der Vertiefungsarbeit eingesetzt wurden
               </p>
 
@@ -519,16 +519,16 @@ const VA = () => {
                 {technologies.map((tech, index) => (
                   <div 
                     key={index}
-                    className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 animate-bounce-in"
+                    className="bg-white dark:bg-slate-700 p-4 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 dark:border-slate-600 hover:border-purple-200 dark:hover:border-purple-500 animate-bounce-in"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="flex items-center space-x-3 mb-2">
                       <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white hover:scale-110 transition-transform duration-300">
                         <tech.icon className="h-4 w-4" />
                       </div>
-                      <h3 className="font-semibold text-slate-900">{tech.name}</h3>
+                      <h3 className="font-semibold text-slate-900 dark:text-white">{tech.name}</h3>
                     </div>
-                    <p className="text-slate-600 text-sm">{tech.description}</p>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm">{tech.description}</p>
                   </div>
                 ))}
               </div>
@@ -555,13 +555,13 @@ const VA = () => {
       </section>
 
       {/* Key Achievements */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
               Wichtige <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Ergebnisse</span>
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
               Die wichtigsten Erkenntnisse und Erfolge der Vertiefungsarbeit
             </p>
           </div>
@@ -570,15 +570,15 @@ const VA = () => {
             {achievements.map((achievement, index) => (
               <div 
                 key={index}
-                className="flex items-start space-x-4 p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-bounce-in"
+                className="flex items-start space-x-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-bounce-in"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white flex-shrink-0 hover:scale-110 transition-transform duration-300 animate-float" style={{ animationDelay: `${index * 0.5}s` }}>
                   <achievement.icon className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">{achievement.title}</h3>
-                  <p className="text-slate-600">{achievement.description}</p>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">{achievement.title}</h3>
+                  <p className="text-slate-600 dark:text-slate-400">{achievement.description}</p>
                 </div>
               </div>
             ))}
@@ -587,13 +587,13 @@ const VA = () => {
       </section>
 
       {/* Document Structure */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
               Dokument<span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">struktur</span>
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
               Detaillierte Gliederung der 51-seitigen Vertiefungsarbeit
             </p>
           </div>
@@ -602,14 +602,14 @@ const VA = () => {
             {chapters.map((chapter, index) => (
               <div 
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 hover:border-purple-200 animate-slide-in-left"
+                className="bg-white dark:bg-slate-700 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 border border-slate-100 dark:border-slate-600 hover:border-purple-200 dark:hover:border-purple-500 animate-slide-in-left"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900 pr-4">{chapter.title}</h3>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white pr-4">{chapter.title}</h3>
                   <span className="text-sm text-purple-600 font-medium animate-pulse whitespace-nowrap">S. {chapter.pages}</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-3 overflow-hidden">
                   <div 
                     className="bg-gradient-to-r from-purple-600 to-cyan-600 h-3 rounded-full transition-all duration-2000 ease-out relative overflow-hidden"
                     style={{ 
@@ -621,7 +621,7 @@ const VA = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
                   </div>
                 </div>
-                <div className="flex justify-between text-xs text-slate-500 mt-2">
+                <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-2">
                   <span>Bis Seite {chapter.endPage}</span>
                   <span>{Math.round((chapter.endPage / totalPages) * 100)}%</span>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, User, LogIn, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../contexts/ThemeContext';
 import AuthModal from './AuthModal';
 import UserMenu from './UserMenu';
 
@@ -9,6 +10,7 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { user, loading, error } = useAuth();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,13 +39,23 @@ const Navigation = () => {
   return (
     <>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+        scrolled 
+          ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg' 
+          : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-              <User className={`h-8 w-8 ${scrolled ? 'text-slate-900' : 'text-white'}`} />
-              <span className={`text-xl font-bold ${scrolled ? 'text-slate-900' : 'text-white'}`}>
+              <User className={`h-8 w-8 ${
+                scrolled 
+                  ? 'text-slate-900 dark:text-white' 
+                  : 'text-white'
+              }`} />
+              <span className={`text-xl font-bold ${
+                scrolled 
+                  ? 'text-slate-900 dark:text-white' 
+                  : 'text-white'
+              }`}>
                 Leonardo Dias Costa
               </span>
             </div>
@@ -55,7 +67,9 @@ const Navigation = () => {
                   key={item.href}
                   onClick={() => scrollToSection(item.href)}
                   className={`transition-colors duration-200 hover:text-purple-500 ${
-                    scrolled ? 'text-slate-700' : 'text-white/90'
+                    scrolled 
+                      ? 'text-slate-700 dark:text-slate-300' 
+                      : 'text-white/90'
                   }`}
                 >
                   {item.label}
@@ -67,7 +81,11 @@ const Navigation = () => {
                 {loading ? (
                   <div className="flex items-center space-x-2">
                     <div className="w-6 h-6 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
-                    <span className={`text-sm ${scrolled ? 'text-slate-600' : 'text-white/80'}`}>
+                    <span className={`text-sm ${
+                      scrolled 
+                        ? 'text-slate-600 dark:text-slate-400' 
+                        : 'text-white/80'
+                    }`}>
                       Lädt...
                     </span>
                   </div>
@@ -97,7 +115,11 @@ const Navigation = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden ${scrolled ? 'text-slate-900' : 'text-white'}`}
+              className={`md:hidden ${
+                scrolled 
+                  ? 'text-slate-900 dark:text-white' 
+                  : 'text-white'
+              }`}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -105,24 +127,24 @@ const Navigation = () => {
 
           {/* Mobile Menu */}
           {isOpen && (
-            <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg">
+            <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg transition-colors duration-300">
               <div className="px-4 py-2 space-y-1">
                 {navItems.map((item) => (
                   <button
                     key={item.href}
                     onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left px-3 py-2 text-slate-700 hover:text-purple-500 hover:bg-slate-50 rounded-md transition-colors"
+                    className="block w-full text-left px-3 py-2 text-slate-700 dark:text-slate-300 hover:text-purple-500 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md transition-colors"
                   >
                     {item.label}
                   </button>
                 ))}
                 
                 {/* Mobile Auth Section */}
-                <div className="pt-2 border-t border-slate-200">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-600">
                   {loading ? (
                     <div className="px-3 py-2 flex items-center space-x-2">
                       <div className="w-4 h-4 border-2 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div>
-                      <span className="text-slate-600">Lädt...</span>
+                      <span className="text-slate-600 dark:text-slate-400">Lädt...</span>
                     </div>
                   ) : error ? (
                     <div className="px-3 py-2 text-red-600 text-sm flex items-center space-x-2">
@@ -131,11 +153,11 @@ const Navigation = () => {
                     </div>
                   ) : user ? (
                     <div className="px-3 py-2">
-                      <div className="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg">
+                      <div className="flex items-center space-x-3 p-2 bg-slate-50 dark:bg-slate-700 rounded-lg">
                         <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                           {user.email?.charAt(0).toUpperCase()}
                         </div>
-                        <span className="text-slate-700 font-medium">
+                        <span className="text-slate-700 dark:text-slate-300 font-medium">
                           {user.email?.split('@')[0]}
                         </span>
                       </div>

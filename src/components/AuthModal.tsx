@@ -94,7 +94,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       ></div>
       
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-bounce-in">
+      <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden animate-bounce-in transition-colors duration-300">
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-6 py-4 text-white">
           <div className="flex items-center justify-between">
@@ -113,7 +113,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         {/* Content */}
         <div className="p-6">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm animate-fade-in-up">
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400 text-sm animate-fade-in-up">
               <div className="flex items-center space-x-2">
                 <AlertTriangle className="h-4 w-4 flex-shrink-0" />
                 <span>{error}</span>
@@ -122,7 +122,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           )}
 
           {success && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm animate-fade-in-up">
+            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 text-sm animate-fade-in-up">
               {success}
             </div>
           )}
@@ -130,7 +130,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div className="animate-slide-in-left">
-                <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-2">
+                <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Vollständiger Name
                 </label>
                 <div className="relative">
@@ -141,7 +141,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required={!isLogin}
-                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                     placeholder="Ihr vollständiger Name"
                   />
                 </div>
@@ -149,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             )}
 
             <div className="animate-slide-in-left" style={{ animationDelay: '0.1s' }}>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 E-Mail-Adresse
               </label>
               <div className="relative">
@@ -160,14 +160,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                  className="w-full pl-10 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                   placeholder="ihre@email.com"
                 />
               </div>
             </div>
 
             <div className="animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Passwort
               </label>
               <div className="relative">
@@ -178,13 +178,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                  className="w-full pl-10 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
                   placeholder="Ihr Passwort"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors duration-200"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -209,12 +209,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           </form>
 
           <div className="mt-6 text-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <p className="text-slate-600">
+            <p className="text-slate-600 dark:text-slate-400">
               {isLogin ? 'Noch kein Konto?' : 'Bereits ein Konto?'}
             </p>
             <button
               onClick={switchMode}
-              className="mt-2 text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200 hover:underline"
+              className="mt-2 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium transition-colors duration-200 hover:underline"
             >
               {isLogin ? 'Jetzt registrieren' : 'Hier anmelden'}
             </button>

@@ -91,7 +91,7 @@ const UserMenu: React.FC = () => {
 
         {/* Dropdown Menu */}
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-bounce-in">
+          <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 animate-bounce-in transition-colors duration-300">
             {/* User Info Header */}
             <div className="bg-gradient-to-r from-purple-600 to-cyan-600 px-4 py-3 text-white">
               <div className="flex items-center space-x-3">
@@ -125,28 +125,28 @@ const UserMenu: React.FC = () => {
             <div className="py-2">
               <button 
                 onClick={handleProfileEdit}
-                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors duration-200 group"
+                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200 group"
               >
-                <User className="h-5 w-5 text-slate-400 group-hover:text-purple-600 transition-colors duration-200" />
+                <User className="h-5 w-5 text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200" />
                 <span className="font-medium">Profil bearbeiten</span>
               </button>
               
               <button 
                 onClick={handleSettings}
-                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors duration-200 group"
+                className="w-full flex items-center space-x-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200 group"
               >
-                <Settings className="h-5 w-5 text-slate-400 group-hover:text-purple-600 transition-colors duration-200" />
+                <Settings className="h-5 w-5 text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200" />
                 <span className="font-medium">Einstellungen</span>
               </button>
 
               {/* Admin Console Link */}
               {isAdmin && (
                 <>
-                  <hr className="my-2 border-slate-200" />
+                  <hr className="my-2 border-slate-200 dark:border-slate-600" />
                   <Link
                     to="/admin"
                     onClick={() => setIsOpen(false)}
-                    className="w-full flex items-center space-x-3 px-4 py-3 text-purple-700 hover:bg-purple-50 transition-colors duration-200 group"
+                    className="w-full flex items-center space-x-3 px-4 py-3 text-purple-700 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors duration-200 group"
                   >
                     <Shield className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
                     <span className="font-medium">Admin-Konsole</span>
@@ -154,11 +154,11 @@ const UserMenu: React.FC = () => {
                 </>
               )}
 
-              <hr className="my-2 border-slate-200" />
+              <hr className="my-2 border-slate-200 dark:border-slate-600" />
 
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors duration-200 group"
+                className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 group"
               >
                 <LogOut className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
                 <span className="font-medium">Abmelden</span>

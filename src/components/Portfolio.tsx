@@ -75,13 +75,13 @@ const Portfolio = () => {
   ];
 
   return (
-    <section id="portfolio" ref={sectionRef} className="py-20 bg-white">
+    <section id="portfolio" ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             Ausgewählte <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Projekte</span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
             Reale Implementierungen, die meine Expertise in moderner IT-Infrastruktur und Cloud-Lösungen zeigen
           </p>
         </div>
@@ -90,7 +90,7 @@ const Portfolio = () => {
           {projects.map((project, index) => (
             <div 
               key={index}
-              className={`bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-slate-100 hover:border-purple-200 hover:scale-105 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              className={`bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-slate-100 dark:border-slate-700 hover:border-purple-200 dark:hover:border-purple-500 hover:scale-105 hover:-translate-y-2 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className="relative overflow-hidden">
@@ -128,11 +128,11 @@ const Portfolio = () => {
               {project.isVA ? (
                 <Link to={project.linkTo} className="block">
                   <div className="p-6 cursor-pointer">
-                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                       {project.title}
                     </h3>
                     
-                    <p className="text-slate-600 mb-4 leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                       {project.description}
                     </p>
                     
@@ -140,7 +140,7 @@ const Portfolio = () => {
                       {project.tags.map((tag, tagIndex) => (
                         <span 
                           key={tagIndex}
-                          className={`px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                          className={`px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-sm rounded-full hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
                           style={{ transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms` }}
                         >
                           {tag}
@@ -148,7 +148,7 @@ const Portfolio = () => {
                       ))}
                     </div>
                     
-                    <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                    <div className="flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
                       <span className="mr-2">Vertiefungsarbeit ansehen</span>
                       <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
                     </div>
@@ -156,11 +156,11 @@ const Portfolio = () => {
                 </Link>
               ) : (
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                     {project.title}
                   </h3>
                   
-                  <p className="text-slate-600 mb-4 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                     {project.description}
                   </p>
                   
@@ -168,7 +168,7 @@ const Portfolio = () => {
                     {project.tags.map((tag, tagIndex) => (
                       <span 
                         key={tagIndex}
-                        className={`px-3 py-1 bg-slate-100 text-slate-600 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                        className={`px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-sm rounded-full hover:bg-purple-100 dark:hover:bg-purple-900 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
                         style={{ transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms` }}
                       >
                         {tag}
@@ -176,7 +176,7 @@ const Portfolio = () => {
                     ))}
                   </div>
                   
-                  <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <div className="flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
                     <span className="mr-2">Projekt ansehen</span>
                     <ArrowRight className="h-4 w-4 group-hover:animate-pulse" />
                   </div>
@@ -187,7 +187,7 @@ const Portfolio = () => {
         </div>
 
         <div className={`text-center mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <p className="text-slate-600 mb-6">
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
             Interessiert an weiteren Arbeiten oder möchten Sie ein Projekt besprechen?
           </p>
           <button 

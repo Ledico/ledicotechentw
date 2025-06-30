@@ -30,7 +30,7 @@ const NotFound = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 dark:from-black dark:via-slate-900 dark:to-black overflow-hidden relative transition-colors duration-300">
       {/* Animated grid background */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
@@ -65,7 +65,7 @@ const NotFound = () => {
           
           {/* Status bar */}
           <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-red-500/30 max-w-md mx-auto">
+            <div className="bg-black/50 dark:bg-black/70 backdrop-blur-sm rounded-lg p-4 border border-red-500/30 max-w-md mx-auto">
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center space-x-2">
                   <WifiOff className="h-4 w-4 text-red-400 animate-pulse" />
@@ -108,7 +108,7 @@ const NotFound = () => {
 
           {/* Error message with terminal style */}
           <div className={`mb-12 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-black/80 backdrop-blur-sm rounded-xl p-8 border border-red-500/30 max-w-2xl mx-auto font-mono text-left">
+            <div className="bg-black/80 dark:bg-black/90 backdrop-blur-sm rounded-xl p-8 border border-red-500/30 max-w-2xl mx-auto font-mono text-left">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                 <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
@@ -135,7 +135,7 @@ const NotFound = () => {
 
           {/* Modern error message */}
           <div className={`mb-12 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+            <div className="bg-gradient-to-r from-purple-900/50 to-cyan-900/50 dark:from-purple-900/70 dark:to-cyan-900/70 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
               <div className="flex items-center justify-center space-x-3 mb-6">
                 <AlertTriangle className="h-8 w-8 text-yellow-400 animate-bounce" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-white">
@@ -175,7 +175,7 @@ const NotFound = () => {
           </div>
 
           {/* Enhanced CERN legend with modern styling */}
-          <div className={`p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl border border-white/10 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 dark:from-slate-800/70 dark:to-slate-900/70 backdrop-blur-sm rounded-2xl border border-white/10 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="flex items-center justify-center space-x-3 mb-6">
               <div className="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-ping opacity-75"></div>
@@ -184,7 +184,7 @@ const NotFound = () => {
             </div>
             
             <div className="grid md:grid-cols-3 gap-6 text-sm">
-              <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/20">
+              <div className="bg-blue-500/10 dark:bg-blue-500/20 p-4 rounded-lg border border-blue-500/20">
                 <h4 className="text-blue-400 font-semibold mb-2">🏢 Die Legende</h4>
                 <p className="text-white/70">
                   Der HTTP-Fehlercode "404" stammt angeblich vom CERN-Server im Raum 404, 
@@ -192,7 +192,7 @@ const NotFound = () => {
                 </p>
               </div>
               
-              <div className="bg-red-500/10 p-4 rounded-lg border border-red-500/20">
+              <div className="bg-red-500/10 dark:bg-red-500/20 p-4 rounded-lg border border-red-500/20">
                 <h4 className="text-red-400 font-semibold mb-2">🔍 Die Wahrheit</h4>
                 <p className="text-white/70">
                   Das ist nur eine urbane Legende! "404" bedeutet einfach "Not Found" 
@@ -200,7 +200,7 @@ const NotFound = () => {
                 </p>
               </div>
               
-              <div className="bg-green-500/10 p-4 rounded-lg border border-green-500/20">
+              <div className="bg-green-500/10 dark:bg-green-500/20 p-4 rounded-lg border border-green-500/20">
                 <h4 className="text-green-400 font-semibold mb-2">💡 Warum so beliebt?</h4>
                 <p className="text-white/70">
                   Die Geschichte macht den abstrakten Fehlercode menschlicher und greifbarer. 
