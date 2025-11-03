@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Building2, 
   Package, 
@@ -90,13 +90,37 @@ const SuisaPortal: React.FC = () => {
 
   useEffect(() => {
     if (isSuisaMember) {
-      loadInventory();
-      loadAccessories();
+      loadData();
     }
   }, [isSuisaMember]);
 
-  const loadInventory = async () => {
+  const loadData = async () => {
     setLoading(true);
+    try {
+      const [inventoryResult, accessoriesResult] = await Promise.all([
+        supabase.rpc('get_inventory_with_last_transaction'),
+        supabase.from('accessories').select('id, name, category').order('category', { ascending: true })
+      ]);
+
+      if (inventoryResult.error) {
+        setError('Fehler beim Laden des Werkstatt Zubehör Inventars: ' + inventoryResult.error.message);
+      } else {
+        setInventory(inventoryResult.data || []);
+      }
+
+      if (accessoriesResult.error) {
+        setError('Fehler beim Laden der Zubehörteile: ' + accessoriesResult.error.message);
+      } else {
+        setAccessories(accessoriesResult.data || []);
+      }
+    } catch (err) {
+      setError('Verbindungsfehler beim Laden der Daten');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadInventory = async () => {
     try {
       const { data, error } = await supabase
         .rpc('get_inventory_with_last_transaction');
@@ -108,25 +132,6 @@ const SuisaPortal: React.FC = () => {
       }
     } catch (err) {
       setError('Verbindungsfehler beim Laden des Werkstatt Zubehör Inventars');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadAccessories = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('accessories')
-        .select('*')
-        .order('category', { ascending: true });
-
-      if (error) {
-        setError('Fehler beim Laden der Zubehörteile: ' + error.message);
-      } else {
-        setAccessories(data || []);
-      }
-    } catch (err) {
-      setError('Verbindungsfehler beim Laden der Zubehörteile');
     }
   };
 
@@ -345,26 +350,27 @@ const SuisaPortal: React.FC = () => {
     resetRestockForm();
   };
 
-  const filteredInventory = inventory.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.description?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
-    
-    // Updated status filtering logic
-    let matchesStatus = false;
-    if (filterStatus === 'all') {
-      matchesStatus = true;
-    } else if (filterStatus === 'verfügbar') {
-      matchesStatus = item.status === 'verfügbar' && !isLowStock(item.quantity);
-    } else if (filterStatus === 'knapp') {
-      matchesStatus = item.status === 'verfügbar' && isLowStock(item.quantity);
-    }
-    
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  const filteredInventory = useMemo(() => {
+    return inventory.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           item.description?.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
 
-  const categories = [...new Set(inventory.map(item => item.category))];
-  const accessoryCategories = [...new Set(accessories.map(acc => acc.category))];
+      let matchesStatus = false;
+      if (filterStatus === 'all') {
+        matchesStatus = true;
+      } else if (filterStatus === 'verfügbar') {
+        matchesStatus = item.status === 'verfügbar' && !isLowStock(item.quantity);
+      } else if (filterStatus === 'knapp') {
+        matchesStatus = item.status === 'verfügbar' && isLowStock(item.quantity);
+      }
+
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+  }, [inventory, searchTerm, filterCategory, filterStatus]);
+
+  const categories = useMemo(() => [...new Set(inventory.map(item => item.category))], [inventory]);
+  const accessoryCategories = useMemo(() => [...new Set(accessories.map(acc => acc.category))], [accessories]);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return '-';
@@ -766,8 +772,21 @@ const SuisaPortal: React.FC = () => {
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Zubehör Auswahl</h3>
 
-              <div className="space-y-6">
-                {accessoryCategories.map(category => (
+              {loading ? (
+                <div className="space-y-6">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="space-y-3">
+                      <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-24 animate-pulse"></div>
+                      <div className="space-y-2">
+                        <div className="h-12 bg-slate-100 dark:bg-slate-700 rounded animate-pulse"></div>
+                        <div className="h-12 bg-slate-100 dark:bg-slate-700 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {accessoryCategories.map(category => (
                   <div key={category}>
                     <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-3 text-sm uppercase tracking-wide">{category}</h4>
                     <div className="space-y-3">
@@ -806,10 +825,11 @@ const SuisaPortal: React.FC = () => {
                           />
                         </div>
                       ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600 flex space-x-3">
                 <button
