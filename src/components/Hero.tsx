@@ -1,23 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { ChevronDown, Sparkles } from 'lucide-react';
 
 const Hero = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   const scrollToAbout = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  useEffect(() => {
-    // Force video play when component mounts
-    const video = videoRef.current;
-    if (video) {
-      video.play().catch((error) => {
-        console.log('Video autoplay failed:', error);
-        // If autoplay fails, we'll show the fallback background
-      });
-    }
-  }, []);
 
   return (
     <section id="home" className="min-h-screen relative overflow-hidden">
@@ -40,30 +27,9 @@ const Hero = () => {
         <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-pink-500/10 rounded-full blur-xl animate-float"></div>
       </div>
 
-      {/* Video Background with multiple sources */}
+      {/* Enhanced gradient background overlay */}
       <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-80"
-          style={{ filter: 'brightness(0.6) contrast(1.1)' }}
-          onError={() => {
-            console.log('Video failed to load, using fallback background');
-          }}
-        >
-          {/* Multiple video sources for better compatibility */}
-          <source src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/2278095/2278095-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/855564/855564-hd_1920_1080_30fps.mp4" type="video/mp4" />
-          {/* Fallback message */}
-          <div className="w-full h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-        </video>
-        {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/30"></div>
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40"></div>
       </div>
 
