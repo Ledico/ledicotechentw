@@ -30,15 +30,26 @@ const Portfolio = () => {
       image: './img/Image.jpeg',
       tags: ['Tourismus', 'Fotografie', 'Interviews', 'Vertiefungsarbeit'],
       isVA: true,
-      linkTo: '/va'
+      linkTo: '/va',
+      status: 'completed'
     },
     {
-      title: 'Enterprise Intune Deployment',
-      description: 'Komplette Microsoft Intune Einführung für 500+ Geräte mit automatisierter Registrierung, Compliance-Richtlinien und Anwendungsmanagement.',
+      title: 'Windows 11 Migration & Autopilot Rollout',
+      description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Ongoing Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
       image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Microsoft Intune', 'Azure AD', 'PowerShell', 'Compliance'],
+      tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
       demoUrl: '#',
-      githubUrl: '#'
+      githubUrl: '#',
+      status: 'ongoing'
+    },
+    {
+      title: 'SharePoint Online Template Administration',
+      description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Zukünftige Aktivität zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
+      image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600',
+      tags: ['SharePoint Online', 'Microsoft 365', 'Templates', 'Administration'],
+      demoUrl: '#',
+      githubUrl: '#',
+      status: 'planned'
     },
     {
       title: 'Cloud-Native Infrastruktur',
@@ -94,11 +105,24 @@ const Portfolio = () => {
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
+                <img
+                  src={project.image}
                   alt={project.title}
                   className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
+                {project.status && (
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${
+                      project.status === 'completed' ? 'bg-green-500/90 text-white' :
+                      project.status === 'ongoing' ? 'bg-blue-500/90 text-white' :
+                      'bg-amber-500/90 text-white'
+                    }`}>
+                      {project.status === 'completed' ? '✓ Abgeschlossen' :
+                       project.status === 'ongoing' ? '⚡ Ongoing' :
+                       '📅 In Planung'}
+                    </span>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <div className="absolute bottom-4 left-4 right-4 flex space-x-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                     {project.isVA ? (
