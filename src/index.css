@@ -316,14 +316,103 @@
 
 @keyframes circuit-pulse {
   0%, 100% {
-    box-shadow: 
+    box-shadow:
       0 0 5px rgba(0, 255, 255, 0.5),
       inset 0 0 5px rgba(0, 255, 255, 0.2);
   }
   50% {
-    box-shadow: 
+    box-shadow:
       0 0 20px rgba(0, 255, 255, 0.8),
       inset 0 0 10px rgba(0, 255, 255, 0.4);
+  }
+}
+
+/* Status Badge Animations */
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 3px currentColor;
+  }
+}
+
+@keyframes badge-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes badge-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes status-glow-green {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5), 0 0 20px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 30px rgba(34, 197, 94, 0.5);
+  }
+}
+
+@keyframes status-glow-blue {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes status-glow-amber {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5), 0 0 20px rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 30px rgba(245, 158, 11, 0.5);
+  }
+}
+
+@keyframes checkmark-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes lightning-strike {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(2px) scale(1.1);
+  }
+}
+
+@keyframes calendar-flip {
+  0% {
+    transform: rotateY(0);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
   }
 }
 
@@ -421,6 +510,30 @@
 
 .animate-matrix-rain {
   animation: matrix-rain 3s linear infinite;
+}
+
+.animate-badge-pulse {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+.animate-status-glow-green {
+  animation: status-glow-green 2s ease-in-out infinite;
+}
+
+.animate-status-glow-blue {
+  animation: status-glow-blue 2s ease-in-out infinite;
+}
+
+.animate-status-glow-amber {
+  animation: status-glow-amber 2s ease-in-out infinite;
+}
+
+.animate-lightning-strike {
+  animation: lightning-strike 1s ease-in-out infinite;
+}
+
+.animate-calendar-flip {
+  animation: calendar-flip 3s ease-in-out infinite;
 }
 
 /* Smooth scrolling */
