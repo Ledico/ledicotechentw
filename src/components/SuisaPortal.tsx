@@ -766,7 +766,7 @@ const SuisaPortal: React.FC = () => {
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Zubehör Auswahl</h3>
 
-              <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2">
+              <div className="space-y-6">
                 {accessoryCategories.map(category => (
                   <div key={category}>
                     <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-3 text-sm uppercase tracking-wide">{category}</h4>
@@ -841,7 +841,7 @@ const SuisaPortal: React.FC = () => {
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Ausgabe</h3>
 
-              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-6 min-h-[600px] flex items-center justify-center">
+              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
                 {generatedText ? (
                   <div className="w-full">
                     <p className="text-lg text-slate-900 dark:text-white whitespace-pre-wrap break-words">
