@@ -64,21 +64,24 @@ export function useAuth() {
     console.log('👂 Setting up auth listener...');
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
 
       console.log('🔄 Auth state changed:', event, session?.user?.email);
-      
-      setSession(session);
-      setUser(session?.user ?? null);
-      setError(null);
-      
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      } else {
-        setProfile(null);
-        setLoading(false);
-      }
+
+      // Use async IIFE to avoid deadlock
+      (async () => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setError(null);
+
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        } else {
+          setProfile(null);
+          setLoading(false);
+        }
+      })();
     });
 
     return () => {
@@ -87,9 +90,11 @@ export function useAuth() {
     };
   }, []);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string, retryCount = 0) => {
+    const maxRetries = 3;
+
     try {
-      console.log('📡 Fetching profile for user:', userId);
+      console.log('📡 Fetching profile for user:', userId, retryCount > 0 ? `(Retry ${retryCount}/${maxRetries})` : '');
 
       const { data, error } = await supabase
         .from('profiles')
@@ -104,43 +109,23 @@ export function useAuth() {
         return;
       }
 
-      if (!data) {
-        console.log('ℹ️ Profile not found, will be created by trigger');
-        // Wait a bit and try again (max 3 attempts)
-        let attempts = 0;
-        const maxAttempts = 3;
-
-        const retryFetch = async () => {
-          attempts++;
-          console.log(`🔄 Retry attempt ${attempts}/${maxAttempts}`);
-
-          const { data: retryData, error: retryError } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .maybeSingle();
-
-          if (retryData) {
-            console.log('✅ Profile loaded on retry:', retryData);
-            setProfile(retryData);
-            setError(null);
-            setLoading(false);
-          } else if (attempts < maxAttempts) {
-            setTimeout(retryFetch, 2000);
-          } else {
-            console.error('❌ Profile not found after retries');
-            setError('Profil konnte nicht geladen werden');
-            setLoading(false);
-          }
-        };
-
-        setTimeout(retryFetch, 1000);
-      } else {
-        console.log('✅ Profile loaded:', data);
-        setProfile(data);
-        setError(null);
-        setLoading(false);
+      if (!data && retryCount < maxRetries) {
+        console.log('ℹ️ Profile not found, retrying in 1 second...');
+        setTimeout(() => fetchProfile(userId, retryCount + 1), 1000);
+        return;
       }
+
+      if (!data) {
+        console.error('❌ Profile not found after retries');
+        setError('Profil konnte nicht geladen werden');
+        setLoading(false);
+        return;
+      }
+
+      console.log('✅ Profile loaded:', data);
+      setProfile(data);
+      setError(null);
+      setLoading(false);
     } catch (error) {
       console.error('❌ Profile fetch error:', error);
       setError('Fehler beim Laden des Profils');
