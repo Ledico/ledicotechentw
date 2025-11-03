@@ -34,7 +34,7 @@ const Portfolio = () => {
       status: 'completed'
     },
     {
-      title: 'Windows 11 Migration & Autopilot Rollout',
+      title: 'Intune Windows 11 Migration & Autopilot',
       description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Ongoing Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
       image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
@@ -52,36 +52,13 @@ const Portfolio = () => {
       status: 'planned'
     },
     {
-      title: 'Cloud-Native Infrastruktur',
-      description: 'Kubernetes-basierte Microservices-Plattform mit automatisierten CI/CD-Pipelines und Infrastructure as Code Implementierung.',
-      image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Kubernetes', 'Docker', 'Terraform', 'Azure DevOps'],
+      title: 'Weitere Projekte in Planung',
+      description: 'Verschiedene IT-Infrastruktur- und Cloud-Projekte befinden sich derzeit in der Planungsphase. Diese umfassen Bereiche wie Automatisierung, Sicherheit und moderne Cloud-Lösungen.',
+      image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
+      tags: ['Cloud', 'Automatisierung', 'Infrastructure', 'DevOps'],
       demoUrl: '#',
-      githubUrl: '#'
-    },
-    {
-      title: 'Zero Trust Sicherheits-Framework',
-      description: 'Implementierung einer umfassenden Zero Trust Architektur mit bedingten Zugriffsrichtlinien und Identitätsschutz.',
-      image: 'https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Azure AD', 'Bedingter Zugriff', 'MFA', 'Sicherheit'],
-      demoUrl: '#',
-      githubUrl: '#'
-    },
-    {
-      title: 'Hybrid Cloud Migration',
-      description: 'Nahtlose Migration von On-Premises-Infrastruktur in eine Hybrid-Cloud-Umgebung mit minimaler Ausfallzeit.',
-      image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Azure', 'Hybrid Cloud', 'Migration', 'PowerShell'],
-      demoUrl: '#',
-      githubUrl: '#'
-    },
-    {
-      title: 'Automatisierte Monitoring-Lösung',
-      description: 'Umfassende Überwachungs- und Alarmierungssystem mit benutzerdefinierten Dashboards und automatisierter Incident Response.',
-      image: 'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Azure Monitor', 'Log Analytics', 'PowerBI', 'Automatisierung'],
-      demoUrl: '#',
-      githubUrl: '#'
+      githubUrl: '#',
+      status: 'planned'
     }
   ];
 
