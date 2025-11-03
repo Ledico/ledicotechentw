@@ -65,15 +65,18 @@ const Contact = () => {
         });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
+        console.error('API Error:', data);
+        const errorMsg = data.details?.message || data.error || 'Beim Senden der Nachricht ist ein Fehler aufgetreten.';
         setSubmitStatus({
           type: 'error',
-          message: data.error || 'Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
+          message: errorMsg
         });
       }
     } catch (error) {
+      console.error('Network Error:', error);
       setSubmitStatus({
         type: 'error',
-        message: 'Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.'
+        message: `Netzwerkfehler: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`
       });
     } finally {
       setIsSubmitting(false);
