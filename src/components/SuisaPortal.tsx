@@ -791,7 +791,7 @@ const SuisaPortal: React.FC = () => {
                     <h4 className="font-semibold text-slate-700 dark:text-slate-300 text-sm uppercase tracking-wide">{category}</h4>
                     <div className="space-y-2">
                       {accessories.filter(acc => acc.category === category).map(accessory => (
-                        <div key={accessory.id} className="flex items-center justify-between p-2.5 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-700 border border-slate-200 dark:border-slate-600">
+                        <div key={accessory.id} className="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-700 border border-slate-200 dark:border-slate-600">
                           <div className="flex items-center space-x-2 flex-1 min-w-0">
                             <input
                               type="checkbox"
@@ -807,7 +807,7 @@ const SuisaPortal: React.FC = () => {
                               }}
                               className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 flex-shrink-0"
                             />
-                            <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{accessory.name}</p>
+                            <p className="font-medium text-slate-900 dark:text-white text-sm leading-tight break-words">{accessory.name}</p>
                           </div>
                           <input
                             type="number"
@@ -820,7 +820,7 @@ const SuisaPortal: React.FC = () => {
                                 [accessory.id]: value
                               });
                             }}
-                            className="w-14 px-2 py-1 border border-slate-300 dark:border-slate-600 rounded-lg text-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm flex-shrink-0 ml-2"
+                            className="w-14 px-2 py-1 border border-slate-300 dark:border-slate-600 rounded-lg text-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm flex-shrink-0"
                             disabled={(accessoryQuantities[accessory.id] || 0) === 0}
                           />
                         </div>
