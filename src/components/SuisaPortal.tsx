@@ -60,7 +60,7 @@ const SuisaPortal: React.FC = () => {
 
   // Accessories state
   const [accessories, setAccessories] = useState<Accessory[]>([]);
-  const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
+  const [accessoryQuantities, setAccessoryQuantities] = useState<Record<string, number>>({});
   const [generatedText, setGeneratedText] = useState('');
 
   // Modal states
@@ -283,32 +283,17 @@ const SuisaPortal: React.FC = () => {
   };
 
   const generateAccessoryText = () => {
-    const selected = accessories.filter(acc => selectedAccessories.includes(acc.id));
-    
+    const selected = accessories
+      .filter(acc => accessoryQuantities[acc.id] && accessoryQuantities[acc.id] > 0)
+      .map(acc => ({ ...acc, quantity: accessoryQuantities[acc.id] }));
+
     if (selected.length === 0) {
       setGeneratedText('Keine Zubehörteile ausgewählt.');
       return;
     }
 
-    const totalPrice = selected.reduce((sum, acc) => sum + (acc.price || 0), 0);
-    
-    let text = `SUISA Zubehör-Konfiguration\n`;
-    text += `================================\n\n`;
-    text += `Ausgewählte Komponenten:\n\n`;
-    
-    selected.forEach((acc, index) => {
-      text += `${index + 1}. ${acc.name}\n`;
-      text += `   Kategorie: ${acc.category}\n`;
-      text += `   Beschreibung: ${acc.description || 'Keine Beschreibung'}\n`;
-      text += `   Kompatibilität: ${acc.compatibility.join(', ')}\n`;
-      text += `   Preis: CHF ${acc.price?.toFixed(2) || '0.00'}\n`;
-      text += `   Lieferant: ${acc.supplier || 'Nicht angegeben'}\n`;
-      text += `   Artikelnummer: ${acc.part_number || 'Nicht angegeben'}\n\n`;
-    });
-    
-    text += `Gesamtpreis: CHF ${totalPrice.toFixed(2)}\n\n`;
-    text += `Generiert am: ${new Date().toLocaleDateString('de-CH')}\n`;
-    text += `Erstellt von: ${profile?.full_name || profile?.email}\n`;
+    const items = selected.map(acc => `${acc.name} (${acc.quantity})`).join(', ');
+    const text = `Zubehör: ${items}`;
 
     setGeneratedText(text);
   };
@@ -779,80 +764,94 @@ const SuisaPortal: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Accessory Selection */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Zubehör auswählen</h3>
-              
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Zubehör Auswahl</h3>
+
+              <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2">
                 {accessoryCategories.map(category => (
                   <div key={category}>
-                    <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-2">{category}</h4>
-                    <div className="space-y-2 ml-4">
+                    <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-3 text-sm uppercase tracking-wide">{category}</h4>
+                    <div className="space-y-3">
                       {accessories.filter(acc => acc.category === category).map(accessory => (
-                        <label key={accessory.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={selectedAccessories.includes(accessory.id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedAccessories([...selectedAccessories, accessory.id]);
-                              } else {
-                                setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                              }
-                            }}
-                            className="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                          />
-                          <div className="flex-1">
+                        <div key={accessory.id} className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-700 border border-slate-200 dark:border-slate-600">
+                          <div className="flex items-center space-x-3 flex-1">
+                            <input
+                              type="checkbox"
+                              checked={(accessoryQuantities[accessory.id] || 0) > 0}
+                              onChange={(e) => {
+                                const newQuantities = { ...accessoryQuantities };
+                                if (e.target.checked) {
+                                  newQuantities[accessory.id] = 1;
+                                } else {
+                                  newQuantities[accessory.id] = 0;
+                                }
+                                setAccessoryQuantities(newQuantities);
+                              }}
+                              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                            />
                             <p className="font-medium text-slate-900 dark:text-white">{accessory.name}</p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400">{accessory.description}</p>
-                            <p className="text-sm text-blue-600 dark:text-blue-400">CHF {accessory.price?.toFixed(2) || '0.00'}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                              Kompatibel mit: {accessory.compatibility.join(', ')}
-                            </p>
                           </div>
-                        </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={accessoryQuantities[accessory.id] || 1}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value) || 1;
+                              setAccessoryQuantities({
+                                ...accessoryQuantities,
+                                [accessory.id]: value
+                              });
+                            }}
+                            className="w-16 px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            disabled={(accessoryQuantities[accessory.id] || 0) === 0}
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600">
+              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-600 flex space-x-3">
                 <button
                   onClick={generateAccessoryText}
-                  disabled={selectedAccessories.length === 0}
-                  className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={Object.values(accessoryQuantities).every(q => !q || q === 0)}
+                  className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Calculator className="h-5 w-5" />
-                  <span>Konfiguration generieren</span>
+                  <FileText className="h-5 w-5" />
+                  <span>Generiere</span>
                 </button>
+                <button
+                  onClick={() => setAccessoryQuantities({})}
+                  className="px-4 py-3 bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 transition-colors duration-200"
+                >
+                  Clear
+                </button>
+                {generatedText && (
+                  <button
+                    onClick={copyToClipboard}
+                    className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
+                  >
+                    Copy
+                  </button>
+                )}
               </div>
             </div>
 
             {/* Generated Text */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Generierte Konfiguration</h3>
-                {generatedText && (
-                  <button
-                    onClick={copyToClipboard}
-                    className="flex items-center space-x-2 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
-                  >
-                    <Copy className="h-4 w-4" />
-                    <span>Kopieren</span>
-                  </button>
-                )}
-              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Ausgabe</h3>
 
-              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 min-h-96">
+              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-6 min-h-[600px] flex items-center justify-center">
                 {generatedText ? (
-                  <pre className="text-sm text-slate-900 dark:text-white whitespace-pre-wrap font-mono">
-                    {generatedText}
-                  </pre>
+                  <div className="w-full">
+                    <p className="text-lg text-slate-900 dark:text-white whitespace-pre-wrap break-words">
+                      {generatedText}
+                    </p>
+                  </div>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-slate-500 dark:text-slate-400">
-                    <div className="text-center">
-                      <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Wählen Sie Zubehörteile aus und klicken Sie auf "Konfiguration generieren"</p>
-                    </div>
+                  <div className="text-center text-slate-500 dark:text-slate-400">
+                    <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>Keine Ausgabe</p>
                   </div>
                 )}
               </div>
