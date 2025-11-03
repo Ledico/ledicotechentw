@@ -25,6 +25,7 @@ const Navigation = () => {
     { href: '#about', label: 'Über mich' },
     { href: '#services', label: 'Leistungen' },
     { href: '#portfolio', label: 'Projekte' },
+    { href: '#certifications', label: 'Zertifikate' },
     { href: '#contact', label: 'Kontakt' },
   ];
 

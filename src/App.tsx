@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
+import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import VA from './components/VA';
 import AdminConsole from './components/AdminConsole';
@@ -25,6 +26,7 @@ function App() {
               <About />
               <Services />
               <Portfolio />
+              <Certifications />
               <Contact />
             </div>
           } />
