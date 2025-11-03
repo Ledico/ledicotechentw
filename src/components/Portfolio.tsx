@@ -92,32 +92,29 @@ const Portfolio = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 {project.status && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <span className={`relative px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md border-2 transition-all duration-300 ${
+                  <div className="absolute top-4 right-4 z-20">
+                    <div className={`relative inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 hover:scale-105 ${
                       project.status === 'completed'
-                        ? 'bg-green-500/90 text-white border-green-300 animate-status-glow-green hover:scale-110' :
+                        ? 'bg-green-500/95 text-white border-green-400 shadow-lg shadow-green-500/50 animate-status-glow-green' :
                       project.status === 'ongoing'
-                        ? 'bg-blue-500/90 text-white border-blue-300 animate-status-glow-blue hover:scale-110' :
-                        'bg-amber-500/90 text-white border-amber-300 animate-status-glow-amber hover:scale-110'
+                        ? 'bg-blue-500/95 text-white border-blue-400 shadow-lg shadow-blue-500/50 animate-status-glow-blue' :
+                        'bg-amber-500/95 text-white border-amber-400 shadow-lg shadow-amber-500/50 animate-status-glow-amber'
                     }`}>
-                      <span className="flex items-center space-x-1.5">
-                        {project.status === 'completed' && (
-                          <span className="inline-block transform group-hover:rotate-12 transition-transform">✓</span>
-                        )}
-                        {project.status === 'ongoing' && (
-                          <span className="inline-block animate-lightning-strike">⚡</span>
-                        )}
-                        {project.status === 'planned' && (
-                          <span className="inline-block transform group-hover:scale-125 transition-transform">📅</span>
-                        )}
-                        <span>
-                          {project.status === 'completed' ? 'Abgeschlossen' :
-                           project.status === 'ongoing' ? 'Ongoing' :
-                           'In Planung'}
-                        </span>
+                      {project.status === 'completed' && (
+                        <span className="text-base">✓</span>
+                      )}
+                      {project.status === 'ongoing' && (
+                        <span className="text-base animate-pulse">⚡</span>
+                      )}
+                      {project.status === 'planned' && (
+                        <span className="text-base">📅</span>
+                      )}
+                      <span className="font-bold">
+                        {project.status === 'completed' ? 'Abgeschlossen' :
+                         project.status === 'ongoing' ? 'Ongoing' :
+                         'In Planung'}
                       </span>
-                      <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 animate-[badge-shine_2s_ease-in-out_infinite]"></span>
-                    </span>
+                    </div>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
