@@ -15,21 +15,12 @@ export function useAuth() {
 
     const initializeAuth = async () => {
       console.log('🔄 Initializing auth...');
-      
+
       try {
-        // Get initial session with increased timeout
         console.log('📡 Getting session...');
-        
-        const sessionPromise = supabase.auth.getSession();
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout')), 30000) // Increased from 10s to 30s
-        );
-        
-        const { data: { session }, error } = await Promise.race([
-          sessionPromise,
-          timeoutPromise
-        ]) as any;
-        
+
+        const { data: { session }, error } = await supabase.auth.getSession();
+
         if (error) {
           console.error('❌ Error getting session:', error);
           if (mounted) {
@@ -46,7 +37,7 @@ export function useAuth() {
           setSession(session);
           setUser(session?.user ?? null);
           setError(null);
-          
+
           if (session?.user) {
             console.log('👤 User found, fetching profile...');
             await fetchProfile(session.user.id);
@@ -99,40 +90,60 @@ export function useAuth() {
   const fetchProfile = async (userId: string) => {
     try {
       console.log('📡 Fetching profile for user:', userId);
-      
-      const profilePromise = supabase
+
+      const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single();
-        
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Profile fetch timeout')), 30000) // Increased from 15s to 30s
-      );
-      
-      const { data, error } = await Promise.race([
-        profilePromise,
-        timeoutPromise
-      ]) as any;
+        .maybeSingle();
 
       if (error) {
         console.error('❌ Error fetching profile:', error);
-        if (error.code === 'PGRST116') {
-          console.log('ℹ️ Profile not found, will be created by trigger');
-          // Wait a bit and try again
-          setTimeout(() => fetchProfile(userId), 2000);
-        } else {
-          setError('Fehler beim Laden des Profils');
-        }
+        setError('Fehler beim Laden des Profils');
+        setLoading(false);
+        return;
+      }
+
+      if (!data) {
+        console.log('ℹ️ Profile not found, will be created by trigger');
+        // Wait a bit and try again (max 3 attempts)
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        const retryFetch = async () => {
+          attempts++;
+          console.log(`🔄 Retry attempt ${attempts}/${maxAttempts}`);
+
+          const { data: retryData, error: retryError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
+
+          if (retryData) {
+            console.log('✅ Profile loaded on retry:', retryData);
+            setProfile(retryData);
+            setError(null);
+            setLoading(false);
+          } else if (attempts < maxAttempts) {
+            setTimeout(retryFetch, 2000);
+          } else {
+            console.error('❌ Profile not found after retries');
+            setError('Profil konnte nicht geladen werden');
+            setLoading(false);
+          }
+        };
+
+        setTimeout(retryFetch, 1000);
       } else {
         console.log('✅ Profile loaded:', data);
         setProfile(data);
         setError(null);
+        setLoading(false);
       }
     } catch (error) {
       console.error('❌ Profile fetch error:', error);
-      setError('Timeout beim Laden des Profils');
-    } finally {
+      setError('Fehler beim Laden des Profils');
       setLoading(false);
     }
   };
