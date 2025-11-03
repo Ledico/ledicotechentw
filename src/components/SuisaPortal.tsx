@@ -622,13 +622,13 @@ const SuisaPortal: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full table-fixed">
                   <colgroup>
-                    <col style={{ width: '22%' }} />  {/* Artikel */}
-                    <col style={{ width: '10%' }} />  {/* Kategorie */}
-                    <col style={{ width: '12%' }} />  {/* Menge */}
-                    <col style={{ width: '18%' }} />  {/* Nachbestellung */}
-                    <col style={{ width: '10%' }} />  {/* Status */}
-                    <col style={{ width: '16%' }} />  {/* Zuletzt geändert */}
-                    <col style={{ width: '12%' }} />  {/* Aktionen */}
+                    <col style={{ width: '22%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '16%' }} />
+                    <col style={{ width: '12%' }} />
                   </colgroup>
                   <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                     <tr>
