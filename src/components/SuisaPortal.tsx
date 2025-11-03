@@ -767,14 +767,14 @@ const SuisaPortal: React.FC = () => {
 
         {/* Generator Tab */}
         {activeTab === 'generator' && (
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Accessory Selection */}
+          <div className="space-y-8">
+            {/* Accessory Selection - Full Width */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Zubehör Auswahl</h3>
 
               {loading ? (
-                <div className="space-y-6">
-                  {[1, 2, 3].map(i => (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {[1, 2, 3, 4].map(i => (
                     <div key={i} className="space-y-3">
                       <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-24 animate-pulse"></div>
                       <div className="space-y-2">
@@ -785,14 +785,14 @@ const SuisaPortal: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {accessoryCategories.map(category => (
-                  <div key={category}>
-                    <h4 className="font-semibold text-slate-700 dark:text-slate-300 mb-3 text-sm uppercase tracking-wide">{category}</h4>
-                    <div className="space-y-3">
+                  <div key={category} className="space-y-3">
+                    <h4 className="font-semibold text-slate-700 dark:text-slate-300 text-sm uppercase tracking-wide">{category}</h4>
+                    <div className="space-y-2">
                       {accessories.filter(acc => acc.category === category).map(accessory => (
-                        <div key={accessory.id} className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-700 border border-slate-200 dark:border-slate-600">
-                          <div className="flex items-center space-x-3 flex-1">
+                        <div key={accessory.id} className="flex items-center justify-between p-2.5 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-700 dark:to-slate-700 border border-slate-200 dark:border-slate-600">
+                          <div className="flex items-center space-x-2 flex-1 min-w-0">
                             <input
                               type="checkbox"
                               checked={(accessoryQuantities[accessory.id] || 0) > 0}
@@ -805,9 +805,9 @@ const SuisaPortal: React.FC = () => {
                                 }
                                 setAccessoryQuantities(newQuantities);
                               }}
-                              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 flex-shrink-0"
                             />
-                            <p className="font-medium text-slate-900 dark:text-white">{accessory.name}</p>
+                            <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{accessory.name}</p>
                           </div>
                           <input
                             type="number"
@@ -820,7 +820,7 @@ const SuisaPortal: React.FC = () => {
                                 [accessory.id]: value
                               });
                             }}
-                            className="w-16 px-2 py-1.5 border border-slate-300 dark:border-slate-600 rounded-lg text-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-14 px-2 py-1 border border-slate-300 dark:border-slate-600 rounded-lg text-center bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm flex-shrink-0 ml-2"
                             disabled={(accessoryQuantities[accessory.id] || 0) === 0}
                           />
                         </div>
@@ -861,7 +861,7 @@ const SuisaPortal: React.FC = () => {
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Ausgabe</h3>
 
-              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
+              <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-6 min-h-[150px] flex items-center justify-center">
                 {generatedText ? (
                   <div className="w-full">
                     <p className="text-lg text-slate-900 dark:text-white whitespace-pre-wrap break-words">
