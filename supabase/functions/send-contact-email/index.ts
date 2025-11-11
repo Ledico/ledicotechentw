@@ -53,7 +53,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const emailBody = {
-      from: "onboarding@resend.dev",
+      from: "contact@dias-costa.ch",
       to: "leonardorafael.costa04@gmail.com",
       subject: `Neue Kontaktanfrage von ${name}`,
       html: `
