@@ -72,6 +72,41 @@ const IntuneMigration = () => {
     { date: 'November 2025', event: 'Projektabschluss', description: 'Finalisierung und Dokumentation' }
   ];
 
+  const migrationComponents = [
+    {
+      id: 'identity',
+      title: 'Identitätsverwaltung',
+      icon: Shield,
+      old: { name: 'Active Directory', tech: 'AD' },
+      new: { name: 'Entra ID', tech: 'Azure AD' },
+      description: 'Von On-Premise zu Cloud-basierter Identitätsverwaltung'
+    },
+    {
+      id: 'configuration',
+      title: 'Gerätekonfiguration',
+      icon: Settings,
+      old: { name: 'Group Policy', tech: 'GPO' },
+      new: { name: 'Configuration Profiles', tech: 'Intune' },
+      description: 'Von Domain Policies zu Cloud-basierten Konfigurationsprofilen'
+    },
+    {
+      id: 'apps',
+      title: 'Softwareverteilung',
+      icon: Package,
+      old: { name: 'Netkey', tech: 'On-Premise' },
+      new: { name: 'Company Portal', tech: 'Cloud' },
+      description: 'Von zentraler Installation zu Self-Service für Endbenutzer'
+    },
+    {
+      id: 'security',
+      title: 'Endpoint Protection',
+      icon: Shield,
+      old: { name: 'Sophos', tech: 'Drittanbieter' },
+      new: { name: 'Defender for Endpoint', tech: 'Microsoft' },
+      description: 'Von Drittanbieter zu nativer Windows-Security'
+    }
+  ];
+
   const adVsEntraId = {
     ad: [
       { pro: false, text: 'On-Premise Infrastruktur erforderlich' },
@@ -188,7 +223,7 @@ const IntuneMigration = () => {
             Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">Autopilot</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-            Umfassende Migration von 340 Geräten (300 Notebooks, 40 Desktops) von Windows 10 zu Windows 11 mit Microsoft Intune und Entra ID
+            Umfassende Modernisierung der IT-Infrastruktur: Migration von 340 Geräten zu Windows 11 mit vollständiger Cloud-Transformation der Verwaltungssysteme
           </p>
         </div>
 
@@ -207,6 +242,36 @@ const IntuneMigration = () => {
               <div className="mt-2 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </div>
           ))}
+        </div>
+
+        <div className={`bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-8 shadow-lg border border-blue-200 dark:border-slate-600 mb-16 transition-all duration-1000 delay-300 hover:shadow-2xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+            <Zap className="h-8 w-8 mr-3 text-blue-600 animate-pulse" />
+            Migrationsstrategie im Überblick
+          </h2>
+          <p className="text-slate-700 dark:text-slate-300 mb-8 text-lg">
+            Die Migration umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden:
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {migrationComponents.map((component, index) => (
+              <div
+                key={component.id}
+                className={`bg-white dark:bg-slate-800 p-6 rounded-xl border border-blue-200 dark:border-slate-600 hover:shadow-xl transition-all duration-500 hover:scale-105 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                style={{ transitionDelay: `${500 + index * 100}ms` }}
+              >
+                <component.icon className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">{component.title}</h3>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-red-600 dark:text-red-400 font-medium">{component.old.name}</span>
+                    <span className="text-slate-400">→</span>
+                    <span className="text-green-600 dark:text-green-400 font-medium">{component.new.name}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-400">{component.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-400 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -235,10 +300,13 @@ const IntuneMigration = () => {
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-600 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
             <Shield className="h-8 w-8 mr-3 text-blue-600" />
-            Active Directory vs. Entra ID
+            1. Identitätsverwaltung: Active Directory → Entra ID
           </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
+            Grundlage der Cloud-Transformation: Migration von lokaler Active Directory-Infrastruktur zu Azure Entra ID für moderne, cloud-basierte Identitätsverwaltung.
+          </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
               <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
@@ -290,23 +358,16 @@ const IntuneMigration = () => {
               </div>
             </div>
           </div>
-
-          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
-            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
-              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Migration:</strong> Alle Geräte wurden von Active Directory auf Entra ID (Azure AD) migriert,
-                um moderne Cloud-basierte Verwaltung und verbesserte Sicherheitsfunktionen zu nutzen.
-              </span>
-            </p>
-          </div>
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-800 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
             <Settings className="h-8 w-8 mr-3 text-blue-600" />
-            Group Policy vs. Configuration Profiles
+            2. Gerätekonfiguration: Group Policy → Configuration Profiles
           </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
+            Cloud-basierte Geräteverwaltung: Ablösung von klassischen Group Policies durch moderne Intune Configuration Profiles für flexible Verwaltung aller Geräte.
+          </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
               <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
@@ -358,23 +419,16 @@ const IntuneMigration = () => {
               </div>
             </div>
           </div>
-
-          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
-            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
-              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Migration:</strong> Alle Gerätekonfigurationen wurden von Group Policies auf Intune Configuration Profiles migriert
-                für moderne, cloud-basierte Verwaltung und verbesserte Flexibilität.
-              </span>
-            </p>
-          </div>
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-1000 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
             <Package className="h-8 w-8 mr-3 text-blue-600" />
-            Netkey vs. Company Portal
+            3. Softwareverteilung: Netkey → Company Portal
           </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
+            Self-Service Revolution: Umstellung von zentraler Softwareverteilung via Netkey zu benutzerfreundlichem Self-Service über Microsoft Company Portal.
+          </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
               <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
@@ -426,23 +480,16 @@ const IntuneMigration = () => {
               </div>
             </div>
           </div>
-
-          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
-            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
-              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Migration:</strong> Softwareverteilung wurde von Netkey auf Microsoft Company Portal migriert,
-                um Self-Service-Funktionen zu ermöglichen und die IT-Verwaltung zu vereinfachen.
-              </span>
-            </p>
-          </div>
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-1200 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
             <Shield className="h-8 w-8 mr-3 text-blue-600" />
-            Sophos vs. Microsoft Defender for Endpoint
+            4. Endpoint Protection: Sophos → Microsoft Defender for Endpoint
           </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
+            Native Security-Integration: Wechsel von Drittanbieter-Lösung Sophos zu Microsoft Defender for Endpoint für nahtlose Windows-Integration und erweiterte Threat Protection.
+          </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
               <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
@@ -494,25 +541,15 @@ const IntuneMigration = () => {
               </div>
             </div>
           </div>
-
-          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
-            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
-              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Migration:</strong> Endpoint Protection wurde von Sophos auf Microsoft Defender for Endpoint migriert,
-                um native Windows-Integration und erweiterte Threat Protection zu nutzen.
-              </span>
-            </p>
-          </div>
         </div>
 
         <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-1000 delay-1400 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
             <Laptop className="h-8 w-8 mr-3 text-blue-600" />
             Windows Autopilot Deployment
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Windows Autopilot ermöglicht Zero-Touch Deployment für neue Geräte - vom Auspacken bis zum produktiven Einsatz ohne manuelle IT-Intervention.
+            Zero-Touch Bereitstellung: Windows Autopilot ermöglicht vollautomatische Gerätekonfiguration vom Auspacken bis zum produktiven Einsatz - ohne manuelle IT-Intervention.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {autopilotSteps.map((step, index) => (
@@ -520,7 +557,7 @@ const IntuneMigration = () => {
                 key={index}
                 className={`relative group ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{
-                  transitionDelay: `${1200 + index * 150}ms`,
+                  transitionDelay: `${1600 + index * 150}ms`,
                   animation: isVisible ? `float 3s ease-in-out ${index * 0.5}s infinite` : 'none'
                 }}
               >
@@ -568,9 +605,9 @@ const IntuneMigration = () => {
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800 hover:shadow-xl hover:scale-105 transition-all duration-300">
+            <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 p-6 rounded-xl border border-orange-200 dark:border-orange-800 hover:shadow-xl hover:scale-105 transition-all duration-300">
               <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center">
-                <TrendingUp className="h-5 w-5 mr-2 text-purple-600 animate-pulse" />
+                <TrendingUp className="h-5 w-5 mr-2 text-orange-600 animate-pulse" />
                 Effizienz
               </h4>
               <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
