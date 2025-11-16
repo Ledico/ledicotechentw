@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle, Shield, Cloud, Server, Zap } from 'lucide-react';
+import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle, Shield, Cloud, Server, Zap, FileText, Package, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const IntuneMigration = () => {
@@ -88,6 +88,63 @@ const IntuneMigration = () => {
       { pro: true, text: 'Nahtlose Integration mit Microsoft 365' },
       { pro: true, text: 'Automatische Updates und Patches' },
       { pro: true, text: 'Skalierbar und kosteneffizient' }
+    ]
+  };
+
+  const gpVsConfigProfiles = {
+    gp: [
+      { pro: false, text: 'Erfordert Active Directory Domain Controller' },
+      { pro: false, text: 'Nur für domain-joined Geräte verfügbar' },
+      { pro: false, text: 'Komplexe Fehlersuche bei Anwendungsproblemen' },
+      { pro: false, text: 'Keine native Mobile Device Management Unterstützung' },
+      { pro: true, text: 'Umfangreiche Konfigurationsmöglichkeiten' },
+      { pro: true, text: 'Etablierte Verwaltungsmethode' }
+    ],
+    configProfiles: [
+      { pro: true, text: 'Cloud-basiert - keine Domain erforderlich' },
+      { pro: true, text: 'Unterstützt Azure AD Joined und Hybrid Joined Geräte' },
+      { pro: true, text: 'Zentrale Verwaltung über Intune Portal' },
+      { pro: true, text: 'Real-time Reporting und Compliance Status' },
+      { pro: true, text: 'Plattformübergreifend (Windows, macOS, iOS, Android)' },
+      { pro: true, text: 'Automatisches Deployment bei Enrollment' }
+    ]
+  };
+
+  const netkeyVsCompanyPortal = {
+    netkey: [
+      { pro: false, text: 'On-Premise Server erforderlich' },
+      { pro: false, text: 'Manuelle Paketpflege und Updates' },
+      { pro: false, text: 'Begrenzte Self-Service Möglichkeiten für User' },
+      { pro: false, text: 'Komplexe Lizenzierung und Wartung' },
+      { pro: true, text: 'Lokale Kontrolle über Software-Pakete' },
+      { pro: true, text: 'Etabliertes System in der Organisation' }
+    ],
+    companyPortal: [
+      { pro: true, text: 'Cloud-basiert - keine Server-Infrastruktur nötig' },
+      { pro: true, text: 'Self-Service App-Installation für Endbenutzer' },
+      { pro: true, text: 'Automatische App-Updates über Intune' },
+      { pro: true, text: 'Zentrale App-Verwaltung im Microsoft Endpoint Manager' },
+      { pro: true, text: 'Integration mit Microsoft Store for Business' },
+      { pro: true, text: 'Verfügbarkeits- und Compliance-Reporting' }
+    ]
+  };
+
+  const sophosVsDefender = {
+    sophos: [
+      { pro: false, text: 'Zusätzliche Lizenzkosten erforderlich' },
+      { pro: false, text: 'Separate Management-Konsole notwendig' },
+      { pro: false, text: 'Drittanbieter-Integration mit zusätzlichem Aufwand' },
+      { pro: false, text: 'Potenzielle Konflikte mit Windows-eigener Security' },
+      { pro: true, text: 'Bewährte Endpoint Protection Lösung' },
+      { pro: true, text: 'Umfangreiche Threat Protection Features' }
+    ],
+    defender: [
+      { pro: true, text: 'In Microsoft 365 E5 / Windows 11 Pro enthalten' },
+      { pro: true, text: 'Native Integration in Windows Betriebssystem' },
+      { pro: true, text: 'Zentrale Verwaltung über Microsoft Defender Portal' },
+      { pro: true, text: 'Advanced Threat Protection (ATP) inklusive' },
+      { pro: true, text: 'Automatische Updates ohne Zusatzkosten' },
+      { pro: true, text: 'Zero-Touch Deployment mit Intune' }
     ]
   };
 
@@ -245,7 +302,211 @@ const IntuneMigration = () => {
           </div>
         </div>
 
-        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-1000 delay-800 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-800 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+            <Settings className="h-8 w-8 mr-3 text-blue-600" />
+            Group Policy vs. Configuration Profiles
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                <FileText className="h-6 w-6 mr-2 text-slate-600 dark:text-slate-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Group Policy (Alt)</h3>
+              </div>
+              <div className="space-y-3">
+                {gpVsConfigProfiles.gp.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+                    style={{ transitionDelay: `${1400 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg">
+                <Settings className="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Configuration Profiles (Neu)</h3>
+              </div>
+              <div className="space-y-3">
+                {gpVsConfigProfiles.configProfiles.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-blue-900/20 dark:hover:to-cyan-900/20 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+                    style={{ transitionDelay: `${1400 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
+              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+              <span>
+                <strong>Migration:</strong> Alle Gerätekonfigurationen wurden von Group Policies auf Intune Configuration Profiles migriert
+                für moderne, cloud-basierte Verwaltung und verbesserte Flexibilität.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-1000 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+            <Package className="h-8 w-8 mr-3 text-blue-600" />
+            Netkey vs. Company Portal
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                <Server className="h-6 w-6 mr-2 text-slate-600 dark:text-slate-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Netkey (Alt)</h3>
+              </div>
+              <div className="space-y-3">
+                {netkeyVsCompanyPortal.netkey.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+                    style={{ transitionDelay: `${1700 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg">
+                <Package className="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Company Portal (Neu)</h3>
+              </div>
+              <div className="space-y-3">
+                {netkeyVsCompanyPortal.companyPortal.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-blue-900/20 dark:hover:to-cyan-900/20 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+                    style={{ transitionDelay: `${1700 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
+              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+              <span>
+                <strong>Migration:</strong> Softwareverteilung wurde von Netkey auf Microsoft Company Portal migriert,
+                um Self-Service-Funktionen zu ermöglichen und die IT-Verwaltung zu vereinfachen.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-1200 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
+            <Shield className="h-8 w-8 mr-3 text-blue-600" />
+            Sophos vs. Microsoft Defender for Endpoint
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+                <Shield className="h-6 w-6 mr-2 text-slate-600 dark:text-slate-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Sophos (Alt)</h3>
+              </div>
+              <div className="space-y-3">
+                {sophosVsDefender.sophos.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+                    style={{ transitionDelay: `${2000 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg">
+                <Shield className="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Microsoft Defender (Neu)</h3>
+              </div>
+              <div className="space-y-3">
+                {sophosVsDefender.defender.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-blue-900/20 dark:hover:to-cyan-900/20 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+                    style={{ transitionDelay: `${2000 + index * 50}ms` }}
+                  >
+                    {item.pro ? (
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
+                    )}
+                    <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
+              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+              <span>
+                <strong>Migration:</strong> Endpoint Protection wurde von Sophos auf Microsoft Defender for Endpoint migriert,
+                um native Windows-Integration und erweiterte Threat Protection zu nutzen.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-1000 delay-1400 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
             <Laptop className="h-8 w-8 mr-3 text-blue-600" />
             Windows Autopilot Deployment
