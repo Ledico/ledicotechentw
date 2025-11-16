@@ -25,15 +25,16 @@ const IntuneMigration = () => {
 
   const projectStats = [
     { label: 'Projektdauer', value: 'Jan - Nov 2025', icon: Calendar },
-    { label: 'Gesamtgeräte', value: '320+', icon: TrendingUp },
-    { label: 'Lenovo Notebooks', value: '~250', icon: Laptop },
-    { label: 'HP/Dell Desktops', value: '~70', icon: Monitor }
+    { label: 'Gesamtgeräte', value: '340', icon: TrendingUp },
+    { label: 'Lenovo Notebooks', value: '300', icon: Laptop },
+    { label: 'HP/Dell Desktops', value: '40', icon: Monitor }
   ];
 
   const timeline = [
     { date: 'Januar 2025', event: 'Projektstart', description: 'Planung und Vorbereitung der Migration' },
     { date: 'Februar 2025', event: 'Windows 10 Support-Ende', description: '14. Februar - Kritisches Datum für Migration' },
-    { date: 'März - Oktober 2025', event: 'Hauptmigration', description: 'Rollout von Windows 11 mit Intune & Autopilot' },
+    { date: 'März - August 2025', event: 'Vorbereitungsphase', description: 'Infrastruktur-Setup, Autopilot-Konfiguration und Testing' },
+    { date: 'September - November 2025', event: 'Hauptmigration', description: 'Rollout von Windows 11 mit Intune & Autopilot für 340 Geräte' },
     { date: 'November 2025', event: 'Projektabschluss', description: 'Finalisierung und Dokumentation' }
   ];
 
@@ -95,7 +96,7 @@ const IntuneMigration = () => {
             Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Autopilot</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-            Umfassende Migration von über 320 Geräten von Windows 10 zu Windows 11 mit Microsoft Intune und Entra ID
+            Umfassende Migration von 340 Geräten (300 Notebooks, 40 Desktops) von Windows 10 zu Windows 11 mit Microsoft Intune und Entra ID
           </p>
         </div>
 
