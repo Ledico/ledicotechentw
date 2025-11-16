@@ -24,16 +24,16 @@ const About = () => {
 
   const skills = [
     { name: 'Microsoft Intune & Endpoint Management', level: 95 },
-    { name: 'Cloud-Native Architektur', level: 90 },
-    { name: 'Azure & AWS Infrastruktur', level: 88 },
-    { name: 'DevOps & Automatisierung', level: 85 },
+    { name: 'Windows 11 Migration & Autopilot', level: 90 },
+    { name: 'Microsoft 365 Administration (SharePoint, Exchange, Teams)', level: 88 },
+    { name: 'Azure Entra ID & Cloud-Migration', level: 85 },
   ];
 
   const stats = [
-    { icon: Server, number: '200+', label: 'Systeme implementiert' },
-    { icon: Users, number: '50+', label: 'Enterprise-Kunden' },
+    { icon: Server, number: '340+', label: 'Geräte migriert (SUISA)' },
+    { icon: Users, number: '300+', label: 'Notebooks deployed' },
     { icon: Trophy, number: '5+', label: 'Jahre Erfahrung' },
-    { icon: Shield, number: '99.9%', label: 'Verfügbarkeit erreicht' },
+    { icon: Shield, number: '100%', label: 'Autopilot Success Rate' },
   ];
 
   return (
@@ -44,24 +44,25 @@ const About = () => {
             Über <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">mich</span>
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            System Engineer mit Spezialisierung auf moderne IT-Infrastruktur und Cloud-Native Lösungen
+            IT-Systemadministrator bei SUISA mit Spezialisierung auf Microsoft Intune, Windows 11 Migration und Microsoft 365 Administration
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
-              Robuste IT-Lösungen entwickeln
+              Praktische IT-Expertise aus realen Enterprise-Projekten
             </h3>
             <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-              Mit über 5 Jahren Erfahrung in der Systemtechnik spezialisiere ich mich auf Microsoft Intune 
-              Endpoint Management, Cloud-Native Architekturen und Enterprise-Infrastrukturlösungen. 
-              Meine Expertise umfasst moderne IT-Operationen, von Geräteverwaltung bis hin zu skalierbaren Cloud-Deployments.
+              Als IT-Systemadministrator bei der SUISA leite ich aktuell die Migration von über 340 Geräten zu Windows 11
+              mit Microsoft Intune und Windows Autopilot. Von der Geräte-Registrierung über App-Management bis zur
+              Zero-Touch Bereitstellung – ich implementiere moderne Cloud-basierte Endpoint-Management-Lösungen.
             </p>
             <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-              Ich bin leidenschaftlich daran interessiert, sichere, effiziente und skalierbare IT-Lösungen zu implementieren, 
-              die Organisationen dabei helfen, im digitalen Zeitalter erfolgreich zu sein. Durch kontinuierliches Lernen und 
-              praktische Erfahrung mit modernsten Technologien liefere ich Lösungen, die Erwartungen übertreffen.
+              Meine Expertise umfasst die Migration von Active Directory zu Azure Entra ID, die Implementierung von
+              SharePoint Online Templates, sowie den Wechsel von Drittanbieter-Security-Lösungen zu Microsoft Defender for Endpoint.
+              Durch kontinuierliches Lernen und praktische Erfahrung mit Microsoft 365 Technologien liefere ich Lösungen,
+              die den Unternehmensalltag verbessern.
             </p>
 
             <div className="space-y-4">
@@ -87,13 +88,13 @@ const About = () => {
 
           <div className={`relative transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <div className="bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl p-8 text-white hover:scale-105 transition-transform duration-300 hover:shadow-2xl">
-              <h4 className="text-2xl font-bold mb-6">Meine Methodik</h4>
+              <h4 className="text-2xl font-bold mb-6">Meine Arbeitsweise</h4>
               <div className="space-y-4">
                 {[
-                  'Sicherheitsorientiertes Architekturdesign',
-                  'Infrastructure as Code (IaC)',
-                  'Automatisierte Deployment-Pipelines',
-                  'Kontinuierliche Überwachung & Optimierung'
+                  'Cloud-First Ansatz mit Microsoft 365',
+                  'Zero-Touch Deployment mit Autopilot',
+                  'Self-Service für Endbenutzer (Company Portal)',
+                  'Native Microsoft Security Integration'
                 ].map((item, index) => (
                   <div key={index} className={`flex items-start space-x-3 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`} style={{ transitionDelay: `${800 + index * 100}ms` }}>
                     <div className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
