@@ -222,9 +222,13 @@ const IntuneMigration = () => {
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4 animate-fade-in">
             Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">Autopilot</span>
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mb-4">
             Umfassende Modernisierung der IT-Infrastruktur: Migration von 340 Geräten zu Windows 11 mit vollständiger Cloud-Transformation der Verwaltungssysteme
           </p>
+          <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+            <Shield className="h-5 w-5 mr-2" />
+            <span className="font-semibold">Projekt durchgeführt bei SUISA</span>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
@@ -249,8 +253,11 @@ const IntuneMigration = () => {
             <Zap className="h-8 w-8 mr-3 text-blue-600 animate-pulse" />
             Migrationsstrategie im Überblick
           </h2>
-          <p className="text-slate-700 dark:text-slate-300 mb-8 text-lg">
-            Die Migration umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden:
+          <p className="text-slate-700 dark:text-slate-300 mb-4 text-lg">
+            Die Migration bei der SUISA umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden:
+          </p>
+          <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm italic">
+            Als IT-Systemadministrator bei der SUISA habe ich dieses umfassende Migrationsprojekt geplant, koordiniert und durchgeführt.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {migrationComponents.map((component, index) => (
