@@ -36,7 +36,7 @@ const Portfolio = () => {
     {
       title: 'Intune Windows 11 Migration & Autopilot',
       description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Ongoing Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
       demoUrl: '#',
       githubUrl: '#',
@@ -45,7 +45,7 @@ const Portfolio = () => {
     {
       title: 'SharePoint Online Template Administration',
       description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Ongoing Projekt zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
-      image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['SharePoint Online', 'Microsoft 365', 'Templates', 'Administration'],
       demoUrl: '#',
       githubUrl: '#',
