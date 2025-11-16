@@ -223,7 +223,7 @@ const IntuneMigration = () => {
             Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">Autopilot</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mb-4">
-            Umfassende Modernisierung der IT-Infrastruktur: Migration von 340 Geräten zu Windows 11 mit vollständiger Cloud-Transformation der Verwaltungssysteme
+            Komplette Endpoint-Management-Lösung mit Geräte-Compliance, Sicherheitsrichtlinien und Cloud-Native Architektur für moderne, skalierbare und ausfallsichere IT-Infrastruktur
           </p>
           <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
             <Shield className="h-5 w-5 mr-2" />
@@ -254,10 +254,10 @@ const IntuneMigration = () => {
             Migrationsstrategie im Überblick
           </h2>
           <p className="text-slate-700 dark:text-slate-300 mb-4 text-lg">
-            Die Migration bei der SUISA umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden:
+            Die Migration bei der SUISA umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden. Dieses Projekt vereint Microsoft Intune Management, Cloud-Native Architektur, Infrastruktur-Engineering, Sicherheit & Compliance sowie DevOps & Automatisierung.
           </p>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm italic">
-            Als IT-Systemadministrator bei der SUISA habe ich dieses umfassende Migrationsprojekt geplant, koordiniert und durchgeführt.
+            Als IT-Systemadministrator bei der SUISA habe ich dieses umfassende Migrationsprojekt eigenständig geplant, koordiniert und durchgeführt - von der Geräte-Registrierung über Infrastructure as Code bis hin zur Zero Trust Architektur und Compliance-Auditing.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {migrationComponents.map((component, index) => (
@@ -312,7 +312,7 @@ const IntuneMigration = () => {
             1. Identitätsverwaltung: Active Directory → Entra ID
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Grundlage der Cloud-Transformation: Migration von lokaler Active Directory-Infrastruktur zu Azure Entra ID für moderne, cloud-basierte Identitätsverwaltung.
+            Grundlage der Cloud-Transformation: Migration von lokaler Active Directory-Infrastruktur zu Azure Entra ID für moderne, cloud-basierte Identitätsverwaltung mit Zero Trust Architektur und Identity Management.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
@@ -373,7 +373,7 @@ const IntuneMigration = () => {
             2. Gerätekonfiguration: Group Policy → Configuration Profiles
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Cloud-basierte Geräteverwaltung: Ablösung von klassischen Group Policies durch moderne Intune Configuration Profiles für flexible Verwaltung aller Geräte.
+            Cloud-basierte Geräteverwaltung: Ablösung von klassischen Group Policies durch moderne Intune Configuration Profiles mit Infrastructure as Code und Konfigurationsmanagement für flexible Verwaltung aller Geräte.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
@@ -434,7 +434,7 @@ const IntuneMigration = () => {
             3. Softwareverteilung: Netkey → Company Portal
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Self-Service Revolution: Umstellung von zentraler Softwareverteilung via Netkey zu benutzerfreundlichem Self-Service über Microsoft Company Portal.
+            Self-Service Revolution: Umstellung von zentraler Softwareverteilung via Netkey zu benutzerfreundlichem Self-Service über Microsoft Company Portal mit automatisierten CI/CD Pipelines und App-Management.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
@@ -495,7 +495,7 @@ const IntuneMigration = () => {
             4. Endpoint Protection: Sophos → Microsoft Defender for Endpoint
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Native Security-Integration: Wechsel von Drittanbieter-Lösung Sophos zu Microsoft Defender for Endpoint für nahtlose Windows-Integration und erweiterte Threat Protection.
+            Native Security-Integration: Wechsel von Drittanbieter-Lösung Sophos zu Microsoft Defender for Endpoint für nahtlose Windows-Integration, erweiterte Threat Protection, Sicherheitsüberwachung und Compliance-Auditing.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="transform transition-all duration-500 hover:scale-105">
@@ -556,7 +556,7 @@ const IntuneMigration = () => {
             Windows Autopilot Deployment
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-8">
-            Zero-Touch Bereitstellung: Windows Autopilot ermöglicht vollautomatische Gerätekonfiguration vom Auspacken bis zum produktiven Einsatz - ohne manuelle IT-Intervention.
+            Zero-Touch Bereitstellung: Windows Autopilot ermöglicht vollautomatische Gerätekonfiguration vom Auspacken bis zum produktiven Einsatz mit automatisiertem Deployment, Monitoring & Alerting - ohne manuelle IT-Intervention.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {autopilotSteps.map((step, index) => (
