@@ -26,38 +26,38 @@ const Services = () => {
     {
       icon: Monitor,
       title: 'Microsoft Intune Management',
-      description: 'Komplette Endpoint-Management-Lösungen mit Geräte-Compliance und Sicherheitsrichtlinien.',
-      features: ['Geräte-Registrierung', 'App-Management', 'Compliance-Richtlinien', 'Bedingter Zugriff']
+      description: 'Migration von 340+ Geräten zu Windows 11 mit Autopilot. Komplettes Endpoint-Management mit Compliance und Zero-Touch Bereitstellung.',
+      features: ['Windows Autopilot', 'Geräte-Registrierung', 'App-Management via Company Portal', 'Compliance-Richtlinien']
     },
     {
       icon: Cloud,
-      title: 'Cloud-Native Architektur',
-      description: 'Moderne Cloud-Lösungen für Skalierbarkeit, Ausfallsicherheit und Performance.',
-      features: ['Microservices-Design', 'Container-Orchestrierung', 'Serverless Computing', 'Auto-Skalierung']
+      title: 'Microsoft 365 Administration',
+      description: 'SharePoint Online Templates, Exchange Online und Teams-Administration für optimierte Zusammenarbeit und Dokumentenverwaltung.',
+      features: ['SharePoint Templates', 'Exchange Online', 'Teams Administration', 'Microsoft 365 Governance']
     },
     {
       icon: Server,
-      title: 'Infrastruktur-Engineering',
-      description: 'Robustes IT-Infrastruktur-Design und -Implementierung für Unternehmensumgebungen.',
-      features: ['Netzwerk-Architektur', 'Server-Management', 'Load Balancing', 'Disaster Recovery']
+      title: 'Cloud-Infrastruktur & Migration',
+      description: 'Migration von On-Premise zu Cloud: Active Directory zu Entra ID, Group Policies zu Intune Configuration Profiles.',
+      features: ['Azure Entra ID Migration', 'Cloud-Infrastruktur Setup', 'Hybrid-Umgebungen', 'Configuration Management']
     },
     {
       icon: Shield,
-      title: 'Sicherheit & Compliance',
-      description: 'Umfassende Sicherheits-Frameworks und Compliance-Management-Lösungen.',
-      features: ['Zero Trust Architektur', 'Identity Management', 'Sicherheitsüberwachung', 'Compliance-Auditing']
+      title: 'Endpoint Security',
+      description: 'Microsoft Defender for Endpoint Implementation. Wechsel von Drittanbieter-Lösungen zu nativer Microsoft Security.',
+      features: ['Defender for Endpoint', 'Sicherheitsrichtlinien', 'Bedrohungserkennung', 'Endpoint Compliance']
     },
     {
       icon: Settings,
-      title: 'DevOps & Automatisierung',
-      description: 'Optimierte Entwicklungsoperationen mit automatisierten Deployment-Pipelines.',
-      features: ['CI/CD Pipelines', 'Infrastructure as Code', 'Monitoring & Alerting', 'Konfigurationsmanagement']
+      title: 'IT-Automatisierung',
+      description: 'Automatisierte Softwareverteilung und Self-Service Lösungen. Deployment-Automatisierung mit Intune und Autopilot.',
+      features: ['Automatische Bereitstellung', 'Self-Service Portal', 'Software Deployment', 'Zero-Touch Provisioning']
     },
     {
       icon: Database,
-      title: 'Daten & Analytics',
-      description: 'Datenplattform-Lösungen mit Echtzeit-Analytics und Business Intelligence.',
-      features: ['Data Warehousing', 'ETL-Prozesse', 'Business Intelligence', 'Echtzeit-Analytics']
+      title: 'Systemtechnik & Support',
+      description: 'Enterprise IT-Support bei SUISA. Server-Management, Netzwerk-Administration und IT-Infrastruktur-Betreuung.',
+      features: ['IT-Systemadministration', 'Server-Management', 'Netzwerk-Support', 'IT-Projekt-Koordination']
     }
   ];
 
@@ -69,7 +69,7 @@ const Services = () => {
             Leistungen & <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Expertise</span>
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            Umfassende IT-Lösungen maßgeschneidert für moderne Unternehmensanforderungen
+            Praktische Erfahrung aus realen Enterprise-Projekten: Microsoft Intune, Windows 11 Migration und Microsoft 365 Administration
           </p>
         </div>
 
