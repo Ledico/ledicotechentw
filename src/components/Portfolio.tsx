@@ -44,12 +44,12 @@ const Portfolio = () => {
     },
     {
       title: 'SharePoint Online Template Administration',
-      description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Zukünftige Aktivität zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
+      description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Ongoing Projekt zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
       image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['SharePoint Online', 'Microsoft 365', 'Templates', 'Administration'],
       demoUrl: '#',
       githubUrl: '#',
-      status: 'planned'
+      status: 'ongoing'
     },
     {
       title: 'Weitere Projekte in Planung',
