@@ -11,6 +11,7 @@ import Contact from './components/Contact';
 import VA from './components/VA';
 import AdminConsole from './components/AdminConsole';
 import SuisaPortal from './components/SuisaPortal';
+import IntuneMigration from './components/IntuneMigration';
 import NotFound from './components/NotFound';
 import { useAuth } from './hooks/useAuth';
 
@@ -31,6 +32,7 @@ function App() {
             </div>
           } />
           <Route path="/va" element={<VA />} />
+          <Route path="/intune-migration" element={<IntuneMigration />} />
           <Route path="/admin" element={<AdminRoute />} />
           <Route path="/suisa" element={<SuisaRoute />} />
           {/* Catch all other routes and show 404 */}

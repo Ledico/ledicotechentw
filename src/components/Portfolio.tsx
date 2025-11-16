@@ -38,8 +38,7 @@ const Portfolio = () => {
       description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Ongoing Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
       image: 'https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
-      demoUrl: '#',
-      githubUrl: '#',
+      linkTo: '/intune-migration',
       status: 'ongoing'
     },
     {
@@ -119,13 +118,13 @@ const Portfolio = () => {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
                   <div className="absolute bottom-4 left-4 right-4 flex space-x-2 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                    {project.isVA ? (
-                      <Link 
+                    {project.linkTo ? (
+                      <Link
                         to={project.linkTo}
                         className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105"
                       >
                         <ExternalLink className="h-4 w-4" />
-                        <span>VA ansehen</span>
+                        <span>{project.isVA ? 'VA ansehen' : 'Details ansehen'}</span>
                       </Link>
                     ) : (
                       <>
@@ -143,17 +142,17 @@ const Portfolio = () => {
                 </div>
               </div>
               
-              {project.isVA ? (
+              {project.linkTo ? (
                 <Link to={project.linkTo} className="block">
                   <div className="p-6 cursor-pointer">
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-cyan-600 transition-all duration-300 transform group-hover:scale-105">
                       {project.title}
                     </h3>
-                    
+
                     <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                       {project.description}
                     </p>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tags.map((tag, tagIndex) => (
                         <span
@@ -168,9 +167,9 @@ const Portfolio = () => {
                         </span>
                       ))}
                     </div>
-                    
+
                     <div className="flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:translate-x-3 transition-all duration-300 relative overflow-hidden">
-                      <span className="mr-2 relative z-10">Vertiefungsarbeit ansehen</span>
+                      <span className="mr-2 relative z-10">{project.isVA ? 'Vertiefungsarbeit ansehen' : 'Projekt Details ansehen'}</span>
                       <ArrowRight className="h-4 w-4 group-hover:animate-pulse relative z-10 group-hover:translate-x-1 transition-transform" />
                       <span className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-cyan-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></span>
                     </div>
