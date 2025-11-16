@@ -97,8 +97,8 @@ const Portfolio = () => {
                       project.status === 'completed'
                         ? 'bg-green-500/95 text-white border-green-400 shadow-lg shadow-green-500/50 animate-status-glow-green' :
                       project.status === 'ongoing'
-                        ? 'bg-blue-500/95 text-white border-blue-400 shadow-lg shadow-blue-500/50 animate-status-glow-blue' :
-                        'bg-amber-500/95 text-white border-amber-400 shadow-lg shadow-amber-500/50 animate-status-glow-amber'
+                        ? 'bg-amber-500/95 text-white border-amber-400 shadow-lg shadow-amber-500/50 animate-status-glow-amber' :
+                        'bg-blue-500/95 text-white border-blue-400 shadow-lg shadow-blue-500/50 animate-status-glow-blue'
                     }`}>
                       {project.status === 'completed' && (
                         <span className="text-base">✓</span>
