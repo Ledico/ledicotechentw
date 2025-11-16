@@ -66,9 +66,9 @@ const IntuneMigration = () => {
 
   const timeline = [
     { date: 'Januar 2025', event: 'Projektstart', description: 'Planung und Vorbereitung der Migration' },
-    { date: 'Februar 2025', event: 'Windows 10 Support-Ende', description: '14. Februar - Kritisches Datum für Migration' },
     { date: 'März - August 2025', event: 'Vorbereitungsphase', description: 'Infrastruktur-Setup, Autopilot-Konfiguration und Testing' },
-    { date: 'September - November 2025', event: 'Hauptmigration', description: 'Rollout von Windows 11 mit Intune & Autopilot für 340 Geräte' },
+    { date: 'September - November 2025', event: 'Hauptmigration', description: 'Rollout von Windows 11 mit Intune & Autopilot für ca. 300 Notebooks und ca. 40 Desktops' },
+    { date: '14. Oktober 2025', event: 'Windows 10 Support-Ende', description: 'Kritisches Datum - Ende des offiziellen Supports' },
     { date: 'November 2025', event: 'Projektabschluss', description: 'Finalisierung und Dokumentation' }
   ];
 
