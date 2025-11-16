@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle, Shield, Cloud, Server } from 'lucide-react';
+import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle, Shield, Cloud, Server, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const IntuneMigration = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [counters, setCounters] = useState({ devices: 0, notebooks: 0, desktops: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,11 +28,40 @@ const IntuneMigration = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (isVisible) {
+      const duration = 2000;
+      const steps = 60;
+      const deviceTarget = 340;
+      const notebookTarget = 300;
+      const desktopTarget = 40;
+
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        const progress = currentStep / steps;
+
+        setCounters({
+          devices: Math.floor(deviceTarget * progress),
+          notebooks: Math.floor(notebookTarget * progress),
+          desktops: Math.floor(desktopTarget * progress)
+        });
+
+        if (currentStep >= steps) {
+          clearInterval(interval);
+          setCounters({ devices: deviceTarget, notebooks: notebookTarget, desktops: desktopTarget });
+        }
+      }, duration / steps);
+
+      return () => clearInterval(interval);
+    }
+  }, [isVisible]);
+
   const projectStats = [
-    { label: 'Projektdauer', value: 'Jan - Nov 2025', icon: Calendar },
-    { label: 'Gesamtgeräte', value: '340', icon: TrendingUp },
-    { label: 'Lenovo Notebooks', value: '300', icon: Laptop },
-    { label: 'HP/Dell Desktops', value: '40', icon: Monitor }
+    { label: 'Projektdauer', value: 'Jan - Nov 2025', icon: Calendar, isCounter: false },
+    { label: 'Gesamtgeräte', value: '340', icon: TrendingUp, isCounter: true, counterKey: 'devices' },
+    { label: 'Lenovo Notebooks', value: '300', icon: Laptop, isCounter: true, counterKey: 'notebooks' },
+    { label: 'HP/Dell Desktops', value: '40', icon: Monitor, isCounter: true, counterKey: 'desktops' }
   ];
 
   const timeline = [
@@ -85,15 +119,16 @@ const IntuneMigration = () => {
       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <Link
           to="/"
-          className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 mb-8 transition-colors duration-200"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-all duration-200 group"
         >
-          <ArrowLeft className="h-5 w-5 mr-2" />
-          Zurück zur Übersicht
+          <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
+          <span className="group-hover:underline">Zurück zur Übersicht</span>
         </Link>
 
         <div className={`mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">
-            Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Autopilot</span>
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4 animate-fade-in">
+            Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">Autopilot</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
             Umfassende Migration von 340 Geräten (300 Notebooks, 40 Desktops) von Windows 10 zu Windows 11 mit Microsoft Intune und Entra ID
@@ -104,29 +139,37 @@ const IntuneMigration = () => {
           {projectStats.map((stat, index) => (
             <div
               key={index}
-              className={`bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-500 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              className={`bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <stat.icon className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3" />
-              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+              <stat.icon className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
+              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                {stat.isCounter ? counters[stat.counterKey as keyof typeof counters] : stat.value}
+              </div>
               <div className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
+              <div className="mt-2 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </div>
           ))}
         </div>
 
-        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-400 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
-            <Calendar className="h-8 w-8 mr-3 text-blue-600" />
+            <Calendar className="h-8 w-8 mr-3 text-blue-600 animate-pulse" />
             Projekt Timeline
           </h2>
           <div className="space-y-6">
             {timeline.map((item, index) => (
-              <div key={index} className="flex items-start group hover:scale-105 transition-transform duration-300">
-                <div className="flex-shrink-0 w-32 text-sm font-semibold text-blue-600 dark:text-blue-400 pt-1">
+              <div
+                key={index}
+                className={`flex items-start group hover:scale-105 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+                style={{ transitionDelay: `${600 + index * 100}ms` }}
+              >
+                <div className="flex-shrink-0 w-32 md:w-40 text-sm font-semibold text-blue-600 dark:text-blue-400 pt-1 group-hover:text-cyan-500 transition-colors duration-300">
                   {item.date}
                 </div>
-                <div className="flex-grow border-l-4 border-blue-600 dark:border-blue-400 pl-6 pb-6 group-hover:border-cyan-500 transition-colors duration-300">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">{item.event}</h3>
+                <div className="relative flex-grow border-l-4 border-blue-600 dark:border-blue-400 pl-6 pb-6 group-hover:border-cyan-500 transition-colors duration-300">
+                  <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full group-hover:scale-150 group-hover:bg-cyan-500 transition-all duration-300"></div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{item.event}</h3>
                   <p className="text-slate-600 dark:text-slate-400">{item.description}</p>
                 </div>
               </div>
@@ -134,24 +177,28 @@ const IntuneMigration = () => {
           </div>
         </div>
 
-        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 mb-16 transition-all duration-1000 delay-600 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
             <Shield className="h-8 w-8 mr-3 text-blue-600" />
             Active Directory vs. Entra ID
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <div className="flex items-center mb-6">
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
                 <Server className="h-6 w-6 mr-2 text-slate-600 dark:text-slate-400" />
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Active Directory (Alt)</h3>
               </div>
               <div className="space-y-3">
                 {adVsEntraId.ad.map((item, index) => (
-                  <div key={index} className="flex items-start group">
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+                    style={{ transitionDelay: `${900 + index * 50}ms` }}
+                  >
                     {item.pro ? (
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
                     )}
                     <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                       {item.text}
@@ -161,18 +208,22 @@ const IntuneMigration = () => {
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center mb-6">
+            <div className="transform transition-all duration-500 hover:scale-105">
+              <div className="flex items-center mb-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg">
                 <Cloud className="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" />
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Entra ID (Neu)</h3>
               </div>
               <div className="space-y-3">
                 {adVsEntraId.entraId.map((item, index) => (
-                  <div key={index} className="flex items-start group">
+                  <div
+                    key={index}
+                    className={`flex items-start group p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-blue-900/20 dark:hover:to-cyan-900/20 transition-all duration-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+                    style={{ transitionDelay: `${900 + index * 50}ms` }}
+                  >
                     {item.pro ? (
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
                     ) : (
-                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" />
+                      <XCircle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-125 transition-transform duration-300" />
                     )}
                     <span className="text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
                       {item.text}
@@ -183,15 +234,18 @@ const IntuneMigration = () => {
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-slate-700 dark:text-slate-300 text-sm">
-              <strong>Migration:</strong> Alle Geräte wurden von Active Directory auf Entra ID (Azure AD) migriert,
-              um moderne Cloud-basierte Verwaltung und verbesserte Sicherheitsfunktionen zu nutzen.
+          <div className="mt-8 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-lg transition-all duration-300">
+            <p className="text-slate-700 dark:text-slate-300 text-sm flex items-start">
+              <Zap className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5" />
+              <span>
+                <strong>Migration:</strong> Alle Geräte wurden von Active Directory auf Entra ID (Azure AD) migriert,
+                um moderne Cloud-basierte Verwaltung und verbesserte Sicherheitsfunktionen zu nutzen.
+              </span>
             </p>
           </div>
         </div>
 
-        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`bg-white dark:bg-slate-800 rounded-xl p-8 shadow-sm border border-slate-200 dark:border-slate-700 transition-all duration-1000 delay-800 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 flex items-center">
             <Laptop className="h-8 w-8 mr-3 text-blue-600" />
             Windows Autopilot Deployment
@@ -203,13 +257,17 @@ const IntuneMigration = () => {
             {autopilotSteps.map((step, index) => (
               <div
                 key={index}
-                className="relative group"
+                className={`relative group ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{
+                  transitionDelay: `${1200 + index * 150}ms`,
+                  animation: isVisible ? `float 3s ease-in-out ${index * 0.5}s infinite` : 'none'
+                }}
               >
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-700 dark:to-slate-600 p-6 rounded-xl border border-blue-200 dark:border-slate-600 hover:shadow-lg transition-all duration-300 hover:scale-105">
-                  <div className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-lg mb-4">
+                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-700 dark:to-slate-600 p-6 rounded-xl border border-blue-200 dark:border-slate-600 hover:shadow-2xl transition-all duration-300 hover:scale-110 hover:-translate-y-2">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-lg mb-4 group-hover:rotate-12 transition-transform duration-300">
                     <step.icon className="h-6 w-6" />
                   </div>
-                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg group-hover:scale-125 transition-transform duration-300">
                     {index + 1}
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{step.title}</h3>
@@ -217,7 +275,7 @@ const IntuneMigration = () => {
                 </div>
                 {index < autopilotSteps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
-                    <div className="w-6 h-0.5 bg-blue-300 dark:bg-blue-700"></div>
+                    <div className="w-6 h-0.5 bg-gradient-to-r from-blue-300 to-cyan-300 dark:from-blue-700 dark:to-cyan-700 animate-pulse"></div>
                   </div>
                 )}
               </div>
@@ -225,44 +283,72 @@ const IntuneMigration = () => {
           </div>
 
           <div className="mt-8 grid md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-xl border border-green-200 dark:border-green-800 hover:shadow-xl hover:scale-105 transition-all duration-300">
               <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center">
-                <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
+                <CheckCircle className="h-5 w-5 mr-2 text-green-600 animate-pulse" />
                 Vorteile
               </h4>
               <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
-                <li>• Keine manuelle Installation</li>
-                <li>• Konsistente Konfiguration</li>
-                <li>• Zeitersparnis für IT-Team</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Keine manuelle Installation</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Konsistente Konfiguration</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Zeitersparnis für IT-Team</li>
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800 hover:shadow-xl hover:scale-105 transition-all duration-300">
               <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center">
-                <Shield className="h-5 w-5 mr-2 text-blue-600" />
+                <Shield className="h-5 w-5 mr-2 text-blue-600 animate-pulse" />
                 Sicherheit
               </h4>
               <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
-                <li>• Automatische Verschlüsselung</li>
-                <li>• Compliance-Richtlinien</li>
-                <li>• Sichere Identität via Entra ID</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Automatische Verschlüsselung</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Compliance-Richtlinien</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Sichere Identität via Entra ID</li>
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800 hover:shadow-xl hover:scale-105 transition-all duration-300">
               <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center">
-                <TrendingUp className="h-5 w-5 mr-2 text-purple-600" />
+                <TrendingUp className="h-5 w-5 mr-2 text-purple-600 animate-pulse" />
                 Effizienz
               </h4>
               <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
-                <li>• 75% schnellere Bereitstellung</li>
-                <li>• Reduzierte Fehlerquote</li>
-                <li>• Bessere User Experience</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• 75% schnellere Bereitstellung</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Reduzierte Fehlerquote</li>
+                <li className="hover:translate-x-2 transition-transform duration-200">• Bessere User Experience</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        @keyframes gradient {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
     </div>
   );
 };
