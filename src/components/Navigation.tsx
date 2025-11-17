@@ -47,12 +47,12 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-              <User className={`h-8 w-8 ${
+              <User className={`h-6 w-6 md:h-8 md:w-8 ${
                 scrolled 
                   ? 'text-slate-900 dark:text-white' 
                   : 'text-white'
               }`} />
-              <span className={`text-xl font-bold ${
+              <span className={`text-base md:text-lg lg:text-xl font-bold ${
                 scrolled 
                   ? 'text-slate-900 dark:text-white' 
                   : 'text-white'
@@ -128,8 +128,8 @@ const Navigation = () => {
 
           {/* Mobile Menu */}
           {isOpen && (
-            <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg transition-colors duration-300">
-              <div className="px-4 py-2 space-y-1">
+            <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-slate-800 shadow-lg transition-colors duration-300 max-h-[80vh] overflow-y-auto">
+              <div className="px-4 py-3 space-y-1">
                 {navItems.map((item) => (
                   <button
                     key={item.href}

@@ -64,35 +64,34 @@ const Portfolio = () => {
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-            Ausgewählte <span className="text-purple-600 animate-gradient-x bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text">Projekte</span>
+        <div className={`text-center mb-8 md:mb-16 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">
+            Ausgewählte <span className="text-purple-600 bg-gradient-to-r from-purple-600 to-cyan-600 bg-clip-text text-transparent">Projekte</span>
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
             Reale Implementierungen, die meine Expertise in moderner IT-Infrastruktur und Cloud-Lösungen zeigen
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {projects.map((project, index) => (
             <div
               key={index}
-              className={`bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 group border border-slate-100 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-400 hover:scale-105 hover:-translate-y-3 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              className={`bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-slate-100 dark:border-slate-700 hover:border-purple-300 dark:hover:border-purple-400 md:hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               style={{
-                transitionDelay: `${index * 150}ms`,
-                animation: isVisible ? `bounce-in 0.8s ease-out ${index * 150}ms forwards` : 'none'
+                transitionDelay: `${index * 100}ms`
               }}
             >
               <div className="relative overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-48 object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700 ease-out"
+                  className="w-full h-40 sm:h-48 object-cover md:group-hover:scale-110 transition-all duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 {project.status && (
                   <div className="absolute top-4 right-4 z-20">
-                    <div className={`relative inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 hover:scale-105 ${
+                    <div className={`relative inline-flex items-center space-x-1 px-2 py-1 md:px-3 md:py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 ${
                       project.status === 'completed'
                         ? 'bg-green-500/95 text-white border-green-400 shadow-lg shadow-green-500/50 animate-status-glow-green' :
                       project.status === 'ongoing'
@@ -144,12 +143,12 @@ const Portfolio = () => {
               
               {project.linkTo ? (
                 <Link to={project.linkTo} className="block">
-                  <div className="p-6 cursor-pointer">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-cyan-600 transition-all duration-300 transform group-hover:scale-105">
+                  <div className="p-4 md:p-6 cursor-pointer">
+                    <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-cyan-600 transition-all duration-300">
                       {project.title}
                     </h3>
 
-                    <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mb-3 md:mb-4 leading-relaxed">
                       {project.description}
                     </p>
 
@@ -157,7 +156,7 @@ const Portfolio = () => {
                       {project.tags.map((tag, tagIndex) => (
                         <span
                           key={tagIndex}
-                          className={`px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-sm rounded-full hover:bg-gradient-to-r hover:from-purple-100 hover:to-cyan-100 dark:hover:from-purple-900 dark:hover:to-cyan-900 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:shadow-lg cursor-pointer ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                          className={`px-2 py-1 md:px-3 md:py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs md:text-sm rounded-full hover:bg-gradient-to-r hover:from-purple-100 hover:to-cyan-100 dark:hover:from-purple-900 dark:hover:to-cyan-900 hover:text-purple-700 dark:hover:text-purple-300 transition-all duration-300 cursor-pointer ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
                           style={{
                             transitionDelay: `${(index * 150) + (tagIndex * 50) + 300}ms`,
                             animation: isVisible ? `slide-in-right 0.5s ease-out ${(index * 150) + (tagIndex * 50) + 300}ms forwards` : 'none'

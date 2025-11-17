@@ -47,33 +47,33 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
-          <div className="flex items-center justify-center mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <Sparkles className="h-8 w-8 text-cyan-400 mr-2 animate-spin-slow" />
-            <span className="text-cyan-400 font-medium text-lg">System Engineer & Cloud-Spezialist</span>
+          <div className="flex items-center justify-center mb-4 md:mb-6" style={{ animationDelay: '0.2s' }}>
+            <Sparkles className="h-6 w-6 md:h-8 md:w-8 text-cyan-400 mr-2" />
+            <span className="text-cyan-400 font-medium text-sm md:text-base lg:text-lg">System Engineer & Cloud-Spezialist</span>
           </div>
           
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 leading-tight drop-shadow-lg" style={{ animationDelay: '0.4s' }}>
             Leonardo
             <span className="block bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient-x">
               Dias Costa
             </span>
           </h1>
           
-          <p className="text-xl sm:text-2xl text-slate-200 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-200 mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md" style={{ animationDelay: '0.6s' }}>
             Spezialisiert auf Microsoft Intune, Cloud-Native Lösungen und Enterprise-Systemtechnik 
             für digitale Transformation und operative Exzellenz.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-            <button 
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center" style={{ animationDelay: '0.8s' }}>
+            <button
               onClick={scrollToAbout}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 animate-pulse-glow"
+              className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white text-sm md:text-base font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Meine Expertise entdecken
             </button>
-            <button 
+            <button
               onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-4 border-2 border-white/50 text-white font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 border-2 border-white/50 text-white text-sm md:text-base font-semibold rounded-lg hover:bg-white/20 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >
               Kontakt aufnehmen
             </button>
