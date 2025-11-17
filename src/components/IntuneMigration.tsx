@@ -3,29 +3,12 @@ import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle,
 import { Link } from 'react-router-dom';
 
 const IntuneMigration = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [counters, setCounters] = useState({ devices: 0, notebooks: 0, desktops: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
