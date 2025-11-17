@@ -207,53 +207,52 @@ const IntuneMigration = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-12 md:py-20">
         <Link
           to="/"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-all duration-200 group"
+          className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-4 sm:mb-6 md:mb-8 transition-all duration-200 group"
         >
-          <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-          <span className="group-hover:underline">Zurück zur Übersicht</span>
+          <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
+          <span className="text-sm sm:text-base group-hover:underline">Zurück zur Übersicht</span>
         </Link>
 
-        <div className={`mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4 animate-fade-in">
-            Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">Autopilot</span>
+        <div className={`mb-6 sm:mb-10 md:mb-16 transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 leading-tight">
+            Intune Windows 11 Migration & <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Autopilot</span>
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mb-4">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mb-3 sm:mb-4 leading-relaxed">
             Komplette Endpoint-Management-Lösung mit Geräte-Compliance, Sicherheitsrichtlinien und Cloud-Native Architektur für moderne, skalierbare und ausfallsichere IT-Infrastruktur
           </p>
-          <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-            <Shield className="h-5 w-5 mr-2" />
+          <div className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg shadow-md text-sm sm:text-base">
+            <Shield className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
             <span className="font-semibold">Projekt durchgeführt bei SUISA</span>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-10 md:mb-16">
           {projectStats.map((stat, index) => (
             <div
               key={index}
-              className={`bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              className={`bg-white dark:bg-slate-800 p-3 sm:p-4 md:p-6 rounded-lg sm:rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 cursor-pointer ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
-              <stat.icon className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
-              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+              <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-600 dark:text-blue-400 mb-2 sm:mb-3" />
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-1">
                 {stat.isCounter ? counters[stat.counterKey as keyof typeof counters] : stat.value}
               </div>
-              <div className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
-              <div className="mt-2 h-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+              <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
             </div>
           ))}
         </div>
 
-        <div className={`bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-800 dark:to-slate-700 rounded-xl p-8 shadow-lg border border-blue-200 dark:border-slate-600 mb-16 transition-all duration-1000 delay-300 hover:shadow-2xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
-            <Zap className="h-8 w-8 mr-3 text-blue-600 animate-pulse" />
+        <div className={`bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-slate-800 dark:to-slate-700 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 shadow-lg border border-blue-200 dark:border-slate-600 mb-6 sm:mb-10 md:mb-16 transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 md:mb-6 flex items-center">
+            <Zap className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 mr-2 sm:mr-3 text-blue-600" />
             Migrationsstrategie im Überblick
           </h2>
-          <p className="text-slate-700 dark:text-slate-300 mb-4 text-lg">
+          <p className="text-sm sm:text-base md:text-lg text-slate-700 dark:text-slate-300 mb-3 sm:mb-4 leading-relaxed">
             Die Migration bei der SUISA umfasst vier zentrale Bereiche, die alle von traditionellen On-Premise-Lösungen zu modernen Cloud-basierten Microsoft-Services überführt werden. Dieses Projekt vereint Microsoft Intune Management, Cloud-Native Architektur, Infrastruktur-Engineering, Sicherheit & Compliance sowie DevOps & Automatisierung.
           </p>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm italic">

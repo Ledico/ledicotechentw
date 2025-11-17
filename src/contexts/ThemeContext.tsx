@@ -17,12 +17,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedTheme) {
       return savedTheme;
     }
-    
-    // Check system preference
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
+
+    // Default to light mode for better mobile experience
     return 'light';
   });
 
