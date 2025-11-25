@@ -73,50 +73,53 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col py-8 md:py-12 px-4">
-      <div className="max-w-7xl mx-auto w-full flex flex-col flex-1">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-6 md:mb-8 group self-start"
-        >
-          <span>Weiter zum nächsten Schritt</span>
-          <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
-        </button>
+    <div className="min-h-screen flex flex-col py-8 md:py-12">
+      <div className="w-full flex flex-col flex-1">
+        <div className="px-4 md:px-8">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-6 md:mb-8 group"
+          >
+            <span>Weiter zum nächsten Schritt</span>
+            <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
+          </button>
 
-        <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
-            Unsere schönsten Momente
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600">
-            Jedes Foto erzählt eine Geschichte von uns 💕
-          </p>
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
+              Unsere schönsten Momente
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600">
+              Jedes Foto erzählt eine Geschichte von uns 💕
+            </p>
+          </div>
         </div>
 
         {photos.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-20 px-4">
             <Heart className="text-gray-400 mx-auto mb-4" size={64} />
             <p className="text-xl text-gray-500">
               Noch keine Fotos hochgeladen. Füge Fotos über die Datenbank hinzu!
             </p>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto overflow-x-hidden photo-gallery-scroll">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 pb-8 pr-2">
+          <div className="flex-1 px-4 md:px-8">
+            <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 md:gap-6 space-y-4 md:space-y-6">
               {photos.map((photo, index) => (
                 <div
                   key={photo.id}
-                  className="group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                  className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in"
                   onClick={() => openLightbox(photo, index)}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
-                  <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
                     <img
                       src={photo.image_url}
                       alt={photo.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2">{photo.title}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-sm md:text-lg font-bold mb-1">{photo.title}</h3>
                         {photo.date && (
                           <p className="text-xs md:text-sm opacity-90">
                             {new Date(photo.date).toLocaleDateString('de-DE', {
@@ -129,8 +132,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Heart className="text-pink-500 animate-pulse" size={24} fill="currentColor" />
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Heart className="text-pink-500 drop-shadow-lg" size={20} fill="currentColor" />
                   </div>
                 </div>
               ))}
