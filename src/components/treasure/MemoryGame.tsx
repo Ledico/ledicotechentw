@@ -164,10 +164,10 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
       <div className="max-w-5xl mx-auto">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
         >
-          <ArrowLeft className="group-hover:-translate-x-1 transition-transform" size={20} />
-          <span>Zurück zu den Truhen</span>
+          <span>Weiter zum nächsten Schritt</span>
+          <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
         </button>
 
         <div className="text-center mb-8">
@@ -266,9 +266,9 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
               </button>
               <button
                 onClick={onBack}
-                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-all"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:shadow-lg transition-all"
               >
-                Zurück
+                Weiter
               </button>
             </div>
           </div>

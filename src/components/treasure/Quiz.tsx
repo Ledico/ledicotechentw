@@ -102,10 +102,10 @@ const Quiz: React.FC<QuizProps> = ({ onBack }) => {
         <div className="max-w-3xl mx-auto">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
           >
-            <ArrowLeft className="group-hover:-translate-x-1 transition-transform" size={20} />
-            <span>Zurück zu den Truhen</span>
+            <span>Weiter zum nächsten Schritt</span>
+            <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
           </button>
           <div className="text-center py-20">
             <Heart className="text-gray-400 mx-auto mb-4" size={64} />
@@ -143,9 +143,9 @@ const Quiz: React.FC<QuizProps> = ({ onBack }) => {
               </button>
               <button
                 onClick={onBack}
-                className="px-8 py-4 bg-gray-200 text-gray-700 text-lg font-semibold rounded-full hover:bg-gray-300 transition-all"
+                className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-lg font-semibold rounded-full hover:shadow-lg transition-all"
               >
-                Zurück zu den Truhen
+                Weiter zum nächsten Schritt
               </button>
             </div>
           </div>
