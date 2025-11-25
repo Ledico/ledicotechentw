@@ -118,16 +118,16 @@ const TerminalIntro: React.FC<TerminalIntroProps> = ({ onComplete }) => {
               <div
                 key={index}
                 className={`mb-2 ${
-                  line.includes('💝') || line.includes('✨')
+                  line?.includes('💝') || line?.includes('✨')
                     ? 'text-pink-400 font-bold text-lg'
-                    : line.includes('████')
+                    : line?.includes('████')
                     ? 'text-green-400'
-                    : line.includes('ENTER')
+                    : line?.includes('ENTER')
                     ? 'text-yellow-400 animate-pulse'
                     : 'text-green-500'
                 }`}
               >
-                {line}
+                {line || ''}
               </div>
             ))}
             {currentLine < terminalLines.length && (
