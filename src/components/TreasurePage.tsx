@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Heart, Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Heart, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import TerminalIntro from './treasure/TerminalIntro';
 import WelcomeSection from './treasure/WelcomeSection';
@@ -25,6 +25,8 @@ const TreasurePage: React.FC = () => {
   const [showTerminal, setShowTerminal] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'forward' | 'backward'>('forward');
+  const [slideTransition, setSlideTransition] = useState<'fade' | 'slide-up' | 'slide-down' | 'zoom'>('fade');
+  const [showControls, setShowControls] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<StepCompletion>({
     welcome: false,
     photos: false,
@@ -38,6 +40,10 @@ const TreasurePage: React.FC = () => {
   const [easterEggsFound, setEasterEggsFound] = useState(0);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [hasShownFinalMessage, setHasShownFinalMessage] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const controlsTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const slides = [
     { id: 'welcome', title: 'Willkommen', component: WelcomeSection },
@@ -110,6 +116,11 @@ const TreasurePage: React.FC = () => {
     setTimeout(() => setShowConfetti(false), 3000);
   };
 
+  const getRandomTransition = () => {
+    const transitions: Array<'fade' | 'slide-up' | 'slide-down' | 'zoom'> = ['fade', 'slide-up', 'slide-down', 'zoom'];
+    return transitions[Math.floor(Math.random() * transitions.length)];
+  };
+
   const goToNextSlide = () => {
     const slideId = slides[currentSlide].id as keyof StepCompletion;
     const newCompletedSteps = {
@@ -121,6 +132,7 @@ const TreasurePage: React.FC = () => {
 
     if (currentSlide < slides.length - 1) {
       setSlideDirection('forward');
+      setSlideTransition(getRandomTransition());
       setShowConfetti(true);
       setTimeout(() => {
         setCurrentSlide(currentSlide + 1);
@@ -132,6 +144,7 @@ const TreasurePage: React.FC = () => {
   const goToPreviousSlide = () => {
     if (currentSlide > 0) {
       setSlideDirection('backward');
+      setSlideTransition(getRandomTransition());
       setCurrentSlide(currentSlide - 1);
     }
   };
@@ -139,8 +152,55 @@ const TreasurePage: React.FC = () => {
   const goToSlide = (index: number) => {
     if (index === currentSlide) return;
     setSlideDirection(index > currentSlide ? 'forward' : 'backward');
+    setSlideTransition(getRandomTransition());
     setCurrentSlide(index);
   };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setCursorPos({ x: e.clientX, y: e.clientY });
+    setShowControls(true);
+    if (controlsTimeout.current) {
+      clearTimeout(controlsTimeout.current);
+    }
+    controlsTimeout.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX.current;
+    const deltaY = touchEndY - touchStartY.current;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        goToPreviousSlide();
+      } else {
+        goToNextSlide();
+      }
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      goToNextSlide();
+    } else if (e.key === 'ArrowLeft') {
+      goToPreviousSlide();
+    } else if (e.key === 'Escape') {
+      setShowControls(!showControls);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide]);
 
   if (showTerminal) {
     return <TerminalIntro onComplete={handleTerminalComplete} />;
@@ -149,100 +209,121 @@ const TreasurePage: React.FC = () => {
   const CurrentSlideComponent = slides[currentSlide].component;
   const progress = ((currentSlide + 1) / slides.length) * 100;
 
+  const getTransitionClass = () => {
+    const base = slideDirection === 'forward' ? '' : 'reverse-';
+    switch (slideTransition) {
+      case 'fade':
+        return 'animate-cinematic-fade';
+      case 'slide-up':
+        return `animate-cinematic-${base}slide-up`;
+      case 'slide-down':
+        return `animate-cinematic-${base}slide-down`;
+      case 'zoom':
+        return `animate-cinematic-${base}zoom`;
+      default:
+        return 'animate-cinematic-fade';
+    }
+  };
+
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 overflow-hidden">
+    <div
+      className="min-h-screen relative bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 overflow-hidden cursor-none"
+      onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-10 left-10 w-32 h-32 bg-pink-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
         <div className="absolute top-1/2 left-1/3 w-36 h-36 bg-rose-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
       </div>
 
+      <div
+        className="fixed pointer-events-none z-[100] transition-transform duration-100"
+        style={{
+          left: `${cursorPos.x}px`,
+          top: `${cursorPos.y}px`,
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <div className="w-6 h-6 border-2 border-white/60 rounded-full animate-pulse-soft"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white/80 rounded-full"></div>
+      </div>
+
       <EasterEggs onEggFound={(count) => setEasterEggsFound(count)} />
 
       {showConfetti && <Confetti />}
 
-      <div className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-sm shadow-lg">
-        <div className="h-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 transition-all duration-500"
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          showControls ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'
+        }`}
+      >
+        <div className="h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 transition-all duration-500"
           style={{ width: `${progress}%` }}
         ></div>
 
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Heart className="text-pink-500" size={20} fill="currentColor" />
-            <span className="text-sm font-semibold text-gray-700">
-              {currentSlide + 1} / {slides.length}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentSlide
-                    ? 'bg-pink-500 w-8'
-                    : index < currentSlide
-                    ? 'bg-green-400'
-                    : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            {easterEggsFound > 0 && (
-              <div className="flex items-center gap-1 text-yellow-600">
-                <Sparkles size={16} />
-                <span className="text-sm font-semibold">{easterEggsFound}/6</span>
-              </div>
-            )}
-          </div>
+        <div className="absolute top-4 left-4 text-white/80 text-sm font-semibold backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
+          {currentSlide + 1} / {slides.length}
         </div>
+
+        <div className="absolute top-4 right-4 flex items-center gap-1">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? 'bg-white w-6'
+                  : index < currentSlide
+                  ? 'bg-green-400'
+                  : 'bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+
+        {easterEggsFound > 0 && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-yellow-300 backdrop-blur-sm bg-black/30 px-3 py-1 rounded-full">
+            <Sparkles size={14} />
+            <span className="text-sm font-semibold">{easterEggsFound}/6</span>
+          </div>
+        )}
       </div>
 
-      <div className="relative min-h-screen pt-20">
+      <div className="fixed inset-0">
         <div
-          className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-            slideDirection === 'forward'
-              ? 'animate-slide-in-right'
-              : 'animate-slide-in-left'
-          }`}
+          className={`absolute inset-0 ${getTransitionClass()}`}
           key={currentSlide}
         >
           <CurrentSlideComponent onBack={goToNextSlide} />
         </div>
       </div>
 
-      <div className="fixed bottom-8 left-0 right-0 z-40 flex justify-center gap-4 px-4">
+      <div
+        className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center gap-6 px-4 transition-all duration-500 ${
+          showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+        }`}
+      >
         {currentSlide > 0 && (
           <button
             onClick={goToPreviousSlide}
-            className="flex items-center gap-2 px-6 py-3 bg-white/90 backdrop-blur-sm text-gray-700 font-semibold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            className="px-6 py-3 bg-white/20 backdrop-blur-md text-white font-semibold rounded-full border border-white/30 hover:bg-white/30 hover:scale-110 transition-all duration-300"
           >
-            <ChevronLeft size={20} />
-            Zurück
+            ← Zurück
           </button>
         )}
 
-        {currentSlide < slides.length - 1 && (
-          <button
-            onClick={goToNextSlide}
-            className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 animate-pulse-soft"
-          >
-            Weiter
-            <ChevronRight size={20} />
-          </button>
-        )}
+        <button
+          onClick={goToNextSlide}
+          className="px-8 py-3 bg-white/20 backdrop-blur-md text-white font-bold rounded-full border border-white/30 hover:bg-white/30 hover:scale-110 transition-all duration-300"
+        >
+          {currentSlide === slides.length - 1 ? 'Finale →' : 'Weiter →'}
+        </button>
+      </div>
 
-        {currentSlide === slides.length - 1 && completedSteps.gifts && (
-          <button
-            onClick={() => setShowFinalMessage(true)}
-            className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 animate-bounce-slow"
-          >
-            Finale 🎉
-          </button>
-        )}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-xs text-center">
+        <p>Pfeiltasten, Leertaste oder Wischen zum Navigieren • ESC für Kontrollen</p>
       </div>
 
       {showFinalMessage && (
