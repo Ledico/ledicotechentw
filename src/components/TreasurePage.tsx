@@ -160,30 +160,32 @@ const TreasurePage: React.FC = () => {
 
       {showConfetti && <Confetti />}
 
-      <div className="relative z-10 pt-32">
-        {currentStepId === 'photos' && (
-          <PhotoGallery onBack={handleStepComplete} />
-        )}
+      <div className="relative z-10">
+        <div className="pt-32">
+          {currentStepId === 'photos' && (
+            <PhotoGallery onBack={handleStepComplete} />
+          )}
 
-        {currentStepId === 'letters' && (
-          <LoveLetters onBack={handleStepComplete} />
-        )}
+          {currentStepId === 'letters' && (
+            <LoveLetters onBack={handleStepComplete} />
+          )}
 
-        {currentStepId === 'timeline' && (
-          <Timeline onBack={handleStepComplete} />
-        )}
+          {currentStepId === 'timeline' && (
+            <Timeline onBack={handleStepComplete} />
+          )}
 
-        {currentStepId === 'memory' && (
-          <MemoryGame onBack={handleStepComplete} />
-        )}
+          {currentStepId === 'memory' && (
+            <MemoryGame onBack={handleStepComplete} />
+          )}
 
-        {currentStepId === 'quiz' && (
-          <Quiz onBack={handleStepComplete} />
-        )}
+          {currentStepId === 'quiz' && (
+            <Quiz onBack={handleStepComplete} />
+          )}
 
-        {currentStepId === 'gifts' && (
-          <GiftVouchers onBack={handleStepComplete} />
-        )}
+          {currentStepId === 'gifts' && (
+            <GiftVouchers onBack={handleStepComplete} />
+          )}
+        </div>
       </div>
 
       {showFinalMessage && (
