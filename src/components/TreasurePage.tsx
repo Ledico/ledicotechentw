@@ -227,7 +227,7 @@ const TreasurePage: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen relative bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 overflow-hidden cursor-none"
+      className="min-h-screen relative bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 cursor-none"
       onMouseMove={handleMouseMove}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -291,9 +291,9 @@ const TreasurePage: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed inset-0">
+      <div className="fixed inset-0 overflow-y-auto">
         <div
-          className={`absolute inset-0 ${getTransitionClass()}`}
+          className={`min-h-screen ${getTransitionClass()}`}
           key={currentSlide}
         >
           <CurrentSlideComponent onBack={goToNextSlide} />

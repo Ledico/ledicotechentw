@@ -132,7 +132,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-y-auto bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
+    <div className="w-full relative bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 pb-12">
       {/* Animated Background Gradient Overlay */}
       <div className="fixed inset-0 bg-gradient-radial from-transparent via-pink-100/20 to-purple-100/30 animate-gradient-shift pointer-events-none" />
 
