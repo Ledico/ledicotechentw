@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Heart, Sparkles } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 interface Photo {
@@ -13,6 +13,61 @@ interface Photo {
 interface PhotoGalleryProps {
   onBack: () => void;
 }
+
+const FloatingFlower = ({ delay = 0, x = 0, y = 0, size = 60, type = 1 }) => {
+  const flowers = {
+    1: (
+      <svg width={size} height={size} viewBox="0 0 100 100" className="animate-float-soft">
+        <g style={{ animationDelay: `${delay}s` }}>
+          <ellipse cx="50" cy="50" rx="8" ry="18" fill="#ec4899" opacity="0.8" transform="rotate(0 50 50)" />
+          <ellipse cx="50" cy="50" rx="8" ry="18" fill="#f472b6" opacity="0.8" transform="rotate(72 50 50)" />
+          <ellipse cx="50" cy="50" rx="8" ry="18" fill="#ec4899" opacity="0.8" transform="rotate(144 50 50)" />
+          <ellipse cx="50" cy="50" rx="8" ry="18" fill="#f472b6" opacity="0.8" transform="rotate(216 50 50)" />
+          <ellipse cx="50" cy="50" rx="8" ry="18" fill="#ec4899" opacity="0.8" transform="rotate(288 50 50)" />
+          <circle cx="50" cy="50" r="6" fill="#fbbf24" />
+        </g>
+      </svg>
+    ),
+    2: (
+      <svg width={size} height={size} viewBox="0 0 100 100" className="animate-float-gentle">
+        <g style={{ animationDelay: `${delay}s` }}>
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#db2777" opacity="0.7" />
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#ec4899" opacity="0.7" transform="rotate(60 50 55)" />
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#f472b6" opacity="0.7" transform="rotate(120 50 55)" />
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#db2777" opacity="0.7" transform="rotate(180 50 55)" />
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#ec4899" opacity="0.7" transform="rotate(240 50 55)" />
+          <path d="M50 70 Q40 55 50 40 Q60 55 50 70" fill="#f472b6" opacity="0.7" transform="rotate(300 50 55)" />
+          <circle cx="50" cy="55" r="5" fill="#fcd34d" />
+        </g>
+      </svg>
+    ),
+    3: (
+      <svg width={size} height={size} viewBox="0 0 100 100" className="animate-float-slow">
+        <g style={{ animationDelay: `${delay}s` }}>
+          <circle cx="50" cy="50" r="12" fill="#f472b6" opacity="0.8" />
+          <circle cx="62" cy="45" r="10" fill="#ec4899" opacity="0.8" />
+          <circle cx="38" cy="45" r="10" fill="#ec4899" opacity="0.8" />
+          <circle cx="58" cy="58" r="10" fill="#db2777" opacity="0.8" />
+          <circle cx="42" cy="58" r="10" fill="#db2777" opacity="0.8" />
+          <circle cx="50" cy="50" r="7" fill="#fde047" />
+        </g>
+      </svg>
+    ),
+  };
+
+  return (
+    <div
+      className="fixed pointer-events-none z-5"
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+        opacity: 0.3,
+      }}
+    >
+      {flowers[type as keyof typeof flowers]}
+    </div>
+  );
+};
 
 const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -63,100 +118,98 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Heart className="text-pink-500 animate-pulse mx-auto mb-4" size={48} fill="currentColor" />
-          <p className="text-xl text-gray-600">Lade Erinnerungen...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 relative overflow-hidden">
+        <FloatingFlower x={10} y={15} size={80} type={1} delay={0} />
+        <FloatingFlower x={85} y={20} size={70} type={2} delay={1} />
+        <FloatingFlower x={15} y={75} size={90} type={3} delay={2} />
+        <div className="text-center relative z-10">
+          <Heart className="text-pink-500 animate-heartbeat mx-auto mb-4" size={64} fill="currentColor" />
+          <p className="text-2xl text-gray-700 animate-pulse">Lade unsere Erinnerungen...</p>
+          <Sparkles className="text-pink-400 animate-spin-slow mx-auto mt-4" size={32} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col py-4 md:py-8 lg:py-12 relative overflow-hidden">
-      {/* Decorative Flowers - Top Left */}
-      <div className="fixed top-0 left-0 pointer-events-none z-0 opacity-20 md:opacity-30">
-        <svg width="200" height="200" viewBox="0 0 200 200" className="w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48">
-          <g className="animate-float">
-            <ellipse cx="100" cy="80" rx="15" ry="35" fill="#ec4899" opacity="0.8" transform="rotate(0 100 80)" />
-            <ellipse cx="100" cy="80" rx="15" ry="35" fill="#f472b6" opacity="0.8" transform="rotate(72 100 80)" />
-            <ellipse cx="100" cy="80" rx="15" ry="35" fill="#ec4899" opacity="0.8" transform="rotate(144 100 80)" />
-            <ellipse cx="100" cy="80" rx="15" ry="35" fill="#f472b6" opacity="0.8" transform="rotate(216 100 80)" />
-            <ellipse cx="100" cy="80" rx="15" ry="35" fill="#ec4899" opacity="0.8" transform="rotate(288 100 80)" />
-            <circle cx="100" cy="80" r="12" fill="#fbbf24" />
-          </g>
-        </svg>
-      </div>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
+      {/* Animated Background Gradient Overlay */}
+      <div className="fixed inset-0 bg-gradient-radial from-transparent via-pink-100/20 to-purple-100/30 animate-gradient-shift pointer-events-none" />
 
-      {/* Decorative Lilies - Top Right */}
-      <div className="fixed top-0 right-0 pointer-events-none z-0 opacity-20 md:opacity-30">
-        <svg width="180" height="180" viewBox="0 0 180 180" className="w-20 h-20 md:w-28 md:h-28 lg:w-40 lg:h-40">
-          <g className="animate-float-delayed">
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#db2777" opacity="0.7" />
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#ec4899" opacity="0.7" transform="rotate(60 90 100)" />
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#f472b6" opacity="0.7" transform="rotate(120 90 100)" />
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#db2777" opacity="0.7" transform="rotate(180 90 100)" />
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#ec4899" opacity="0.7" transform="rotate(240 90 100)" />
-            <path d="M90 140 Q70 100 90 60 Q110 100 90 140" fill="#f472b6" opacity="0.7" transform="rotate(300 90 100)" />
-            <circle cx="90" cy="100" r="10" fill="#fcd34d" />
-          </g>
-        </svg>
-      </div>
+      {/* Floating Flowers Everywhere */}
+      <FloatingFlower x={5} y={10} size={70} type={1} delay={0} />
+      <FloatingFlower x={15} y={25} size={50} type={3} delay={2.5} />
+      <FloatingFlower x={8} y={50} size={60} type={2} delay={4} />
+      <FloatingFlower x={12} y={75} size={80} type={1} delay={1.5} />
+      <FloatingFlower x={6} y={90} size={65} type={3} delay={3} />
 
-      {/* Decorative Flowers - Bottom Left */}
-      <div className="fixed bottom-10 left-5 pointer-events-none z-0 opacity-20 md:opacity-25">
-        <svg width="150" height="150" viewBox="0 0 150 150" className="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32">
-          <g className="animate-float">
-            <circle cx="75" cy="75" r="20" fill="#f472b6" opacity="0.8" />
-            <circle cx="95" cy="65" r="18" fill="#ec4899" opacity="0.8" />
-            <circle cx="55" cy="65" r="18" fill="#ec4899" opacity="0.8" />
-            <circle cx="85" cy="90" r="18" fill="#db2777" opacity="0.8" />
-            <circle cx="65" cy="90" r="18" fill="#db2777" opacity="0.8" />
-            <circle cx="75" cy="75" r="12" fill="#fde047" />
-          </g>
-        </svg>
-      </div>
+      <FloatingFlower x={88} y={8} size={75} type={2} delay={1} />
+      <FloatingFlower x={92} y={30} size={55} type={1} delay={3.5} />
+      <FloatingFlower x={85} y={55} size={70} type={3} delay={2} />
+      <FloatingFlower x={90} y={78} size={60} type={2} delay={4.5} />
+      <FloatingFlower x={94} y={92} size={80} type={1} delay={0.5} />
 
-      {/* Decorative Flowers - Bottom Right */}
-      <div className="fixed bottom-5 right-10 pointer-events-none z-0 opacity-20 md:opacity-25">
-        <svg width="160" height="160" viewBox="0 0 160 160" className="w-18 h-18 md:w-26 md:h-26 lg:w-36 lg:h-36">
-          <g className="animate-float-delayed">
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#f472b6" opacity="0.9" transform="rotate(0 80 60)" />
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#ec4899" opacity="0.9" transform="rotate(60 80 60)" />
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#f472b6" opacity="0.9" transform="rotate(120 80 60)" />
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#ec4899" opacity="0.9" transform="rotate(180 80 60)" />
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#f472b6" opacity="0.9" transform="rotate(240 80 60)" />
-            <ellipse cx="80" cy="60" rx="12" ry="30" fill="#ec4899" opacity="0.9" transform="rotate(300 80 60)" />
-            <circle cx="80" cy="60" r="10" fill="#fde68a" />
-          </g>
-        </svg>
-      </div>
+      <FloatingFlower x={30} y={5} size={45} type={2} delay={2.8} />
+      <FloatingFlower x={50} y={3} size={55} type={3} delay={1.3} />
+      <FloatingFlower x={70} y={7} size={50} type={1} delay={3.8} />
 
-      <div className="w-full flex flex-col flex-1 relative z-10">
+      <FloatingFlower x={25} y={95} size={60} type={1} delay={2.2} />
+      <FloatingFlower x={48} y={98} size={50} type={2} delay={4.2} />
+      <FloatingFlower x={75} y={94} size={70} type={3} delay={1.8} />
+
+      {/* Floating Sparkles */}
+      {[...Array(20)].map((_, i) => (
+        <div
+          key={i}
+          className="fixed w-1 h-1 bg-pink-400 rounded-full animate-sparkle pointer-events-none z-5"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${3 + Math.random() * 4}s`,
+          }}
+        />
+      ))}
+
+      <div className="w-full flex flex-col flex-1 relative z-10 py-4 md:py-8 lg:py-12">
         <div className="px-3 sm:px-4 md:px-6 lg:px-8">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-4 md:mb-6 lg:mb-8 group text-sm md:text-base"
+            className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all mb-6 md:mb-8 lg:mb-10 group text-sm md:text-base backdrop-blur-sm border border-pink-300/50 hover:scale-105 animate-slide-in-left"
           >
             <span className="hidden sm:inline">Weiter zum nächsten Schritt</span>
             <span className="sm:hidden">Weiter</span>
             <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
           </button>
 
-          <div className="text-center mb-6 md:mb-8 lg:mb-12">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
+          <div className="text-center mb-8 md:mb-10 lg:mb-16 animate-fade-in-down">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <Heart className="text-pink-500 animate-heartbeat" size={40} fill="currentColor" />
+              <Sparkles className="text-rose-400 animate-pulse" size={32} />
+              <Heart className="text-pink-500 animate-heartbeat" size={40} fill="currentColor" style={{ animationDelay: '0.5s' }} />
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 bg-clip-text text-transparent mb-3 md:mb-5 animate-text-shimmer">
               Unsere schönsten Momente
             </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 font-medium">
               Jedes Foto erzählt eine Geschichte von uns 💕
             </p>
+            <div className="mt-4 flex justify-center gap-2">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-2 h-2 bg-pink-400 rounded-full animate-bounce"
+                  style={{ animationDelay: `${i * 0.1}s` }}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
         {photos.length === 0 ? (
-          <div className="text-center py-12 md:py-20 px-4">
-            <Heart className="text-gray-400 mx-auto mb-4" size={48} />
-            <p className="text-lg md:text-xl text-gray-500">
+          <div className="text-center py-20 px-4 animate-fade-in">
+            <Heart className="text-gray-400 mx-auto mb-4 animate-pulse" size={64} />
+            <p className="text-xl text-gray-500">
               Noch keine Fotos hochgeladen. Füge Fotos über die Datenbank hinzu!
             </p>
           </div>
@@ -166,34 +219,51 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               {photos.map((photo, index) => (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid group relative cursor-pointer overflow-hidden rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in"
+                  className="break-inside-avoid group relative cursor-pointer overflow-visible animate-fade-in-up"
                   onClick={() => openLightbox(photo, index)}
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                  style={{ animationDelay: `${index * 0.08}s` }}
                 >
-                  <div className="relative overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
-                    <img
-                      src={photo.image_url}
-                      alt={photo.title}
-                      className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2">{photo.title}</h3>
-                        {photo.date && (
-                          <p className="text-xs md:text-sm opacity-90">
-                            {new Date(photo.date).toLocaleDateString('de-DE', {
-                              day: '2-digit',
-                              month: 'long',
-                              year: 'numeric',
-                            })}
-                          </p>
-                        )}
+                  {/* Floating Hearts on Hover */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 pointer-events-none z-20">
+                    <Heart className="text-pink-500 animate-bounce" size={20} fill="currentColor" />
+                  </div>
+
+                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 bg-white p-2 border-2 border-pink-200/50 group-hover:border-pink-400/80">
+                    <div className="relative overflow-hidden rounded-lg md:rounded-xl bg-gradient-to-br from-pink-100 to-purple-100">
+                      <img
+                        src={photo.image_url}
+                        alt={photo.title}
+                        className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                      />
+
+                      {/* Sparkle Effect on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                          <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
+                            {photo.title}
+                          </h3>
+                          {photo.date && (
+                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {new Date(photo.date).toLocaleDateString('de-DE', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric',
+                              })}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="absolute top-2 right-2 md:top-3 md:right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Heart className="text-pink-500 drop-shadow-lg" size={16} fill="currentColor" />
+
+                    <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-0 group-hover:scale-110 z-30">
+                      <div className="relative">
+                        <Heart className="text-pink-500 drop-shadow-2xl animate-heartbeat" size={24} fill="currentColor" />
+                        <Sparkles className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" size={12} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -204,12 +274,18 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
       {selectedPhoto && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-2 sm:p-4"
+          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-2 sm:p-4 animate-fade-in"
           onClick={closeLightbox}
         >
+          {/* Floating Flowers in Lightbox */}
+          <FloatingFlower x={10} y={10} size={60} type={1} delay={0} />
+          <FloatingFlower x={85} y={15} size={70} type={2} delay={1.5} />
+          <FloatingFlower x={15} y={85} size={65} type={3} delay={2.5} />
+          <FloatingFlower x={90} y={80} size={55} type={1} delay={3} />
+
           <button
             onClick={closeLightbox}
-            className="absolute top-3 right-3 sm:top-6 sm:right-6 p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-3 right-3 sm:top-6 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-fade-in"
           >
             <X className="text-white" size={24} />
           </button>
@@ -219,9 +295,9 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               e.stopPropagation();
               prevPhoto();
             }}
-            className="absolute left-2 sm:left-6 p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute left-2 sm:left-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-left"
           >
-            <ChevronLeft className="text-white" size={24} />
+            <ChevronLeft className="text-white" size={28} />
           </button>
 
           <button
@@ -229,27 +305,42 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               e.stopPropagation();
               nextPhoto();
             }}
-            className="absolute right-2 sm:right-6 p-2 sm:p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute right-2 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-right"
           >
-            <ChevronRight className="text-white" size={24} />
+            <ChevronRight className="text-white" size={28} />
           </button>
 
           <div
-            className="max-w-5xl w-full"
+            className="max-w-5xl w-full relative z-50"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={selectedPhoto.image_url}
-              alt={selectedPhoto.title}
-              className="w-full h-auto max-h-[60vh] sm:max-h-[70vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl"
-            />
-            <div className="mt-3 sm:mt-6 text-center text-white px-2">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{selectedPhoto.title}</h2>
+            <div className="relative animate-scale-in">
+              <img
+                src={selectedPhoto.image_url}
+                alt={selectedPhoto.title}
+                className="w-full h-auto max-h-[60vh] sm:max-h-[70vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30"
+              />
+
+              {/* Decorative corners */}
+              <div className="absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-pink-400 rounded-tl-lg animate-pulse" />
+              <div className="absolute -top-4 -right-4 w-8 h-8 border-t-4 border-r-4 border-pink-400 rounded-tr-lg animate-pulse" style={{ animationDelay: '0.2s' }} />
+              <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-4 border-l-4 border-pink-400 rounded-bl-lg animate-pulse" style={{ animationDelay: '0.4s' }} />
+              <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-pink-400 rounded-br-lg animate-pulse" style={{ animationDelay: '0.6s' }} />
+            </div>
+
+            <div className="mt-4 sm:mt-8 text-center text-white px-2 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="inline-flex items-center gap-2 mb-3">
+                <Heart className="text-pink-400 animate-heartbeat" size={24} fill="currentColor" />
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">{selectedPhoto.title}</h2>
+                <Heart className="text-pink-400 animate-heartbeat" size={24} fill="currentColor" style={{ animationDelay: '0.5s' }} />
+              </div>
               {selectedPhoto.description && (
-                <p className="text-sm sm:text-base md:text-lg opacity-90 mb-2">{selectedPhoto.description}</p>
+                <p className="text-sm sm:text-base md:text-lg opacity-90 mb-3 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                  {selectedPhoto.description}
+                </p>
               )}
               {selectedPhoto.date && (
-                <p className="text-xs sm:text-sm opacity-75">
+                <p className="text-xs sm:text-sm opacity-75 animate-fade-in" style={{ animationDelay: '0.7s' }}>
                   {new Date(selectedPhoto.date).toLocaleDateString('de-DE', {
                     day: '2-digit',
                     month: 'long',
@@ -257,9 +348,29 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                   })}
                 </p>
               )}
-              <p className="text-xs sm:text-sm opacity-60 mt-2 sm:mt-4">
-                {currentIndex + 1} / {photos.length}
-              </p>
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"
+                      style={{ animationDelay: `${i * 0.15}s` }}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs sm:text-sm opacity-60 font-semibold">
+                  {currentIndex + 1} / {photos.length}
+                </p>
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"
+                      style={{ animationDelay: `${i * 0.15}s` }}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
