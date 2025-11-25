@@ -264,8 +264,11 @@ const FinalMessage: React.FC<{ easterEggsFound: number; onClose: () => void }> =
   onClose,
 }) => {
   return (
-    <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-3xl shadow-2xl max-w-2xl w-full p-8 md:p-12 text-center animate-scale-in">
+    <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4" onClick={onClose}>
+      <div
+        className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-3xl shadow-2xl max-w-2xl w-full p-8 md:p-12 text-center animate-scale-in"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="mb-6">
           <Heart className="text-pink-500 mx-auto mb-4 animate-pulse" size={80} fill="currentColor" />
         </div>
