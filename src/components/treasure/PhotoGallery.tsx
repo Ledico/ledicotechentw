@@ -215,11 +215,11 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </div>
         ) : (
           <div className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 pb-6 md:pb-8">
-            <div className="columns-1 xs:columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6">
+            <div className="columns-1 xs:columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
               {photos.map((photo, index) => (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid group relative cursor-pointer overflow-visible animate-fade-in-up"
+                  className="break-inside-avoid group relative cursor-pointer overflow-visible animate-fade-in-up mb-3 sm:mb-4 md:mb-5 lg:mb-6"
                   onClick={() => openLightbox(photo, index)}
                   style={{ animationDelay: `${index * 0.08}s` }}
                 >
