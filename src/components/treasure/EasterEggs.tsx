@@ -42,7 +42,18 @@ const EasterEggs: React.FC<EasterEggsProps> = ({ onEggFound }) => {
         .from('treasure_easter_eggs')
         .select('*');
 
-      if (error) throw error;
+      if (error) {
+        console.log('Easter eggs table not available, using local state');
+        const localEggs = positions.map((pos, index) => ({
+          id: pos.id,
+          position_id: pos.id,
+          message: getDefaultMessage(index),
+          is_found: false,
+        }));
+        setEggs(localEggs);
+        setLoading(false);
+        return;
+      }
 
       if (!data || data.length === 0) {
         const newEggs = positions.map((pos, index) => ({
@@ -85,17 +96,22 @@ const EasterEggs: React.FC<EasterEggsProps> = ({ onEggFound }) => {
     if (egg.is_found) return;
 
     try {
-      await supabase
-        .from('treasure_easter_eggs')
-        .update({ is_found: true })
-        .eq('id', egg.id);
-
       setEggs((prev) =>
         prev.map((e) => (e.id === egg.id ? { ...e, is_found: true } : e))
       );
 
       setShowMessage(egg.message);
       setTimeout(() => setShowMessage(null), 3000);
+
+      await supabase
+        .from('treasure_easter_eggs')
+        .update({ is_found: true })
+        .eq('id', egg.id)
+        .then(({ error }) => {
+          if (error) {
+            console.log('Could not save to database, using local state only');
+          }
+        });
     } catch (error) {
       console.error('Error updating easter egg:', error);
     }

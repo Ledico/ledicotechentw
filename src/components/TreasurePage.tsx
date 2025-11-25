@@ -35,6 +35,7 @@ const TreasurePage: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [easterEggsFound, setEasterEggsFound] = useState(0);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [hasShownFinalMessage, setHasShownFinalMessage] = useState(false);
 
   const steps = [
     { id: 'photos', title: 'Foto Galerie', icon: '📸', description: 'Unsere schönsten Momente' },
@@ -57,12 +58,13 @@ const TreasurePage: React.FC = () => {
 
   useEffect(() => {
     const allCompleted = Object.values(completedSteps).every((v) => v);
-    if (allCompleted && !showFinalMessage) {
+    if (allCompleted && !hasShownFinalMessage) {
       setShowFinalMessage(true);
+      setHasShownFinalMessage(true);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
     }
-  }, [completedSteps, showFinalMessage]);
+  }, [completedSteps, hasShownFinalMessage]);
 
   const loadProgress = async () => {
     try {
