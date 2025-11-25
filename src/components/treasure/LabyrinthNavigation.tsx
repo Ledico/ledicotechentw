@@ -22,34 +22,15 @@ const LabyrinthNavigation: React.FC<LabyrinthNavigationProps> = ({
   onStepSelect,
   steps,
 }) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const completedCount = steps.filter((s) => s.completed).length;
-    setProgress((completedCount / steps.length) * 100);
-  }, [steps]);
-
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/95 via-black/90 to-transparent backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-center mb-3">
           <div className="flex items-center gap-3">
             <Star className="text-yellow-400" size={24} fill="currentColor" />
             <span className="text-white font-bold text-lg">
               Deine Reise: {steps.filter((s) => s.completed).length} / {steps.length}
             </span>
-          </div>
-          <div className="text-white text-sm font-mono">
-            {progress.toFixed(0)}% abgeschlossen
-          </div>
-        </div>
-
-        <div className="relative mb-4">
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-pink-500 via-purple-500 to-yellow-500 transition-all duration-1000 ease-out"
-              style={{ width: `${progress}%` }}
-            ></div>
           </div>
         </div>
 

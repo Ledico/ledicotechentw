@@ -125,14 +125,25 @@ const TreasurePage: React.FC = () => {
 
     if (currentStep < steps.length - 1) {
       setTimeout(() => {
-        setCurrentStep(currentStep + 1);
-      }, 2000);
+        const nextStep = currentStep + 1;
+        setCurrentStep(nextStep);
+
+        const nextSection = document.getElementById(`section-${steps[nextStep].id}`);
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 1500);
     }
   };
 
   const handleStepSelect = (stepIndex: number) => {
     if (stepIndex === 0 || completedSteps[steps[stepIndex - 1].id as keyof StepCompletion]) {
       setCurrentStep(stepIndex);
+
+      const section = document.getElementById(`section-${steps[stepIndex].id}`);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
   };
 
@@ -160,32 +171,60 @@ const TreasurePage: React.FC = () => {
 
       {showConfetti && <Confetti />}
 
-      <div className="relative">
-        <div className="pt-32">
-          {currentStepId === 'photos' && (
-            <PhotoGallery onBack={handleStepComplete} />
-          )}
+      <div className="relative pt-32">
+        <section
+          id="section-photos"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'photos' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <PhotoGallery onBack={handleStepComplete} />
+        </section>
 
-          {currentStepId === 'letters' && (
-            <LoveLetters onBack={handleStepComplete} />
-          )}
+        <section
+          id="section-letters"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'letters' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <LoveLetters onBack={handleStepComplete} />
+        </section>
 
-          {currentStepId === 'timeline' && (
-            <Timeline onBack={handleStepComplete} />
-          )}
+        <section
+          id="section-timeline"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'timeline' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <Timeline onBack={handleStepComplete} />
+        </section>
 
-          {currentStepId === 'memory' && (
-            <MemoryGame onBack={handleStepComplete} />
-          )}
+        <section
+          id="section-memory"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'memory' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <MemoryGame onBack={handleStepComplete} />
+        </section>
 
-          {currentStepId === 'quiz' && (
-            <Quiz onBack={handleStepComplete} />
-          )}
+        <section
+          id="section-quiz"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'quiz' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <Quiz onBack={handleStepComplete} />
+        </section>
 
-          {currentStepId === 'gifts' && (
-            <GiftVouchers onBack={handleStepComplete} />
-          )}
-        </div>
+        <section
+          id="section-gifts"
+          className={`min-h-screen transition-all duration-1000 ${
+            currentStepId === 'gifts' ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+          }`}
+        >
+          <GiftVouchers onBack={handleStepComplete} />
+        </section>
       </div>
 
       {showFinalMessage && (
