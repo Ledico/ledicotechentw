@@ -73,21 +73,21 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen flex flex-col py-8 md:py-12 px-4">
+      <div className="max-w-7xl mx-auto w-full flex flex-col flex-1">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-6 md:mb-8 group self-start"
         >
           <span>Weiter zum nächsten Schritt</span>
           <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
         </button>
 
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+        <div className="text-center mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
             Unsere schönsten Momente
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-lg md:text-xl text-gray-600">
             Jedes Foto erzählt eine Geschichte von uns 💕
           </p>
         </div>
@@ -100,39 +100,41 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {photos.map((photo, index) => (
-              <div
-                key={photo.id}
-                className="group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-                onClick={() => openLightbox(photo, index)}
-              >
-                <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
-                  <img
-                    src={photo.image_url}
-                    alt={photo.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2">{photo.title}</h3>
-                      {photo.date && (
-                        <p className="text-xs md:text-sm opacity-90">
-                          {new Date(photo.date).toLocaleDateString('de-DE', {
-                            day: '2-digit',
-                            month: 'long',
-                            year: 'numeric',
-                          })}
-                        </p>
-                      )}
+          <div className="flex-1 overflow-y-auto overflow-x-hidden pr-2 -mr-2 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-pink-100 hover:scrollbar-thumb-pink-500">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 pb-8">
+              {photos.map((photo, index) => (
+                <div
+                  key={photo.id}
+                  className="group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                  onClick={() => openLightbox(photo, index)}
+                >
+                  <div className="aspect-square relative overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
+                    <img
+                      src={photo.image_url}
+                      alt={photo.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2">{photo.title}</h3>
+                        {photo.date && (
+                          <p className="text-xs md:text-sm opacity-90">
+                            {new Date(photo.date).toLocaleDateString('de-DE', {
+                              day: '2-digit',
+                              month: 'long',
+                              year: 'numeric',
+                            })}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Heart className="text-pink-500 animate-pulse" size={24} fill="currentColor" />
+                  </div>
                 </div>
-                <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Heart className="text-pink-500 animate-pulse" size={24} fill="currentColor" />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </div>
