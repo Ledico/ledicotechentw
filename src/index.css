@@ -541,19 +541,11 @@ html, body {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
-  cursor: none;
+  cursor: auto;
 }
 
 body {
   background-color: transparent;
-}
-
-.cursor-none {
-  cursor: none !important;
-}
-
-.cursor-none * {
-  cursor: none !important;
 }
 
 #root {
