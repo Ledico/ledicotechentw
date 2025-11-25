@@ -100,7 +100,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {photos.map((photo, index) => (
               <div
                 key={photo.id}
@@ -114,10 +114,10 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-xl font-bold mb-2">{photo.title}</h3>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2">{photo.title}</h3>
                       {photo.date && (
-                        <p className="text-sm opacity-90">
+                        <p className="text-xs md:text-sm opacity-90">
                           {new Date(photo.date).toLocaleDateString('de-DE', {
                             day: '2-digit',
                             month: 'long',
@@ -128,8 +128,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                     </div>
                   </div>
                 </div>
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Heart className="text-pink-500 animate-pulse" size={32} fill="currentColor" />
+                <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Heart className="text-pink-500 animate-pulse" size={24} fill="currentColor" />
                 </div>
               </div>
             ))}
