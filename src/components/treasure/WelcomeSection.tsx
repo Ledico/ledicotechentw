@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Sparkles } from 'lucide-react';
 
 interface WelcomeSectionProps {
-  onStart: () => void;
+  onBack: () => void;
 }
 
-const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onStart }) => {
+const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onBack }) => {
   const [showTitle, setShowTitle] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -78,7 +78,7 @@ const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onStart }) => {
           }`}
         >
           <button
-            onClick={onStart}
+            onClick={onBack}
             className="group relative px-12 py-6 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 text-white text-2xl font-semibold rounded-full shadow-2xl hover:shadow-pink-500/50 transform hover:scale-110 transition-all duration-300 animate-pulse-slow"
           >
             <span className="relative z-10 flex items-center gap-3">
