@@ -132,7 +132,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
+    <div className="min-h-screen relative overflow-y-auto bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
       {/* Animated Background Gradient Overlay */}
       <div className="fixed inset-0 bg-gradient-radial from-transparent via-pink-100/20 to-purple-100/30 animate-gradient-shift pointer-events-none" />
 
@@ -171,7 +171,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
         />
       ))}
 
-      <div className="w-full flex flex-col flex-1 relative z-10 py-4 md:py-8 lg:py-12">
+      <div className="w-full flex flex-col relative z-10 py-4 md:py-8 lg:py-12 min-h-full">
         <div className="px-3 sm:px-4 md:px-6 lg:px-8">
           <button
             onClick={onBack}
