@@ -100,8 +100,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
             </p>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto overflow-x-hidden pr-2 -mr-2 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-pink-100 hover:scrollbar-thumb-pink-500">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 pb-8">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden photo-gallery-scroll">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 pb-8 pr-2">
               {photos.map((photo, index) => (
                 <div
                   key={photo.id}
