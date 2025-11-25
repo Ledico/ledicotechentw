@@ -215,13 +215,21 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </div>
         ) : (
           <div className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 pb-6 md:pb-8">
-            <div className="columns-1 xs:columns-2 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-              {photos.map((photo, index) => (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 auto-rows-[10px]">
+              {photos.map((photo, index) => {
+                const column = index % 5;
+                const offsetMap = [0, 40, 20, 60, 30];
+                const topOffset = offsetMap[column];
+
+                return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid group relative cursor-pointer overflow-visible animate-fade-in-up mb-3 sm:mb-4 md:mb-5 lg:mb-6"
+                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
                   onClick={() => openLightbox(photo, index)}
-                  style={{ animationDelay: `${index * 0.08}s` }}
+                  style={{
+                    animationDelay: `${index * 0.08}s`,
+                    marginTop: index < 5 ? `${topOffset}px` : '0px'
+                  }}
                 >
                   {/* Floating Hearts on Hover */}
                   <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 pointer-events-none z-20">
@@ -266,7 +274,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
