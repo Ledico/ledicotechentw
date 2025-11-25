@@ -215,20 +215,27 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </div>
         ) : (
           <div className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 pb-6 md:pb-8">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 auto-rows-[10px]">
-              {photos.map((photo, index) => {
-                const column = index % 5;
-                const offsetMap = [0, 40, 20, 60, 30];
-                const topOffset = offsetMap[column];
-
-                return (
+            {/* Mobile: 2 columns */}
+            <div className="flex gap-3 sm:gap-4 md:hidden">
+              {[0, 1].map((colIndex) => (
+                <div
+                  key={colIndex}
+                  className="flex-1 flex flex-col gap-3 sm:gap-4"
+                  style={{
+                    marginTop: [0, 30][colIndex] + 'px'
+                  }}
+                >
+                  {photos
+                    .filter((_, index) => index % 2 === colIndex)
+                    .map((photo) => {
+                      const originalIndex = photos.findIndex(p => p.id === photo.id);
+                      return (
                 <div
                   key={photo.id}
                   className="group relative cursor-pointer overflow-visible animate-fade-in-up"
-                  onClick={() => openLightbox(photo, index)}
+                  onClick={() => openLightbox(photo, originalIndex)}
                   style={{
-                    animationDelay: `${index * 0.08}s`,
-                    marginTop: index < 5 ? `${topOffset}px` : '0px'
+                    animationDelay: `${originalIndex * 0.08}s`
                   }}
                 >
                   {/* Floating Hearts on Hover */}
@@ -274,8 +281,154 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                     </div>
                   </div>
                 </div>
-                );
-              })}
+                      );
+                    })}
+                </div>
+              ))}
+            </div>
+
+            {/* Tablet: 3 columns */}
+            <div className="hidden md:flex lg:hidden gap-5">
+              {[0, 1, 2].map((colIndex) => (
+                <div
+                  key={colIndex}
+                  className="flex-1 flex flex-col gap-5"
+                  style={{
+                    marginTop: [0, 30, 50][colIndex] + 'px'
+                  }}
+                >
+                  {photos
+                    .filter((_, index) => index % 3 === colIndex)
+                    .map((photo) => {
+                      const originalIndex = photos.findIndex(p => p.id === photo.id);
+                      return (
+                <div
+                  key={photo.id}
+                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
+                  onClick={() => openLightbox(photo, originalIndex)}
+                  style={{
+                    animationDelay: `${originalIndex * 0.08}s`
+                  }}
+                >
+                  {/* Floating Hearts on Hover */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 pointer-events-none z-20">
+                    <Heart className="text-pink-500 animate-bounce" size={20} fill="currentColor" />
+                  </div>
+
+                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 bg-white p-2 border-2 border-pink-200/50 group-hover:border-pink-400/80">
+                    <div className="relative overflow-hidden rounded-lg md:rounded-xl bg-gradient-to-br from-pink-100 to-purple-100">
+                      <img
+                        src={photo.image_url}
+                        alt={photo.title}
+                        className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                      />
+
+                      {/* Sparkle Effect on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                          <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
+                            {photo.title}
+                          </h3>
+                          {photo.date && (
+                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {new Date(photo.date).toLocaleDateString('de-DE', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric',
+                              })}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-0 group-hover:scale-110 z-30">
+                      <div className="relative">
+                        <Heart className="text-pink-500 drop-shadow-2xl animate-heartbeat" size={24} fill="currentColor" />
+                        <Sparkles className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" size={12} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                      );
+                    })}
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: 4-5 columns */}
+            <div className="hidden lg:flex gap-6">
+              {[0, 1, 2, 3, 4].map((colIndex) => (
+                <div
+                  key={colIndex}
+                  className="flex-1 flex flex-col gap-6"
+                  style={{
+                    marginTop: [0, 40, 20, 60, 30][colIndex] + 'px'
+                  }}
+                >
+                  {photos
+                    .filter((_, index) => index % 5 === colIndex)
+                    .map((photo) => {
+                      const originalIndex = photos.findIndex(p => p.id === photo.id);
+                      return (
+                <div
+                  key={photo.id}
+                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
+                  onClick={() => openLightbox(photo, originalIndex)}
+                  style={{
+                    animationDelay: `${originalIndex * 0.08}s`
+                  }}
+                >
+                  {/* Floating Hearts on Hover */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-4 transition-all duration-500 pointer-events-none z-20">
+                    <Heart className="text-pink-500 animate-bounce" size={20} fill="currentColor" />
+                  </div>
+
+                  <div className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 bg-white p-2 border-2 border-pink-200/50 group-hover:border-pink-400/80">
+                    <div className="relative overflow-hidden rounded-lg md:rounded-xl bg-gradient-to-br from-pink-100 to-purple-100">
+                      <img
+                        src={photo.image_url}
+                        alt={photo.title}
+                        className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                      />
+
+                      {/* Sparkle Effect on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                          <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
+                            {photo.title}
+                          </h3>
+                          {photo.date && (
+                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {new Date(photo.date).toLocaleDateString('de-DE', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric',
+                              })}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-0 group-hover:scale-110 z-30">
+                      <div className="relative">
+                        <Heart className="text-pink-500 drop-shadow-2xl animate-heartbeat" size={24} fill="currentColor" />
+                        <Sparkles className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" size={12} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                      );
+                    })}
+                </div>
+              ))}
             </div>
           </div>
         )}
