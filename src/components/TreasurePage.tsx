@@ -143,8 +143,9 @@ const TreasurePage: React.FC = () => {
   const currentStepId = steps[currentStep].id;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 relative overflow-hidden">
-      <div className="fixed inset-0 pointer-events-none">
+    <div className="min-h-screen relative">
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-100 via-rose-100 to-purple-100 -z-10"></div>
+      <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-10 left-10 w-32 h-32 bg-pink-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-300 rounded-full opacity-20 blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/3 w-36 h-36 bg-rose-300 rounded-full opacity-20 blur-3xl animate-pulse delay-500"></div>
