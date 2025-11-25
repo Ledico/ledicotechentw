@@ -12,6 +12,7 @@ import VA from './components/VA';
 import AdminConsole from './components/AdminConsole';
 import SuisaPortal from './components/SuisaPortal';
 import IntuneMigration from './components/IntuneMigration';
+import TreasurePage from './components/TreasurePage';
 import NotFound from './components/NotFound';
 import { useAuth } from './hooks/useAuth';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/intune-migration" element={<IntuneMigration />} />
           <Route path="/admin" element={<AdminRoute />} />
           <Route path="/suisa" element={<SuisaRoute />} />
+          <Route path="/louisa" element={<TreasurePage />} />
           {/* Catch all other routes and show 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
