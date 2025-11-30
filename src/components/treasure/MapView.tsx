@@ -77,13 +77,7 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
   };
 
   const getMapCenter = (): [number, number] => {
-    if (photos.length === 0) return [47.3769, 8.5417];
-    const validPhotos = photos.filter(p => p.location_lat && p.location_lng);
-    if (validPhotos.length === 0) return [47.3769, 8.5417];
-
-    const avgLat = validPhotos.reduce((sum, p) => sum + p.location_lat!, 0) / validPhotos.length;
-    const avgLng = validPhotos.reduce((sum, p) => sum + p.location_lng!, 0) / validPhotos.length;
-    return [avgLat, avgLng];
+    return [50.0, 10.0];
   };
 
   if (loading) {
