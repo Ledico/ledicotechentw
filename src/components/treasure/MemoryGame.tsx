@@ -166,16 +166,16 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
         >
-          <span>Witär zum nächschte Schritt</span>
+          <span>Wiiter zum nöchste Schritt</span>
           <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
         </button>
 
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Memory Spiil
+            Memory Spiel
           </h1>
           <p className="text-xl text-gray-600">
-            Find di passende Foti-Pärli! 🎮
+            Find dis passende Foti-Pärli! 🎮
           </p>
         </div>
 
@@ -201,7 +201,7 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
             className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
           >
             <RotateCcw size={20} />
-            Nöi aafange
+            Neu ahfange
           </button>
         </div>
 
@@ -244,7 +244,7 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-scale-in">
             <Trophy className="text-yellow-500 mx-auto mb-4" size={64} />
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Glüggwunsch! 🎉
+              Glückwunsch! 🎉
             </h2>
             <p className="text-xl text-gray-600 mb-6">
               Du häsch alli Pärli gfunde!
@@ -262,13 +262,13 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
                 onClick={resetGame}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:shadow-lg transition-all"
               >
-                Nomal schpilä
+                Nomal spiele
               </button>
               <button
                 onClick={onBack}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:shadow-lg transition-all"
               >
-                Witär
+                Wiiter
               </button>
             </div>
           </div>
