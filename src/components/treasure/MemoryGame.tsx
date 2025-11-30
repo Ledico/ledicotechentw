@@ -153,7 +153,7 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Heart className="text-purple-500 animate-pulse mx-auto mb-4" size={48} fill="currentColor" />
-          <p className="text-xl text-gray-600">Bereite Spiel vor...</p>
+          <p className="text-xl text-gray-600">Machä s'Spiil parat...</p>
         </div>
       </div>
     );
@@ -166,32 +166,32 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
           onClick={onBack}
           className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
         >
-          <span>Weiter zum nächsten Schritt</span>
+          <span>Witär zum nächschte Schritt</span>
           <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
         </button>
 
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Memory Spiel
+            Memory Spiil
           </h1>
           <p className="text-xl text-gray-600">
-            Finde die passenden Foto-Paare! 🎮
+            Find di passende Foti-Pärli! 🎮
           </p>
         </div>
 
         <div className="flex justify-center gap-8 mb-8">
           <div className="px-6 py-3 bg-white rounded-full shadow-lg">
-            <p className="text-sm text-gray-600">Züge</p>
+            <p className="text-sm text-gray-600">Züüg</p>
             <p className="text-2xl font-bold text-purple-600">{moves}</p>
           </div>
           <div className="px-6 py-3 bg-white rounded-full shadow-lg">
-            <p className="text-sm text-gray-600">Paare</p>
+            <p className="text-sm text-gray-600">Pärli</p>
             <p className="text-2xl font-bold text-pink-600">
               {matches} / {cards.length / 2}
             </p>
           </div>
           <div className="px-6 py-3 bg-white rounded-full shadow-lg">
-            <p className="text-sm text-gray-600">Zeit</p>
+            <p className="text-sm text-gray-600">Ziit</p>
             <p className="text-2xl font-bold text-indigo-600">
               {formatTime(elapsedTime)}
             </p>
@@ -201,7 +201,7 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
             className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
           >
             <RotateCcw size={20} />
-            Neu starten
+            Nöi aafange
           </button>
         </div>
 
@@ -244,17 +244,17 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-scale-in">
             <Trophy className="text-yellow-500 mx-auto mb-4" size={64} />
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Glückwunsch! 🎉
+              Glüggwunsch! 🎉
             </h2>
             <p className="text-xl text-gray-600 mb-6">
-              Du hast alle Paare gefunden!
+              Du häsch alli Pärli gfunde!
             </p>
             <div className="space-y-2 mb-6">
               <p className="text-gray-700">
-                <span className="font-bold">Züge:</span> {moves}
+                <span className="font-bold">Züüg:</span> {moves}
               </p>
               <p className="text-gray-700">
-                <span className="font-bold">Zeit:</span> {formatTime(elapsedTime)}
+                <span className="font-bold">Ziit:</span> {formatTime(elapsedTime)}
               </p>
             </div>
             <div className="flex gap-4">
@@ -262,13 +262,13 @@ const MemoryGame: React.FC<MemoryGameProps> = ({ onBack }) => {
                 onClick={resetGame}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:shadow-lg transition-all"
               >
-                Nochmal spielen
+                Nomal schpilä
               </button>
               <button
                 onClick={onBack}
                 className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:shadow-lg transition-all"
               >
-                Weiter
+                Witär
               </button>
             </div>
           </div>
