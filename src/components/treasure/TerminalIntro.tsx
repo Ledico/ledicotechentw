@@ -18,7 +18,7 @@ const TerminalIntro: React.FC<TerminalIntroProps> = ({ onComplete }) => {
     { text: '> [████████████████████] 100%', delay: 30, pause: 600 },
     { text: '> System bereit.', delay: 50, pause: 800 },
     { text: '', delay: 0, pause: 400 },
-    { text: '> Hallo Louisa! 💝', delay: 60, pause: 1000 },
+    { text: '> Hellouu Lou 💝', delay: 60, pause: 1000 },
     { text: '> Hüt isch din speziellä Tag...', delay: 50, pause: 1000 },
     { text: '> Ich han öppis Bsundärigs für dich vorbereitet.', delay: 45, pause: 1200 },
     { text: '', delay: 0, pause: 400 },
