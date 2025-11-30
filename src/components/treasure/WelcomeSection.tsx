@@ -63,7 +63,7 @@ const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onBack }) => {
           }`}
         >
           <p className="text-2xl md:text-3xl text-gray-700 font-light italic">
-            Eine Schatzkiste voller Erinnerungen, Liebe und Überraschungen
+            Ich han für dich es Schätzchischtle voll mit Erinnerige, Liebi und Überraschige
           </p>
           <div className="flex justify-center gap-3 mt-6">
             <Heart className="text-pink-500 animate-pulse" size={32} fill="currentColor" />
@@ -82,13 +82,13 @@ const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onBack }) => {
             className="group relative px-12 py-6 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 text-white text-2xl font-semibold rounded-full shadow-2xl hover:shadow-pink-500/50 transform hover:scale-110 transition-all duration-300 animate-pulse-slow"
           >
             <span className="relative z-10 flex items-center gap-3">
-              Starte dein Abenteuer
+              Start dis Abentüür
               <Sparkles className="group-hover:rotate-180 transition-transform duration-500" size={28} />
             </span>
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 via-rose-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur"></div>
           </button>
           <p className="text-sm text-gray-600 mt-4 animate-bounce">
-            Klicke hier um die Schatztruhen zu öffnen ↑
+            Druck da zum d Schätztruhene ufzmache ↑
           </p>
         </div>
       </div>
