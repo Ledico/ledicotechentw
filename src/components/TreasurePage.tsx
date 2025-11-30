@@ -244,8 +244,8 @@ const TreasurePage: React.FC = () => {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <div className="w-6 h-6 border-2 border-white/60 rounded-full animate-pulse-soft"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white/80 rounded-full"></div>
+        <div className="w-6 h-6 border-2 border-pink-600 rounded-full animate-pulse-soft shadow-lg"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-pink-700 rounded-full shadow-md"></div>
       </div>
 
       <EasterEggs onEggFound={(count) => setEasterEggsFound(count)} />
