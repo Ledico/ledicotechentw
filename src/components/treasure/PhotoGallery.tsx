@@ -449,7 +449,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
       {selectedPhoto && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center p-2 sm:p-4 animate-fade-in overflow-y-auto"
+          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center animate-fade-in"
           onClick={closeLightbox}
         >
           {/* Floating Flowers in Lightbox */}
@@ -486,64 +486,68 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </button>
 
           <div
-            className="max-w-5xl w-full relative z-50 my-auto"
+            className="max-w-6xl w-full h-full flex flex-col items-center justify-center relative z-50 px-4 sm:px-8 py-16 sm:py-20"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative animate-scale-in">
-              <img
-                src={selectedPhoto.image_url}
-                alt={selectedPhoto.title}
-                className="w-full h-auto max-h-[75vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30 mx-auto"
-              />
+            <div className="flex-1 flex items-center justify-center w-full max-h-full">
+              <div className="relative animate-scale-in">
+                <img
+                  src={selectedPhoto.image_url}
+                  alt={selectedPhoto.title}
+                  className="max-w-full max-h-[calc(100vh-280px)] sm:max-h-[calc(100vh-240px)] object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30"
+                />
 
-              {/* Decorative corners */}
-              <div className="absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-pink-400 rounded-tl-lg animate-pulse" />
-              <div className="absolute -top-4 -right-4 w-8 h-8 border-t-4 border-r-4 border-pink-400 rounded-tr-lg animate-pulse" style={{ animationDelay: '0.2s' }} />
-              <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-4 border-l-4 border-pink-400 rounded-bl-lg animate-pulse" style={{ animationDelay: '0.4s' }} />
-              <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-pink-400 rounded-br-lg animate-pulse" style={{ animationDelay: '0.6s' }} />
+                {/* Decorative corners */}
+                <div className="absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-pink-400 rounded-tl-lg animate-pulse" />
+                <div className="absolute -top-4 -right-4 w-8 h-8 border-t-4 border-r-4 border-pink-400 rounded-tr-lg animate-pulse" style={{ animationDelay: '0.2s' }} />
+                <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-4 border-l-4 border-pink-400 rounded-bl-lg animate-pulse" style={{ animationDelay: '0.4s' }} />
+                <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-pink-400 rounded-br-lg animate-pulse" style={{ animationDelay: '0.6s' }} />
+              </div>
             </div>
 
-            <div className="mt-4 sm:mt-8 text-center text-white px-2 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <div className="inline-flex items-center gap-2 mb-3">
-                <Heart className="text-pink-400 animate-heartbeat" size={24} fill="currentColor" />
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">{selectedPhoto.title}</h2>
-                <Heart className="text-pink-400 animate-heartbeat" size={24} fill="currentColor" style={{ animationDelay: '0.5s' }} />
+            <div className="mt-4 text-center text-white px-2 animate-fade-in-up max-w-3xl" style={{ animationDelay: '0.3s' }}>
+              <div className="inline-flex items-center gap-2 mb-2">
+                <Heart className="text-pink-400 animate-heartbeat" size={20} fill="currentColor" />
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">{selectedPhoto.title}</h2>
+                <Heart className="text-pink-400 animate-heartbeat" size={20} fill="currentColor" style={{ animationDelay: '0.5s' }} />
               </div>
               {selectedPhoto.description && (
-                <p className="text-sm sm:text-base md:text-lg opacity-90 mb-3 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                <p className="text-xs sm:text-sm md:text-base opacity-90 mb-2 animate-fade-in" style={{ animationDelay: '0.5s' }}>
                   {selectedPhoto.description}
                 </p>
               )}
-              {selectedPhoto.date && (
-                <p className="text-xs sm:text-sm opacity-75 animate-fade-in" style={{ animationDelay: '0.7s' }}>
-                  {new Date(selectedPhoto.date).toLocaleDateString('de-DE', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </p>
-              )}
-              <div className="mt-4 flex items-center justify-center gap-3">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"
-                      style={{ animationDelay: `${i * 0.15}s` }}
-                    />
-                  ))}
-                </div>
-                <p className="text-xs sm:text-sm opacity-60 font-semibold">
-                  {currentIndex + 1} / {photos.length}
-                </p>
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"
-                      style={{ animationDelay: `${i * 0.15}s` }}
-                    />
-                  ))}
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                {selectedPhoto.date && (
+                  <p className="text-xs opacity-75 animate-fade-in" style={{ animationDelay: '0.7s' }}>
+                    {new Date(selectedPhoto.date).toLocaleDateString('de-DE', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </p>
+                )}
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    {[...Array(3)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 h-1 bg-pink-400 rounded-full animate-pulse"
+                        style={{ animationDelay: `${i * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs opacity-60 font-semibold">
+                    {currentIndex + 1} / {photos.length}
+                  </p>
+                  <div className="flex gap-1">
+                    {[...Array(3)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 h-1 bg-pink-400 rounded-full animate-pulse"
+                        style={{ animationDelay: `${i * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
