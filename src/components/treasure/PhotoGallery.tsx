@@ -152,7 +152,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
       <div className="w-full flex flex-col relative z-10 py-4 md:py-8 lg:py-12 min-h-full">
         <div className="px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-8 lg:mb-10">
+          <div className="flex justify-start mb-6 md:mb-8 lg:mb-10">
             <button
               onClick={onBack}
               className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all group text-sm md:text-base backdrop-blur-sm border border-pink-300/50 hover:scale-105 animate-slide-in-left"
@@ -160,15 +160,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               <span className="hidden sm:inline">Witer zum nächste Schritt</span>
               <span className="sm:hidden">Witer</span>
               <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
-            </button>
-
-            <button
-              onClick={() => setShowMapView(true)}
-              className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all group text-sm md:text-base backdrop-blur-sm border border-blue-300/50 hover:scale-105 animate-slide-in-right"
-            >
-              <MapPin size={20} />
-              <span className="hidden sm:inline">Standort azeige</span>
-              <span className="sm:hidden">Map</span>
             </button>
           </div>
 
@@ -184,6 +175,15 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 font-medium">
               Jedes Föteli verzellt es Gschichtli vo üs 💕
             </p>
+
+            <button
+              onClick={() => setShowMapView(true)}
+              className="mt-6 inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all group text-base md:text-lg backdrop-blur-sm border border-blue-300/50 hover:scale-105 animate-slide-in-up"
+            >
+              <MapPin size={24} />
+              <span>Standort azeige</span>
+            </button>
+
             <div className="mt-4 flex justify-center gap-2">
               {[...Array(5)].map((_, i) => (
                 <div
