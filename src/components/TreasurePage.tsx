@@ -6,6 +6,7 @@ import WelcomeSection from './treasure/WelcomeSection';
 import PhotoGallery from './treasure/PhotoGallery';
 import MemoryGame from './treasure/MemoryGame';
 import Quiz from './treasure/Quiz';
+import BirthdayFacts from './treasure/BirthdayFacts';
 import GiftVouchers from './treasure/GiftVouchers';
 import EasterEggs from './treasure/EasterEggs';
 
@@ -14,6 +15,7 @@ interface StepCompletion {
   photos: boolean;
   memory: boolean;
   quiz: boolean;
+  birthday: boolean;
   gifts: boolean;
 }
 
@@ -28,6 +30,7 @@ const TreasurePage: React.FC = () => {
     photos: false,
     memory: false,
     quiz: false,
+    birthday: false,
     gifts: false,
   });
   const [showConfetti, setShowConfetti] = useState(false);
@@ -43,6 +46,7 @@ const TreasurePage: React.FC = () => {
     { id: 'photos', title: 'Foto Galerie', component: PhotoGallery },
     { id: 'memory', title: 'Memory Spiel', component: MemoryGame },
     { id: 'quiz', title: 'Liebes Quiz', component: Quiz },
+    { id: 'birthday', title: 'Din Geburtstag', component: BirthdayFacts },
     { id: 'gifts', title: 'Geschenke', component: GiftVouchers },
   ];
 
