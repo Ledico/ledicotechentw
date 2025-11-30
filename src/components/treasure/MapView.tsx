@@ -193,15 +193,6 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
                             {photo.description}
                           </p>
                         )}
-                        {photo.date && (
-                          <p className="text-xs text-gray-500">
-                            {new Date(photo.date).toLocaleDateString('de-DE', {
-                              day: '2-digit',
-                              month: 'long',
-                              year: 'numeric',
-                            })}
-                          </p>
-                        )}
                         <button
                           onClick={() => setSelectedPhoto(photo)}
                           className="mt-2 px-3 py-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full text-xs hover:shadow-lg transition-all"

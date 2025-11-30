@@ -254,15 +254,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                               {photo.description}
                             </p>
                           )}
-                          {photo.date && (
-                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
-                              {new Date(photo.date).toLocaleDateString('de-DE', {
-                                day: '2-digit',
-                                month: 'long',
-                                year: 'numeric',
-                              })}
-                            </p>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -330,15 +321,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                               {photo.description}
                             </p>
                           )}
-                          {photo.date && (
-                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
-                              {new Date(photo.date).toLocaleDateString('de-DE', {
-                                day: '2-digit',
-                                month: 'long',
-                                year: 'numeric',
-                              })}
-                            </p>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -404,15 +386,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                           {photo.description && (
                             <p className="text-xs md:text-sm opacity-90 mb-1 line-clamp-2 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
                               {photo.description}
-                            </p>
-                          )}
-                          {photo.date && (
-                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
-                              {new Date(photo.date).toLocaleDateString('de-DE', {
-                                day: '2-digit',
-                                month: 'long',
-                                year: 'numeric',
-                              })}
                             </p>
                           )}
                         </div>
