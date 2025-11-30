@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, MapPin, Heart, Navigation, Image as ImageIcon } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { supabase } from '../../lib/supabase';
 
@@ -76,12 +76,6 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
     }
   };
 
-  const getPolylinePositions = () => {
-    return photos
-      .filter(p => p.location_lat && p.location_lng)
-      .map(p => [p.location_lat!, p.location_lng!] as [number, number]);
-  };
-
   const getMapCenter = (): [number, number] => {
     if (photos.length === 0) return [47.3769, 8.5417];
     const validPhotos = photos.filter(p => p.location_lat && p.location_lng);
@@ -147,16 +141,6 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-
-              <Polyline
-                positions={getPolylinePositions()}
-                pathOptions={{
-                  color: '#ec4899',
-                  weight: 3,
-                  opacity: 0.6,
-                  dashArray: '10, 10',
-                }}
               />
 
               {photos.map((photo, index) => {
