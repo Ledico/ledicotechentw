@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Heart, Sparkles, MapPin } from 'lucide-react';
+import { ArrowLeft, Heart, Sparkles, MapPin } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import MapView from './MapView';
 
@@ -72,8 +72,6 @@ const FloatingFlower = ({ delay = 0, x = 0, y = 0, size = 60, type = 1 }) => {
 
 const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showMapView, setShowMapView] = useState(false);
 
@@ -95,27 +93,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const openLightbox = (photo: Photo, index: number) => {
-    setSelectedPhoto(photo);
-    setCurrentIndex(index);
-  };
-
-  const closeLightbox = () => {
-    setSelectedPhoto(null);
-  };
-
-  const nextPhoto = () => {
-    const newIndex = (currentIndex + 1) % photos.length;
-    setCurrentIndex(newIndex);
-    setSelectedPhoto(photos[newIndex]);
-  };
-
-  const prevPhoto = () => {
-    const newIndex = (currentIndex - 1 + photos.length) % photos.length;
-    setCurrentIndex(newIndex);
-    setSelectedPhoto(photos[newIndex]);
   };
 
   if (loading) {
@@ -245,8 +222,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                       return (
                 <div
                   key={photo.id}
-                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
-                  onClick={() => openLightbox(photo, originalIndex)}
+                  className="group relative overflow-visible animate-fade-in-up"
                   style={{
                     animationDelay: `${originalIndex * 0.08}s`
                   }}
@@ -273,8 +249,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                           <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
                             {photo.title}
                           </h3>
+                          {photo.description && (
+                            <p className="text-xs md:text-sm opacity-90 mb-1 line-clamp-2 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {photo.description}
+                            </p>
+                          )}
                           {photo.date && (
-                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
                               {new Date(photo.date).toLocaleDateString('de-DE', {
                                 day: '2-digit',
                                 month: 'long',
@@ -317,8 +298,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                       return (
                 <div
                   key={photo.id}
-                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
-                  onClick={() => openLightbox(photo, originalIndex)}
+                  className="group relative overflow-visible animate-fade-in-up"
                   style={{
                     animationDelay: `${originalIndex * 0.08}s`
                   }}
@@ -345,8 +325,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                           <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
                             {photo.title}
                           </h3>
+                          {photo.description && (
+                            <p className="text-xs md:text-sm opacity-90 mb-1 line-clamp-2 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {photo.description}
+                            </p>
+                          )}
                           {photo.date && (
-                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
                               {new Date(photo.date).toLocaleDateString('de-DE', {
                                 day: '2-digit',
                                 month: 'long',
@@ -389,8 +374,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                       return (
                 <div
                   key={photo.id}
-                  className="group relative cursor-pointer overflow-visible animate-fade-in-up"
-                  onClick={() => openLightbox(photo, originalIndex)}
+                  className="group relative overflow-visible animate-fade-in-up"
                   style={{
                     animationDelay: `${originalIndex * 0.08}s`
                   }}
@@ -417,8 +401,13 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
                           <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold mb-0.5 md:mb-1 line-clamp-2 animate-slide-in-up">
                             {photo.title}
                           </h3>
+                          {photo.description && (
+                            <p className="text-xs md:text-sm opacity-90 mb-1 line-clamp-2 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                              {photo.description}
+                            </p>
+                          )}
                           {photo.date && (
-                            <p className="text-xs md:text-sm opacity-90 animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
+                            <p className="text-xs opacity-75 animate-slide-in-up" style={{ animationDelay: '0.15s' }}>
                               {new Date(photo.date).toLocaleDateString('de-DE', {
                                 day: '2-digit',
                                 month: 'long',
@@ -446,91 +435,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </div>
         )}
       </div>
-
-      {selectedPhoto && (
-        <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-4 animate-fade-in overflow-hidden"
-          onClick={closeLightbox}
-        >
-          {/* Floating Flowers in Lightbox */}
-          <FloatingFlower x={10} y={10} size={60} type={1} delay={0} />
-          <FloatingFlower x={85} y={15} size={70} type={2} delay={1.5} />
-          <FloatingFlower x={15} y={85} size={65} type={3} delay={2.5} />
-          <FloatingFlower x={90} y={80} size={55} type={1} delay={3} />
-
-          <button
-            onClick={closeLightbox}
-            className="fixed top-3 right-3 sm:top-6 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-fade-in"
-          >
-            <X className="text-white" size={24} />
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              prevPhoto();
-            }}
-            className="fixed left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-left"
-          >
-            <ChevronLeft className="text-white" size={28} />
-          </button>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              nextPhoto();
-            }}
-            className="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-right"
-          >
-            <ChevronRight className="text-white" size={28} />
-          </button>
-
-          <div
-            className="relative w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center animate-scale-in">
-              <img
-                src={selectedPhoto.image_url}
-                alt={selectedPhoto.title}
-                className="max-w-full max-h-full w-auto h-auto object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30"
-              />
-
-              {/* Decorative corners */}
-              <div className="absolute -top-4 -left-4 w-8 h-8 border-t-4 border-l-4 border-pink-400 rounded-tl-lg animate-pulse" />
-              <div className="absolute -top-4 -right-4 w-8 h-8 border-t-4 border-r-4 border-pink-400 rounded-tr-lg animate-pulse" style={{ animationDelay: '0.2s' }} />
-              <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-4 border-l-4 border-pink-400 rounded-bl-lg animate-pulse" style={{ animationDelay: '0.4s' }} />
-              <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-4 border-r-4 border-pink-400 rounded-br-lg animate-pulse" style={{ animationDelay: '0.6s' }} />
-
-              {/* Text Overlay at Bottom */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-12 pb-4 px-4 text-center text-white animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                <div className="inline-flex items-center gap-2 mb-1">
-                  <Heart className="text-pink-400 animate-heartbeat" size={16} fill="currentColor" />
-                  <h2 className="text-sm sm:text-base md:text-lg font-bold line-clamp-1">{selectedPhoto.title}</h2>
-                  <Heart className="text-pink-400 animate-heartbeat" size={16} fill="currentColor" style={{ animationDelay: '0.5s' }} />
-                </div>
-                <div className="flex items-center justify-center gap-2 text-xs opacity-75">
-                  {selectedPhoto.date && (
-                    <>
-                      <span>
-                        {new Date(selectedPhoto.date).toLocaleDateString('de-DE', {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </span>
-                      <span>•</span>
-                    </>
-                  )}
-                  <span className="opacity-60 font-semibold">
-                    {currentIndex + 1} / {photos.length}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {showMapView && <MapView onClose={() => setShowMapView(false)} />}
     </div>
