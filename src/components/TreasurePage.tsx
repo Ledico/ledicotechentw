@@ -4,8 +4,6 @@ import { supabase } from '../lib/supabase';
 import TerminalIntro from './treasure/TerminalIntro';
 import WelcomeSection from './treasure/WelcomeSection';
 import PhotoGallery from './treasure/PhotoGallery';
-import LoveLetters from './treasure/LoveLetters';
-import Timeline from './treasure/Timeline';
 import MemoryGame from './treasure/MemoryGame';
 import Quiz from './treasure/Quiz';
 import GiftVouchers from './treasure/GiftVouchers';
@@ -14,8 +12,6 @@ import EasterEggs from './treasure/EasterEggs';
 interface StepCompletion {
   welcome: boolean;
   photos: boolean;
-  letters: boolean;
-  timeline: boolean;
   memory: boolean;
   quiz: boolean;
   gifts: boolean;
@@ -30,8 +26,6 @@ const TreasurePage: React.FC = () => {
   const [completedSteps, setCompletedSteps] = useState<StepCompletion>({
     welcome: false,
     photos: false,
-    letters: false,
-    timeline: false,
     memory: false,
     quiz: false,
     gifts: false,
@@ -47,8 +41,6 @@ const TreasurePage: React.FC = () => {
   const slides = [
     { id: 'welcome', title: 'Willkommen', component: WelcomeSection },
     { id: 'photos', title: 'Foto Galerie', component: PhotoGallery },
-    { id: 'letters', title: 'Liebesbriefe', component: LoveLetters },
-    { id: 'timeline', title: 'Unsere Reise', component: Timeline },
     { id: 'memory', title: 'Memory Spiel', component: MemoryGame },
     { id: 'quiz', title: 'Liebes Quiz', component: Quiz },
     { id: 'gifts', title: 'Geschenke', component: GiftVouchers },
