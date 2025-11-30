@@ -80,8 +80,6 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
     return [50.0, 10.0];
   };
 
-  const mapKey = `${photos.length}-${Date.now()}`;
-
   if (loading) {
     return (
       <div className="fixed inset-0 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 z-50 flex items-center justify-center">
@@ -129,7 +127,6 @@ const MapView: React.FC<MapViewProps> = ({ onClose }) => {
         ) : (
           <div className="flex-1 relative">
             <MapContainer
-              key={mapKey}
               center={getMapCenter()}
               zoom={4}
               className="h-full w-full"
