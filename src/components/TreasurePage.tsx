@@ -38,7 +38,6 @@ const TreasurePage: React.FC = () => {
   });
   const [showConfetti, setShowConfetti] = useState(false);
   const [easterEggsFound, setEasterEggsFound] = useState(0);
-  const [showFinalMessage, setShowFinalMessage] = useState(false);
   const [hasShownFinalMessage, setHasShownFinalMessage] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const touchStartX = useRef(0);
@@ -62,7 +61,6 @@ const TreasurePage: React.FC = () => {
   useEffect(() => {
     const allCompleted = Object.values(completedSteps).every((v) => v);
     if (allCompleted && !hasShownFinalMessage) {
-      setShowFinalMessage(true);
       setHasShownFinalMessage(true);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
@@ -326,9 +324,6 @@ const TreasurePage: React.FC = () => {
         <p>Pfeiltasten, Leertaste oder Wischen zum Navigieren • ESC für Kontrollen</p>
       </div>
 
-      {showFinalMessage && (
-        <FinalMessage easterEggsFound={easterEggsFound} onClose={() => setShowFinalMessage(false)} />
-      )}
     </div>
   );
 };
@@ -354,52 +349,6 @@ const Confetti: React.FC = () => {
           )}
         </div>
       ))}
-    </div>
-  );
-};
-
-const FinalMessage: React.FC<{ easterEggsFound: number; onClose: () => void }> = ({
-  easterEggsFound,
-  onClose,
-}) => {
-  return (
-    <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
-      <div
-        className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-3xl shadow-2xl max-w-2xl w-full p-8 md:p-12 text-center animate-scale-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="mb-6">
-          <Heart className="text-pink-500 mx-auto mb-4 animate-pulse" size={80} fill="currentColor" />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 animate-slide-down">
-          Du hast es geschafft!
-        </h1>
-        <p className="text-xl text-gray-700 mb-6 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          Du hast alle Schritte unserer gemeinsamen Reise durchlaufen.
-        </p>
-        <p className="text-lg text-gray-600 mb-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Jedes Foto, jeder Brief, jeder Moment - sie alle erzählen unsere Geschichte.
-        </p>
-        {easterEggsFound === 6 && (
-          <p className="text-lg text-yellow-600 font-bold mb-6 animate-bounce">
-            Und du hast sogar alle versteckten Herzchen gefunden!
-          </p>
-        )}
-        <div className="mt-8 p-6 bg-white/50 rounded-2xl animate-scale-in" style={{ animationDelay: '0.3s' }}>
-          <p className="text-3xl font-bold text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-rose-500 bg-clip-text mb-4">
-            Alles Gute zum Geburtstag, Louisa!
-          </p>
-          <p className="text-gray-600 mt-4 text-lg">
-            Ich liebe dich mehr als Worte es jemals ausdrücken könnten.
-          </p>
-        </div>
-        <button
-          onClick={onClose}
-          className="mt-8 px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
-        >
-          Schließen
-        </button>
-      </div>
     </div>
   );
 };
