@@ -73,14 +73,6 @@ const GiftVouchers: React.FC<GiftVouchersProps> = ({ onBack }) => {
   return (
     <div className="min-h-screen py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all mb-8 group"
-        >
-          <span>Weiter zum nächsten Schritt</span>
-          <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
-        </button>
-
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-gray-800 mb-4">
             Geschenk-Gutscheine
