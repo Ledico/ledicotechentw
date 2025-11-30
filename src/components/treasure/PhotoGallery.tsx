@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Heart, Sparkles } from 'lucide-react';
+import { ArrowLeft, X, ChevronLeft, ChevronRight, Heart, Sparkles, MapPin } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import MapView from './MapView';
 
 interface Photo {
   id: string;
@@ -74,6 +75,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showMapView, setShowMapView] = useState(false);
 
   useEffect(() => {
     fetchPhotos();
@@ -173,14 +175,25 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
       <div className="w-full flex flex-col relative z-10 py-4 md:py-8 lg:py-12 min-h-full">
         <div className="px-3 sm:px-4 md:px-6 lg:px-8">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all mb-6 md:mb-8 lg:mb-10 group text-sm md:text-base backdrop-blur-sm border border-pink-300/50 hover:scale-105 animate-slide-in-left"
-          >
-            <span className="hidden sm:inline">Witer zum nächste Schritt</span>
-            <span className="sm:hidden">Witer</span>
-            <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
-          </button>
+          <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-8 lg:mb-10">
+            <button
+              onClick={onBack}
+              className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all group text-sm md:text-base backdrop-blur-sm border border-pink-300/50 hover:scale-105 animate-slide-in-left"
+            >
+              <span className="hidden sm:inline">Witer zum nächste Schritt</span>
+              <span className="sm:hidden">Witer</span>
+              <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
+            </button>
+
+            <button
+              onClick={() => setShowMapView(true)}
+              className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all group text-sm md:text-base backdrop-blur-sm border border-blue-300/50 hover:scale-105 animate-slide-in-right"
+            >
+              <MapPin size={20} />
+              <span className="hidden sm:inline">Standort azeige</span>
+              <span className="sm:hidden">Map</span>
+            </button>
+          </div>
 
           <div className="text-center mb-8 md:mb-10 lg:mb-16 animate-fade-in-down">
             <div className="inline-flex items-center gap-3 mb-4">
@@ -537,6 +550,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
           </div>
         </div>
       )}
+
+      {showMapView && <MapView onClose={() => setShowMapView(false)} />}
     </div>
   );
 };
