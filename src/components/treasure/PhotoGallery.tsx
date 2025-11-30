@@ -124,7 +124,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
         <FloatingFlower x={15} y={75} size={90} type={3} delay={2} />
         <div className="text-center relative z-10">
           <Heart className="text-pink-500 animate-heartbeat mx-auto mb-4" size={64} fill="currentColor" />
-          <p className="text-2xl text-gray-700 animate-pulse">Lade unsere Erinnerungen...</p>
+          <p className="text-2xl text-gray-700 animate-pulse">Ich lade üseri Erinnerige...</p>
           <Sparkles className="text-pink-400 animate-spin-slow mx-auto mt-4" size={32} />
         </div>
       </div>
@@ -177,8 +177,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
             onClick={onBack}
             className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white rounded-full shadow-lg hover:shadow-2xl transition-all mb-6 md:mb-8 lg:mb-10 group text-sm md:text-base backdrop-blur-sm border border-pink-300/50 hover:scale-105 animate-slide-in-left"
           >
-            <span className="hidden sm:inline">Weiter zum nächsten Schritt</span>
-            <span className="sm:hidden">Weiter</span>
+            <span className="hidden sm:inline">Witer zum nächste Schritt</span>
+            <span className="sm:hidden">Witer</span>
             <ArrowLeft className="group-hover:translate-x-1 transition-transform rotate-180" size={20} />
           </button>
 
@@ -189,10 +189,10 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               <Heart className="text-pink-500 animate-heartbeat" size={40} fill="currentColor" style={{ animationDelay: '0.5s' }} />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 bg-clip-text text-transparent mb-3 md:mb-5 animate-text-shimmer">
-              Unsere schönsten Momente
+              Üseri schönste Moment
             </h1>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 font-medium">
-              Jedes Foto erzählt eine Geschichte von uns 💕
+              Jedes Föteli verzellt es Gschichtli vo üs 💕
             </p>
             <div className="mt-4 flex justify-center gap-2">
               {[...Array(5)].map((_, i) => (
