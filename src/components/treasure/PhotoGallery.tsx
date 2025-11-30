@@ -449,7 +449,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
       {selectedPhoto && (
         <div
-          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-2 sm:p-4 animate-fade-in"
+          className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex flex-col items-center justify-center p-2 sm:p-4 animate-fade-in overflow-y-auto"
           onClick={closeLightbox}
         >
           {/* Floating Flowers in Lightbox */}
@@ -460,7 +460,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
 
           <button
             onClick={closeLightbox}
-            className="absolute top-3 right-3 sm:top-6 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-fade-in"
+            className="fixed top-3 right-3 sm:top-6 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-fade-in"
           >
             <X className="text-white" size={24} />
           </button>
@@ -470,7 +470,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               e.stopPropagation();
               prevPhoto();
             }}
-            className="absolute left-2 sm:left-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-left"
+            className="fixed left-2 sm:left-6 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-left"
           >
             <ChevronLeft className="text-white" size={28} />
           </button>
@@ -480,20 +480,20 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ onBack }) => {
               e.stopPropagation();
               nextPhoto();
             }}
-            className="absolute right-2 sm:right-6 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-right"
+            className="fixed right-2 sm:right-6 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full transition-all hover:scale-110 border border-pink-300/30 z-60 animate-slide-in-right"
           >
             <ChevronRight className="text-white" size={28} />
           </button>
 
           <div
-            className="max-w-5xl w-full relative z-50"
+            className="max-w-5xl w-full relative z-50 my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative animate-scale-in">
               <img
                 src={selectedPhoto.image_url}
                 alt={selectedPhoto.title}
-                className="w-full h-auto max-h-[60vh] sm:max-h-[70vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30"
+                className="w-full h-auto max-h-[75vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl border-4 border-pink-500/30 mx-auto"
               />
 
               {/* Decorative corners */}
