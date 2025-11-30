@@ -14,20 +14,16 @@ const TerminalIntro: React.FC<TerminalIntroProps> = ({ onComplete }) => {
 
   const terminalLines = [
     { text: '> Initialisiere System...', delay: 50, pause: 800 },
-    { text: '> Lade Geburtstagsüberraschung für Louisa...', delay: 40, pause: 1000 },
+    { text: '> Lade Geburtstagsüberraschig für Louisa...', delay: 40, pause: 1000 },
     { text: '> [████████████████████] 100%', delay: 30, pause: 600 },
     { text: '> System bereit.', delay: 50, pause: 800 },
     { text: '', delay: 0, pause: 400 },
     { text: '> Hallo Louisa! 💝', delay: 60, pause: 1000 },
-    { text: '> Heute ist dein besonderer Tag...', delay: 50, pause: 1000 },
-    { text: '> Ich habe etwas Besonderes für dich vorbereitet.', delay: 45, pause: 1200 },
+    { text: '> Hüt isch din speziellä Tag...', delay: 50, pause: 1000 },
+    { text: '> I ha öppis Bsundärigs für di vorbereitet.', delay: 45, pause: 1200 },
     { text: '', delay: 0, pause: 400 },
-    { text: '> Eine interaktive Reise durch unsere Erinnerungen.', delay: 45, pause: 1000 },
-    { text: '> Jeder Schritt enthält eine Überraschung.', delay: 45, pause: 1000 },
-    { text: '> Du musst jeden Schritt abschließen um weiterzukommen.', delay: 45, pause: 1200 },
-    { text: '', delay: 0, pause: 400 },
-    { text: '> Bist du bereit? ✨', delay: 60, pause: 1500 },
-    { text: '> Drücke ENTER um zu starten...', delay: 50, pause: 0 },
+    { text: '> Bisch bereit? ✨', delay: 60, pause: 1500 },
+    { text: '> Drücke ENTER zum starte...', delay: 50, pause: 0 },
   ];
 
   useEffect(() => {
@@ -148,7 +144,7 @@ const TerminalIntro: React.FC<TerminalIntroProps> = ({ onComplete }) => {
 
         <div className="mt-4 text-center">
           <p className="text-gray-500 text-xs font-mono">
-            {isComplete ? '↑ Drücke ENTER oder klicke den Button' : 'System lädt...'}
+            {isComplete ? '↑ Drück ENTER oder klick dä Button' : 'System ladet...'}
           </p>
         </div>
       </div>
