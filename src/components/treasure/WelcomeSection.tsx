@@ -50,7 +50,7 @@ const WelcomeSection: React.FC<WelcomeSectionProps> = ({ onBack }) => {
             <Sparkles className="text-yellow-400 animate-pulse" size={48} />
           </div>
           <h1 className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient">
-            Alles Gute zum Geburtstag
+            Alles gueti zum Geburii
           </h1>
           <h2 className="text-5xl md:text-7xl font-bold text-rose-500 mt-4 font-serif">
             Louisa
