@@ -20,7 +20,7 @@ const TerminalIntro: React.FC<TerminalIntroProps> = ({ onComplete }) => {
     { text: '', delay: 0, pause: 400 },
     { text: '> Hallo Louisa! 💝', delay: 60, pause: 1000 },
     { text: '> Hüt isch din speziellä Tag...', delay: 50, pause: 1000 },
-    { text: '> I ha öppis Bsundärigs für di vorbereitet.', delay: 45, pause: 1200 },
+    { text: '> Ich han öppis Bsundärigs für dich vorbereitet.', delay: 45, pause: 1200 },
     { text: '', delay: 0, pause: 400 },
     { text: '> Bisch bereit? ✨', delay: 60, pause: 1500 },
     { text: '> Drücke ENTER zum starte...', delay: 50, pause: 0 },
