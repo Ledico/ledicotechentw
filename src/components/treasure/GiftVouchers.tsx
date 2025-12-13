@@ -243,8 +243,8 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
 
             {!isScratched && (
               <div className="mt-8 text-center">
-                <p className="text-sm text-gray-500 font-medium">
-                  Rubbel die goldene Schicht weg, um den Gutschein zu enthüllen!
+                <p className="text-lg text-gray-700 leading-relaxed max-w-lg mx-auto">
+                  75 Franke gutschii für din starbucks sucht!
                 </p>
               </div>
             )}
