@@ -214,11 +214,21 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
 
           <div className={`flex-1 flex flex-col justify-between ${!isScratched ? 'blur-sm' : ''}`}>
             <div>
-              <div className="flex justify-center mb-4">
-                <div className="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full">
-                  <Gift className="text-white" size={40} />
+              {voucher.image_url ? (
+                <div className="mb-4 rounded-xl overflow-hidden shadow-md">
+                  <img
+                    src={voucher.image_url}
+                    alt={voucher.title}
+                    className="w-full h-48 object-cover"
+                  />
                 </div>
-              </div>
+              ) : (
+                <div className="flex justify-center mb-4">
+                  <div className="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full">
+                    <Gift className="text-white" size={40} />
+                  </div>
+                </div>
+              )}
 
               <h3 className="text-2xl font-bold text-gray-800 text-center mb-4">
                 {voucher.title}
