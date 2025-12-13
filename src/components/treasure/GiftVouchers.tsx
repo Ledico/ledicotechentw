@@ -56,30 +56,37 @@ const GiftVouchers: React.FC<GiftVouchersProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="min-h-screen py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Geschenk-Gutscheine
+    <div className="min-h-screen py-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-16">
+          <div className="inline-block mb-6">
+            <div className="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-xl">
+              <Gift className="text-white" size={48} />
+            </div>
+          </div>
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-yellow-600 via-orange-500 to-rose-500 bg-clip-text text-transparent mb-6">
+            Dein Geschenk-Gutschein
           </h1>
-          <p className="text-xl text-gray-600">
-            Besondere Überraschungen nur für dich! 🎁
+          <p className="text-2xl text-gray-700 font-medium mb-3">
+            Eine besondere Überraschung wartet auf dich
           </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Klicke auf die Karten um sie aufzudecken
+          <p className="text-base text-gray-600 max-w-md mx-auto">
+            Rubbel die goldene Schicht weg, um deinen Gutschein freizuschalten
           </p>
         </div>
 
         {vouchers.length === 0 ? (
           <div className="text-center py-20">
-            <Gift className="text-gray-400 mx-auto mb-4" size={64} />
+            <div className="inline-block p-6 bg-gray-100 rounded-full mb-6">
+              <Gift className="text-gray-400 mx-auto" size={64} />
+            </div>
             <p className="text-xl text-gray-500">
-              Noch keine Gutscheine hinzugefügt. Füge Gutscheine über die Datenbank hinzu!
+              Noch keine Gutscheine hinzugefügt
             </p>
           </div>
         ) : (
           <div className="flex justify-center">
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-3xl">
               {vouchers.map((voucher) => (
                 <VoucherCard
                   key={voucher.id}
@@ -108,24 +115,30 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
   onScratch,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [scratchPercentage, setScratchPercentage] = useState(0);
 
   useEffect(() => {
-    if (!isScratched && canvasRef.current) {
+    if (!isScratched && canvasRef.current && containerRef.current) {
       const canvas = canvasRef.current;
+      const container = containerRef.current;
+
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
+
       const ctx = canvas.getContext('2d');
       if (ctx) {
         ctx.fillStyle = '#FCD34D';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         ctx.fillStyle = '#F59E0B';
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 100; i++) {
           ctx.beginPath();
           ctx.arc(
             Math.random() * canvas.width,
             Math.random() * canvas.height,
-            Math.random() * 3 + 1,
+            Math.random() * 4 + 2,
             0,
             Math.PI * 2
           );
@@ -143,19 +156,25 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    let x, y;
+    let clientX, clientY;
 
     if ('touches' in e) {
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
     } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
+      clientX = e.clientX;
+      clientY = e.clientY;
     }
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 20, 0, Math.PI * 2);
+    ctx.arc(x, y, 30, 0, Math.PI * 2);
     ctx.fill();
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -167,24 +186,23 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
     const percentage = (transparent / (pixels.length / 4)) * 100;
     setScratchPercentage(percentage);
 
-    if (percentage > 60) {
+    if (percentage > 50) {
       onScratch(voucher.id);
     }
   };
 
   return (
-    <div className="group perspective-1000">
+    <div className="perspective-1000">
       <div
-        className={`relative bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden ${
-          isScratched ? 'transform rotate-y-5' : ''
+        ref={containerRef}
+        className={`relative bg-gradient-to-br from-yellow-50 to-orange-50 rounded-3xl shadow-2xl transition-all duration-500 overflow-hidden ${
+          isScratched ? 'shadow-3xl scale-[1.02]' : ''
         }`}
       >
-        <div className="relative aspect-[3/4] p-6 flex flex-col">
+        <div className="relative p-8">
           {!isScratched && (
             <canvas
               ref={canvasRef}
-              width={300}
-              height={400}
               className="absolute inset-0 w-full h-full cursor-pointer z-10"
               onMouseDown={() => setIsDrawing(true)}
               onMouseUp={() => setIsDrawing(false)}
@@ -196,45 +214,55 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             />
           )}
 
-          <div className={`flex-1 flex flex-col justify-between ${!isScratched ? 'blur-sm' : ''}`}>
-            <div>
-              {voucher.image_url ? (
-                <div className="mb-4 rounded-xl overflow-hidden shadow-md">
-                  <img
-                    src={voucher.image_url}
-                    alt={voucher.title}
-                    className="w-full h-48 object-cover"
-                  />
+          <div className={`${!isScratched ? 'blur-sm select-none' : ''}`}>
+            {voucher.image_url ? (
+              <div className="mb-6 rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src={voucher.image_url}
+                  alt={voucher.title}
+                  className="w-full h-96 object-contain bg-white"
+                />
+              </div>
+            ) : (
+              <div className="flex justify-center mb-6">
+                <div className="p-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-lg">
+                  <Gift className="text-white" size={64} />
                 </div>
-              ) : (
-                <div className="flex justify-center mb-4">
-                  <div className="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full">
-                    <Gift className="text-white" size={40} />
-                  </div>
-                </div>
-              )}
+              </div>
+            )}
 
-              <h3 className="text-2xl font-bold text-gray-800 text-center mb-4">
+            <div className="text-center space-y-4">
+              <h3 className="text-3xl font-bold text-gray-800">
                 {voucher.title}
               </h3>
 
-              <p className="text-gray-700 text-center leading-relaxed">
+              <p className="text-lg text-gray-700 leading-relaxed max-w-lg mx-auto">
                 {voucher.description}
               </p>
             </div>
 
             {!isScratched && (
-              <div className="mt-6">
-                <div className="text-center text-sm text-gray-500">
-                  Rubbel mich frei!
-                </div>
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-500 font-medium">
+                  Rubbel die goldene Schicht weg, um den Gutschein zu enthüllen!
+                </p>
               </div>
             )}
           </div>
 
-          {!isScratched && scratchPercentage > 0 && scratchPercentage < 60 && (
-            <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-white/90 rounded-full text-sm font-semibold text-orange-600">
-              {Math.round(scratchPercentage)}%
+          {!isScratched && scratchPercentage > 0 && scratchPercentage < 50 && (
+            <div className="absolute top-6 right-6 z-20 px-4 py-2 bg-white/95 rounded-full shadow-lg">
+              <div className="flex items-center gap-2">
+                <div className="w-12 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-300"
+                    style={{ width: `${scratchPercentage * 2}%` }}
+                  />
+                </div>
+                <span className="text-sm font-bold text-orange-600">
+                  {Math.round(scratchPercentage)}%
+                </span>
+              </div>
             </div>
           )}
         </div>
