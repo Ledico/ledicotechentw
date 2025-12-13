@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Gift, Check } from 'lucide-react';
+import { Gift } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 interface GiftVoucher {
@@ -37,21 +37,6 @@ const GiftVouchers: React.FC<GiftVouchersProps> = ({ onBack }) => {
       console.error('Error fetching vouchers:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleRedeem = async (voucherId: string) => {
-    try {
-      await supabase
-        .from('treasure_gifts')
-        .update({ is_redeemed: true })
-        .eq('id', voucherId);
-
-      setVouchers((prev) =>
-        prev.map((v) => (v.id === voucherId ? { ...v, is_redeemed: true } : v))
-      );
-    } catch (error) {
-      console.error('Error redeeming voucher:', error);
     }
   };
 
@@ -93,16 +78,17 @@ const GiftVouchers: React.FC<GiftVouchersProps> = ({ onBack }) => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {vouchers.map((voucher) => (
-              <VoucherCard
-                key={voucher.id}
-                voucher={voucher}
-                isScratched={scratchedVouchers.has(voucher.id)}
-                onScratch={handleScratch}
-                onRedeem={handleRedeem}
-              />
-            ))}
+          <div className="flex justify-center">
+            <div className="w-full max-w-2xl">
+              {vouchers.map((voucher) => (
+                <VoucherCard
+                  key={voucher.id}
+                  voucher={voucher}
+                  isScratched={scratchedVouchers.has(voucher.id)}
+                  onScratch={handleScratch}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -114,14 +100,12 @@ interface VoucherCardProps {
   voucher: GiftVoucher;
   isScratched: boolean;
   onScratch: (id: string) => void;
-  onRedeem: (id: string) => void;
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
   voucher,
   isScratched,
   onScratch,
-  onRedeem,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -239,25 +223,13 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
               </p>
             </div>
 
-            <div className="mt-6">
-              {voucher.is_redeemed ? (
-                <div className="flex items-center justify-center gap-2 py-3 bg-green-100 text-green-700 font-semibold rounded-full">
-                  <Check size={20} />
-                  <span>Eingelöst</span>
-                </div>
-              ) : isScratched ? (
-                <button
-                  onClick={() => onRedeem(voucher.id)}
-                  className="w-full py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold rounded-full hover:shadow-lg transition-all"
-                >
-                  Als eingelöst markieren
-                </button>
-              ) : (
+            {!isScratched && (
+              <div className="mt-6">
                 <div className="text-center text-sm text-gray-500">
                   Rubbel mich frei!
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           {!isScratched && scratchPercentage > 0 && scratchPercentage < 60 && (
@@ -266,14 +238,6 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
             </div>
           )}
         </div>
-
-        {voucher.is_redeemed && (
-          <div className="absolute top-4 left-4">
-            <div className="px-4 py-2 bg-green-500 text-white font-bold rounded-full transform -rotate-12 shadow-lg">
-              EINGELÖST
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
