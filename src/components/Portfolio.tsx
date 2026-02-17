@@ -35,11 +35,11 @@ const Portfolio = () => {
     },
     {
       title: 'Intune Windows 11 Migration & Autopilot',
-      description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Ongoing Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
+      description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Erfolgreich abgeschlossenes Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
       image: 'https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
       linkTo: '/intune-migration',
-      status: 'ongoing'
+      status: 'completed'
     },
     {
       title: 'SharePoint Online Template Administration',
