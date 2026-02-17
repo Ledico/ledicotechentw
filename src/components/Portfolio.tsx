@@ -1,9 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
+
+interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  content: string;
+  featured_image: string;
+  gallery_images: string[];
+  category_id: string;
+  status: 'draft' | 'published';
+  published_at: string;
+  view_count: number;
+  order_index: number;
+  tags?: string[];
+  linkTo?: string;
+  isVA?: boolean;
+  projectStatus?: 'completed' | 'ongoing' | 'planned';
+}
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -23,43 +45,54 @@ const Portfolio = () => {
     return () => observer.disconnect();
   }, []);
 
-  const projects = [
-    {
-      title: 'Vertiefungsarbeit: Unentdeckte Schönheiten',
-      description: 'Erforschung weniger bekannter Orte in der Deutschschweiz abseits des Massentourismus. 51-seitige Dokumentation mit multimedialen Inhalten, Interviews und Umfragen.',
-      image: './img/Image.jpeg',
-      tags: ['Tourismus', 'Fotografie', 'Interviews', 'Vertiefungsarbeit'],
-      isVA: true,
-      linkTo: '/va',
-      status: 'completed'
-    },
-    {
-      title: 'Intune Windows 11 Migration & Autopilot',
-      description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Erfolgreich abgeschlossenes Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
-      image: 'https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=800',
-      tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
-      linkTo: '/intune-migration',
-      status: 'completed'
-    },
-    {
-      title: 'SharePoint Online Template Administration',
-      description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Ongoing Projekt zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
-      image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
-      tags: ['SharePoint Online', 'Microsoft 365', 'Templates', 'Administration'],
-      demoUrl: '#',
-      githubUrl: '#',
-      status: 'ongoing'
-    },
-    {
-      title: 'Weitere Projekte in Planung',
-      description: 'Verschiedene IT-Infrastruktur- und Cloud-Projekte befinden sich derzeit in der Planungsphase. Diese umfassen Bereiche wie Automatisierung, Sicherheit und moderne Cloud-Lösungen.',
-      image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
-      tags: ['Cloud', 'Automatisierung', 'Infrastructure', 'DevOps'],
-      demoUrl: '#',
-      githubUrl: '#',
-      status: 'planned'
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  async function fetchProjects() {
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          project_tag_relations (
+            tag_id,
+            project_tags (
+              name
+            )
+          )
+        `)
+        .eq('status', 'published')
+        .order('order_index', { ascending: true });
+
+      if (error) throw error;
+
+      const projectsWithTags = data?.map(project => ({
+        ...project,
+        tags: project.project_tag_relations?.map((rel: any) => rel.project_tags?.name).filter(Boolean) || [],
+        projectStatus: extractStatusFromDescription(project.description || ''),
+      })) || [];
+
+      setProjects(projectsWithTags);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  }
+
+  function extractStatusFromDescription(description: string): 'completed' | 'ongoing' | 'planned' | undefined {
+    if (description.toLowerCase().includes('abgeschlossen') || description.toLowerCase().includes('erfolgreich')) {
+      return 'completed';
+    }
+    if (description.toLowerCase().includes('ongoing') || description.toLowerCase().includes('laufend')) {
+      return 'ongoing';
+    }
+    if (description.toLowerCase().includes('planung') || description.toLowerCase().includes('geplant')) {
+      return 'planned';
+    }
+    return undefined;
+  }
 
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
@@ -73,6 +106,19 @@ const Portfolio = () => {
           </p>
         </div>
 
+        {loading && (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 dark:text-slate-400">Lade Projekte...</p>
+          </div>
+        )}
+
+        {!loading && projects.length === 0 && (
+          <div className="text-center py-12 text-slate-600 dark:text-slate-400">
+            Noch keine Projekte veröffentlicht.
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {projects.map((project, index) => (
             <div
@@ -84,32 +130,32 @@ const Portfolio = () => {
             >
               <div className="relative overflow-hidden">
                 <img
-                  src={project.image}
+                  src={project.featured_image}
                   alt={project.title}
                   className="w-full h-40 sm:h-48 object-cover md:group-hover:scale-110 transition-all duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                {project.status && (
+                {project.projectStatus && (
                   <div className="absolute top-4 right-4 z-20">
                     <div className={`relative inline-flex items-center space-x-1 px-2 py-1 md:px-3 md:py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 ${
-                      project.status === 'completed'
+                      project.projectStatus === 'completed'
                         ? 'bg-green-500/95 text-white border-green-400 shadow-lg shadow-green-500/50 animate-status-glow-green' :
-                      project.status === 'ongoing'
+                      project.projectStatus === 'ongoing'
                         ? 'bg-amber-500/95 text-white border-amber-400 shadow-lg shadow-amber-500/50 animate-status-glow-amber' :
                         'bg-blue-500/95 text-white border-blue-400 shadow-lg shadow-blue-500/50 animate-status-glow-blue'
                     }`}>
-                      {project.status === 'completed' && (
+                      {project.projectStatus === 'completed' && (
                         <span className="text-base">✓</span>
                       )}
-                      {project.status === 'ongoing' && (
+                      {project.projectStatus === 'ongoing' && (
                         <span className="text-base animate-pulse">⚡</span>
                       )}
-                      {project.status === 'planned' && (
+                      {project.projectStatus === 'planned' && (
                         <span className="text-base">📅</span>
                       )}
                       <span className="font-bold">
-                        {project.status === 'completed' ? 'Abgeschlossen' :
-                         project.status === 'ongoing' ? 'Ongoing' :
+                        {project.projectStatus === 'completed' ? 'Abgeschlossen' :
+                         project.projectStatus === 'ongoing' ? 'Ongoing' :
                          'In Planung'}
                       </span>
                     </div>

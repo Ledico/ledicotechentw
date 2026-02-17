@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Shield, 
-  ShieldCheck, 
-  Edit, 
-  Trash2, 
-  Search, 
+import {
+  Users,
+  Shield,
+  ShieldCheck,
+  Edit,
+  Trash2,
+  Search,
   Filter,
   MoreVertical,
   Crown,
@@ -21,15 +21,18 @@ import {
   Building2,
   UserPlus,
   UserMinus,
-  ArrowLeft
+  ArrowLeft,
+  Briefcase
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
 import { AdminUserView } from '../lib/supabase';
+import ProjectsManager from './ProjectsManager';
 
 const AdminConsole: React.FC = () => {
   const { users, loading, error, promoteToAdmin, revokeAdmin, assignToSuisa, removeFromSuisa, updateUser, deleteUser } = useAdmin();
   const { profile } = useAuth();
+  const [activeTab, setActiveTab] = useState<'users' | 'projects'>('users');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'suisa' | 'user'>('all');
   const [selectedUser, setSelectedUser] = useState<AdminUserView | null>(null);
@@ -246,13 +249,56 @@ const AdminConsole: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Tab Navigation */}
+        <div className="mb-6">
+          <div className="border-b border-slate-200 dark:border-slate-700">
+            <nav className="-mb-px flex space-x-8">
+              <button
+                onClick={() => setActiveTab('users')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                  activeTab === 'users'
+                    ? 'border-purple-600 text-purple-600 dark:text-purple-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  <Users className="h-5 w-5" />
+                  <span>Benutzerverwaltung</span>
+                </div>
+              </button>
+              <button
+                onClick={() => setActiveTab('projects')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                  activeTab === 'projects'
+                    ? 'border-purple-600 text-purple-600 dark:text-purple-400'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  <Briefcase className="h-5 w-5" />
+                  <span>Projekte-CMS</span>
+                </div>
+              </button>
+            </nav>
+          </div>
+        </div>
+
         {/* Error Display */}
-        {(error || actionError) && (
+        {(error || actionError) && activeTab === 'users' && (
           <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400 flex items-center space-x-2">
             <AlertTriangle className="h-5 w-5 flex-shrink-0" />
             <span>{error || actionError}</span>
           </div>
         )}
+
+        {/* Projects Tab Content */}
+        {activeTab === 'projects' && (
+          <ProjectsManager />
+        )}
+
+        {/* Users Tab Content */}
+        {activeTab === 'users' && (
+          <>
 
         {/* Security Dashboard */}
         {profile?.is_admin && (
@@ -517,6 +563,8 @@ const AdminConsole: React.FC = () => {
             </div>
           )}
         </div>
+        </>
+        )}
       </div>
 
       {/* Delete Confirmation Modal */}
