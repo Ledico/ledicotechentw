@@ -58,10 +58,7 @@ const ProjectsManager: React.FC = () => {
       const [projectsRes, categoriesRes, tagsRes] = await Promise.all([
         supabase
           .from('projects')
-          .select(`
-            *,
-            category:project_categories(*)
-          `)
+          .select('*')
           .order('order_index', { ascending: true }),
         supabase
           .from('project_categories')
@@ -73,30 +70,48 @@ const ProjectsManager: React.FC = () => {
           .order('name')
       ]);
 
-      if (projectsRes.error) throw projectsRes.error;
-      if (categoriesRes.error) throw categoriesRes.error;
-      if (tagsRes.error) throw tagsRes.error;
+      if (projectsRes.error) {
+        console.error('Projects error:', projectsRes.error);
+        throw projectsRes.error;
+      }
+      if (categoriesRes.error) {
+        console.error('Categories error:', categoriesRes.error);
+        throw categoriesRes.error;
+      }
+      if (tagsRes.error) {
+        console.error('Tags error:', tagsRes.error);
+        throw tagsRes.error;
+      }
 
-      const projectsWithTags = await Promise.all(
+      const categoriesMap = new Map(
+        (categoriesRes.data || []).map(cat => [cat.id, cat])
+      );
+
+      const projectsWithRelations = await Promise.all(
         (projectsRes.data || []).map(async (project) => {
           const { data: tagRelations } = await supabase
             .from('project_tag_relations')
-            .select('tag_id, project_tags(*)')
+            .select('tag_id')
             .eq('project_id', project.id);
+
+          const projectTags = (tagRelations || [])
+            .map(rel => (tagsRes.data || []).find(tag => tag.id === rel.tag_id))
+            .filter(Boolean);
 
           return {
             ...project,
-            tags: tagRelations?.map(rel => rel.project_tags) || []
+            category: project.category_id ? categoriesMap.get(project.category_id) : undefined,
+            tags: projectTags
           };
         })
       );
 
-      setProjects(projectsWithTags);
+      setProjects(projectsWithRelations as ProjectWithRelations[]);
       setCategories(categoriesRes.data || []);
       setTags(tagsRes.data || []);
     } catch (err) {
       console.error('Error loading data:', err);
-      setError('Fehler beim Laden der Daten');
+      setError(`Fehler beim Laden der Daten: ${err instanceof Error ? err.message : 'Unbekannter Fehler'}`);
     } finally {
       setLoading(false);
     }
