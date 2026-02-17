@@ -73,6 +73,47 @@ export type Accessory = {
   updated_at: string;
 };
 
+export type ProjectCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProjectTag = {
+  id: string;
+  name: string;
+  slug: string;
+  created_at: string;
+};
+
+export type Project = {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string;
+  content?: string;
+  featured_image?: string;
+  gallery_images: string[];
+  category_id?: string;
+  status: 'draft' | 'published';
+  published_at?: string;
+  view_count: number;
+  order_index: number;
+  meta_title?: string;
+  meta_description?: string;
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProjectWithRelations = Project & {
+  category?: ProjectCategory;
+  tags?: ProjectTag[];
+};
+
 // Export configuration status for debugging
 export const supabaseConfig = {
   url: supabaseUrl,

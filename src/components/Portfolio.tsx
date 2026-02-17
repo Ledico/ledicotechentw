@@ -1,9 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase, ProjectWithRelations } from '../lib/supabase';
+
+interface PortfolioProject {
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  isVA?: boolean;
+  linkTo?: string;
+  status?: string;
+  demoUrl?: string;
+  githubUrl?: string;
+}
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [projects, setProjects] = useState<PortfolioProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -23,7 +38,42 @@ const Portfolio = () => {
     return () => observer.disconnect();
   }, []);
 
-  const projects = [
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const loadProjects = async () => {
+    try {
+      const { data: dbProjects, error } = await supabase
+        .from('projects')
+        .select(`
+          *,
+          category:project_categories(*)
+        `)
+        .eq('status', 'published')
+        .order('order_index', { ascending: true });
+
+      if (error) throw error;
+
+      const projectsWithTags = await Promise.all(
+        (dbProjects || []).map(async (project) => {
+          const { data: tagRelations } = await supabase
+            .from('project_tag_relations')
+            .select('tag_id, project_tags(*)')
+            .eq('project_id', project.id);
+
+          return {
+            title: project.title,
+            description: project.description || '',
+            image: project.featured_image || 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
+            tags: tagRelations?.map(rel => rel.project_tags.name) || [],
+            linkTo: project.slug ? `/${project.slug}` : undefined,
+            status: project.status === 'published' ? 'completed' : 'planned'
+          };
+        })
+      );
+
+      const fallbackProjects: PortfolioProject[] = [
     {
       title: 'Vertiefungsarbeit: Unentdeckte Schönheiten',
       description: 'Erforschung weniger bekannter Orte in der Deutschschweiz abseits des Massentourismus. 51-seitige Dokumentation mit multimedialen Inhalten, Interviews und Umfragen.',
@@ -59,7 +109,33 @@ const Portfolio = () => {
       githubUrl: '#',
       status: 'planned'
     }
-  ];
+      ];
+
+      if (projectsWithTags.length > 0) {
+        setProjects(projectsWithTags);
+      } else {
+        setProjects(fallbackProjects);
+      }
+    } catch (error) {
+      console.error('Error loading projects:', error);
+      setProjects(fallbackProjects);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section id="portfolio" ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-600 dark:text-slate-400">Lade Projekte...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="portfolio" ref={sectionRef} className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
@@ -126,16 +202,10 @@ const Portfolio = () => {
                         <span>{project.isVA ? 'VA ansehen' : 'Details ansehen'}</span>
                       </Link>
                     ) : (
-                      <>
-                        <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
-                          <ExternalLink className="h-4 w-4" />
-                          <span>Details</span>
-                        </button>
-                        <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
-                          <Github className="h-4 w-4" />
-                          <span>Code</span>
-                        </button>
-                      </>
+                      <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
+                        <ExternalLink className="h-4 w-4" />
+                        <span>Details</span>
+                      </button>
                     )}
                   </div>
                 </div>

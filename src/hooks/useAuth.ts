@@ -339,10 +339,9 @@ export function useAuth() {
     return profile?.is_admin || false;
   };
 
-  // Check if current user is SUISA member (temporary implementation)
+  // Check if current user is SUISA member
   const isSuisaMember = () => {
-    // Temporary: Check if group_name exists and equals 'SUISA', or if user is admin
-    return (profile as any)?.group_name === 'SUISA' || profile?.is_admin || false;
+    return profile?.group_name === 'SUISA' || profile?.is_admin || false;
   };
 
   return {

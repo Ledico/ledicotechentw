@@ -1,39 +1,38 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Shield, 
-  ShieldCheck, 
-  Edit, 
-  Trash2, 
-  Search, 
+import {
+  Users,
+  Shield,
+  ShieldCheck,
+  Trash2,
+  Search,
   Filter,
-  MoreVertical,
   Crown,
   User,
   Mail,
   Calendar,
   AlertTriangle,
-  CheckCircle,
-  X,
   Activity,
   TrendingUp,
   TrendingDown,
   Building2,
   UserPlus,
   UserMinus,
-  ArrowLeft
+  ArrowLeft,
+  FolderOpen
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
+import { useDebounce } from '../hooks/useDebounce';
 import { AdminUserView } from '../lib/supabase';
+import { Link } from 'react-router-dom';
 
 const AdminConsole: React.FC = () => {
   const { users, loading, error, promoteToAdmin, revokeAdmin, assignToSuisa, removeFromSuisa, updateUser, deleteUser } = useAdmin();
   const { profile } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'suisa' | 'user'>('all');
   const [selectedUser, setSelectedUser] = useState<AdminUserView | null>(null);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -41,9 +40,9 @@ const AdminConsole: React.FC = () => {
   const [securityLoading, setSecurityLoading] = useState(false);
 
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.full_name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterRole === 'all' || 
+    const matchesSearch = user.email.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+                         user.full_name?.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+    const matchesFilter = filterRole === 'all' ||
                          (filterRole === 'admin' && user.is_admin) ||
                          (filterRole === 'suisa' && user.group_name === 'SUISA') ||
                          (filterRole === 'user' && !user.is_admin && user.group_name !== 'SUISA');
@@ -291,6 +290,25 @@ const AdminConsole: React.FC = () => {
           </div>
         )}
 
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Schnellzugriff</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Link
+              to="/admin/projects"
+              className="flex items-center space-x-4 p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200 group"
+            >
+              <div className="p-3 bg-gradient-to-r from-primary-600 to-accent-600 rounded-lg group-hover:scale-110 transition-transform duration-200">
+                <FolderOpen className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Projekte verwalten</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Portfolio-Projekte erstellen und bearbeiten</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200">
@@ -358,7 +376,7 @@ const AdminConsole: React.FC = () => {
                 placeholder="Benutzer suchen..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
               />
             </div>
             <div className="relative">
@@ -366,7 +384,7 @@ const AdminConsole: React.FC = () => {
               <select
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value as 'all' | 'admin' | 'suisa' | 'user')}
-                className="pl-10 pr-8 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
+                className="pl-10 pr-8 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
               >
                 <option value="all">Alle Rollen</option>
                 <option value="admin">Nur Admins</option>
@@ -379,7 +397,7 @@ const AdminConsole: React.FC = () => {
 
         {/* Users Table */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-colors duration-300">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
             <table className="w-full">
               <thead className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
                 <tr>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,6 +11,7 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import VA from './components/VA';
 import AdminConsole from './components/AdminConsole';
+import ProjectsManager from './components/ProjectsManager';
 import SuisaPortal from './components/SuisaPortal';
 import IntuneMigration from './components/IntuneMigration';
 import TreasurePage from './components/TreasurePage';
@@ -18,9 +20,10 @@ import { useAuth } from './hooks/useAuth';
 
 function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <Routes>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <Router>
+          <Routes>
           <Route path="/" element={
             <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
               <Navigation />
@@ -35,13 +38,15 @@ function App() {
           <Route path="/va" element={<VA />} />
           <Route path="/intune-migration" element={<IntuneMigration />} />
           <Route path="/admin" element={<AdminRoute />} />
+          <Route path="/admin/projects" element={<ProjectsRoute />} />
           <Route path="/suisa" element={<SuisaRoute />} />
           <Route path="/louisa" element={<TreasurePage />} />
           {/* Catch all other routes and show 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
-    </ThemeProvider>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
@@ -110,6 +115,48 @@ function AdminRoute() {
   }
 
   return <AdminConsole />;
+}
+
+// Protected Projects Manager Route Component
+function ProjectsRoute() {
+  const { isAdmin, loading, user } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center transition-colors duration-300">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">Überprüfe Berechtigung...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center transition-colors duration-300">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Zugriff verweigert</h1>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            Sie haben keine Berechtigung, auf die Projektverwaltung zuzugreifen.
+          </p>
+          <button
+            onClick={() => window.history.back()}
+            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-cyan-700 transition-all duration-300"
+          >
+            Zurück
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return <ProjectsManager />;
 }
 
 // Protected SUISA Route Component
