@@ -166,7 +166,7 @@ const VA = () => {
   // Direct download functions using the provided Supabase URLs
   const handleDownloadPDF = () => {
     const link = document.createElement('a');
-    link.href = 'https://ayqitipxqhbubhtjiewb.supabase.co/storage/v1/object/public/diascosta//Unentdeckte_Schoenheiten-Leonardo_Costa.pdf';
+    link.href = 'https://ojwepowksnbmbcgnokve.supabase.co/storage/v1/object/public/diascosta//Unentdeckte_Schoenheiten-Leonardo_Costa.pdf';
     link.download = 'Unentdeckte_Schoenheiten_Leonardo_Costa.pdf';
     link.target = '_blank';
     document.body.appendChild(link);
@@ -176,7 +176,7 @@ const VA = () => {
 
   const handleDownloadUrkunde = () => {
     const link = document.createElement('a');
-    link.href = 'https://ayqitipxqhbubhtjiewb.supabase.co/storage/v1/object/public/diascosta//VA_urkunde.pdf';
+    link.href = 'https://ojwepowksnbmbcgnokve.supabase.co/storage/v1/object/public/diascosta//VA_urkunde.pdf';
     link.download = 'VA_Urkunde_Leonardo_Costa.pdf';
     link.target = '_blank';
     document.body.appendChild(link);
