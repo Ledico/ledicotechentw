@@ -28,13 +28,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
     try {
       if (isLogin) {
-        console.log('🔑 Attempting login for:', email);
         const { error } = await signIn(email, password);
         if (error) {
-          console.error('❌ Login failed:', error);
           setError(error.message);
         } else {
-          console.log('✅ Login successful');
           setSuccess('Erfolgreich angemeldet!');
           setTimeout(() => {
             onClose();
@@ -42,13 +39,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           }, 1000);
         }
       } else {
-        console.log('📝 Attempting registration for:', email);
         const { error } = await signUp(email, password, fullName);
         if (error) {
-          console.error('❌ Registration failed:', error);
           setError(error.message);
         } else {
-          console.log('✅ Registration successful');
           setSuccess('Registrierung erfolgreich! Bitte überprüfen Sie Ihre E-Mail.');
           setTimeout(() => {
             setIsLogin(true);
@@ -57,7 +51,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         }
       }
     } catch (err) {
-      console.error('❌ Auth error:', err);
       setError('Ein unerwarteter Fehler ist aufgetreten.');
     } finally {
       setLoading(false);

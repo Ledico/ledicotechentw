@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Home, ArrowLeft, MapPin, Compass, Map, Navigation, Plane, Camera, Backpack, Zap, AlertTriangle, Wifi, WifiOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const NotFound = () => {
+  usePageTitle('Seite nicht gefunden');
   const [isVisible, setIsVisible] = useState(false);
   const [glitchActive, setGlitchActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());

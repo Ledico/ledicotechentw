@@ -23,10 +23,12 @@ import {
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
 import { useDebounce } from '../hooks/useDebounce';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { AdminUserView } from '../lib/supabase';
 import { Link } from 'react-router-dom';
 
 const AdminConsole: React.FC = () => {
+  usePageTitle('Admin-Konsole');
   const { users, loading, error, promoteToAdmin, revokeAdmin, assignToSuisa, removeFromSuisa, updateUser, deleteUser } = useAdmin();
   const { profile } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,12 +63,10 @@ const AdminConsole: React.FC = () => {
         .select('*');
       
       if (error) {
-        console.error('Error loading security data:', error);
       } else {
         setSecurityData(data || []);
       }
     } catch (err) {
-      console.error('Error loading security dashboard:', err);
     } finally {
       setSecurityLoading(false);
     }

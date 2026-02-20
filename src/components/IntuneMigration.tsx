@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Calendar, Laptop, Monitor, TrendingUp, CheckCircle, XCircle, Shield, Cloud, Server, Zap, FileText, Package, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const IntuneMigration = () => {
+  usePageTitle('Intune Windows 11 Migration');
   const [isVisible, setIsVisible] = useState(true);
   const [counters, setCounters] = useState({ devices: 0, notebooks: 0, desktops: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);

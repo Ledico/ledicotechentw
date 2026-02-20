@@ -67,7 +67,6 @@ const Contact = () => {
         });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        console.error('API Error:', data);
         const errorMsg = data.details?.message || data.error || 'Beim Senden der Nachricht ist ein Fehler aufgetreten.';
         setSubmitStatus({
           type: 'error',
@@ -75,7 +74,6 @@ const Contact = () => {
         });
       }
     } catch (error) {
-      console.error('Network Error:', error);
       setSubmitStatus({
         type: 'error',
         message: `Netzwerkfehler: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`

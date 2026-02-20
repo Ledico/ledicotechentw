@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Download, ExternalLink, Calendar, User, BookOpen, Target, Lightbulb, CheckCircle, Award, FileText, Camera, Video, Users, MapPin, BarChart, MessageSquare, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const VA = () => {
+  usePageTitle('Vertiefungsarbeit - Unentdeckte Schoenheiten');
   const [isVisible, setIsVisible] = useState(true); // Set to true immediately
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);

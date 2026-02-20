@@ -27,6 +27,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
+import { usePageTitle } from '../hooks/usePageTitle';
 import { supabase, InventoryItem, Accessory } from '../lib/supabase';
 
 // Updated InventoryItem type to match new structure
@@ -46,6 +47,7 @@ const isLowStock = (quantity: number) => {
 };
 
 const SuisaPortal: React.FC = () => {
+  usePageTitle('SUISA Portal');
   const { profile, isSuisaMember } = useAuth();
   const [activeTab, setActiveTab] = useState('inventory');
   const [loading, setLoading] = useState(false);

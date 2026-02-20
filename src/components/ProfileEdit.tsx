@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../contexts/ThemeContext';
+import { supabase } from '../lib/supabase';
 
 interface ProfileEditProps {
   isOpen: boolean;
@@ -54,7 +55,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
   // Sync form data with profile when profile changes or modal opens
   useEffect(() => {
     if (isOpen && profile) {
-      console.log('🔄 Syncing form data with profile:', profile);
       setFormData({
         full_name: profile.full_name || '',
         avatar_url: profile.avatar_url || '',
@@ -94,18 +94,14 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     setSuccess('');
 
     try {
-      console.log('💾 Submitting profile update:', formData);
       const { error } = await updateProfile(formData);
       if (error) {
-        console.error('❌ Profile update failed:', error);
         setError(error.message);
       } else {
-        console.log('✅ Profile update successful');
         setSuccess('Profil erfolgreich aktualisiert!');
         setTimeout(() => setSuccess(''), 3000);
       }
     } catch (err) {
-      console.error('❌ Profile update exception:', err);
       setError('Fehler beim Aktualisieren des Profils');
     } finally {
       setLoading(false);
@@ -130,58 +126,63 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     setSuccess('');
 
     try {
-      console.log('🔐 Submitting password change');
       const { error } = await updatePassword(passwordData.newPassword);
       
       if (error) {
-        console.error('❌ Password change failed:', error);
         setError('Fehler beim Ändern des Passworts: ' + error.message);
       } else {
-        console.log('✅ Password change successful');
         setSuccess('Passwort erfolgreich geändert!');
         setPasswordData({ newPassword: '', confirmPassword: '' });
         setTimeout(() => setSuccess(''), 3000);
       }
     } catch (err) {
-      console.error('❌ Password change exception:', err);
       setError('Fehler beim Ändern des Passworts');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      // Check file size (max 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        setError('Datei ist zu groß. Maximale Größe: 2MB');
+    if (!file || !user) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Datei ist zu gross. Maximale Groesse: 2MB');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setError('Nur Bilddateien sind erlaubt');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${user.id}/avatar.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, { upsert: true });
+
+      if (uploadError) {
+        setError('Fehler beim Hochladen: ' + uploadError.message);
         return;
       }
 
-      // Check file type
-      if (!file.type.startsWith('image/')) {
-        setError('Nur Bilddateien sind erlaubt');
-        return;
-      }
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
 
-      console.log('📷 Processing image upload:', file.name);
-      
-      // In a real app, you'd upload to Supabase Storage
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const newAvatarUrl = event.target?.result as string;
-        console.log('✅ Image processed, updating form data');
-        setFormData(prev => ({
-          ...prev,
-          avatar_url: newAvatarUrl
-        }));
-        setError(''); // Clear any previous errors
-      };
-      reader.onerror = () => {
-        setError('Fehler beim Laden des Bildes');
-      };
-      reader.readAsDataURL(file);
+      const avatarUrl = `${publicUrl}?t=${Date.now()}`;
+      setFormData(prev => ({ ...prev, avatar_url: avatarUrl }));
+      setError('');
+    } catch (err) {
+      setError('Fehler beim Hochladen des Bildes');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -195,15 +196,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     setError('');
 
     try {
-      console.log('🗑️ Initiating account deletion...');
       const { error } = await deleteAccount();
       
       if (error) {
-        console.error('❌ Account deletion failed:', error);
         setError('Fehler beim Löschen des Kontos: ' + error.message);
         setShowDeleteConfirm(false);
       } else {
-        console.log('✅ Account deletion successful');
         // Account deleted successfully, user will be signed out automatically
         // Close the modal
         onClose();
@@ -211,7 +209,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
         window.location.href = '/';
       }
     } catch (err) {
-      console.error('❌ Account deletion exception:', err);
       setError('Fehler beim Löschen des Kontos');
       setShowDeleteConfirm(false);
     } finally {

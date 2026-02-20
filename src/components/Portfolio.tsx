@@ -42,40 +42,9 @@ const Portfolio = () => {
     loadProjects();
   }, []);
 
-  const loadProjects = async () => {
-    try {
-      const { data: dbProjects, error } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          category:project_categories(*)
-        `)
-        .eq('status', 'published')
-        .order('order_index', { ascending: true });
-
-      if (error) throw error;
-
-      const projectsWithTags = await Promise.all(
-        (dbProjects || []).map(async (project) => {
-          const { data: tagRelations } = await supabase
-            .from('project_tag_relations')
-            .select('tag_id, project_tags(*)')
-            .eq('project_id', project.id);
-
-          return {
-            title: project.title,
-            description: project.description || '',
-            image: project.featured_image || 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
-            tags: tagRelations?.map(rel => rel.project_tags.name) || [],
-            linkTo: project.slug ? `/${project.slug}` : undefined,
-            status: project.status === 'published' ? 'completed' : 'planned'
-          };
-        })
-      );
-
-      const fallbackProjects: PortfolioProject[] = [
+  const fallbackProjects: PortfolioProject[] = [
     {
-      title: 'Vertiefungsarbeit: Unentdeckte Schönheiten',
+      title: 'Vertiefungsarbeit: Unentdeckte Schoenheiten',
       description: 'Erforschung weniger bekannter Orte in der Deutschschweiz abseits des Massentourismus. 51-seitige Dokumentation mit multimedialen Inhalten, Interviews und Umfragen.',
       image: './img/Image.jpeg',
       tags: ['Tourismus', 'Fotografie', 'Interviews', 'Vertiefungsarbeit'],
@@ -85,7 +54,7 @@ const Portfolio = () => {
     },
     {
       title: 'Intune Windows 11 Migration & Autopilot',
-      description: 'Mitwirkung bei der Migration zu Windows 11 für über 300 Geräte mit Microsoft Intune und Autopilot. Erfolgreich abgeschlossenes Projekt mit automatisierter Bereitstellung und Geräteverwaltung.',
+      description: 'Mitwirkung bei der Migration zu Windows 11 fuer ueber 300 Geraete mit Microsoft Intune und Autopilot. Erfolgreich abgeschlossenes Projekt mit automatisierter Bereitstellung und Geraeteverwaltung.',
       image: 'https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['Microsoft Intune', 'Windows Autopilot', 'Windows 11', 'Migration'],
       linkTo: '/intune-migration',
@@ -93,7 +62,7 @@ const Portfolio = () => {
     },
     {
       title: 'SharePoint Online Template Administration',
-      description: 'Aufsetzen und Administrieren von SharePoint Online Templates für standardisierte Zusammenarbeit. Ongoing Projekt zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
+      description: 'Aufsetzen und Administrieren von SharePoint Online Templates fuer standardisierte Zusammenarbeit. Ongoing Projekt zur Optimierung der Teamarbeit und Dokumentenverwaltung.',
       image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800',
       tags: ['SharePoint Online', 'Microsoft 365', 'Templates', 'Administration'],
       demoUrl: '#',
@@ -102,14 +71,33 @@ const Portfolio = () => {
     },
     {
       title: 'Weitere Projekte in Planung',
-      description: 'Verschiedene IT-Infrastruktur- und Cloud-Projekte befinden sich derzeit in der Planungsphase. Diese umfassen Bereiche wie Automatisierung, Sicherheit und moderne Cloud-Lösungen.',
+      description: 'Verschiedene IT-Infrastruktur- und Cloud-Projekte befinden sich derzeit in der Planungsphase. Diese umfassen Bereiche wie Automatisierung, Sicherheit und moderne Cloud-Loesungen.',
       image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
       tags: ['Cloud', 'Automatisierung', 'Infrastructure', 'DevOps'],
       demoUrl: '#',
       githubUrl: '#',
       status: 'planned'
     }
-      ];
+  ];
+
+  const loadProjects = async () => {
+    try {
+      const { data: dbProjects, error } = await supabase
+        .from('projects_with_tags')
+        .select('*')
+        .eq('status', 'published')
+        .order('order_index', { ascending: true });
+
+      if (error) throw error;
+
+      const projectsWithTags = (dbProjects || []).map((project: any) => ({
+        title: project.title,
+        description: project.description || '',
+        image: project.featured_image || 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=600',
+        tags: (project.tags || []).map((t: any) => t.name),
+        linkTo: project.slug ? `/${project.slug}` : undefined,
+        status: project.status === 'published' ? 'completed' : 'planned'
+      }));
 
       if (projectsWithTags.length > 0) {
         setProjects(projectsWithTags);
@@ -117,7 +105,6 @@ const Portfolio = () => {
         setProjects(fallbackProjects);
       }
     } catch (error) {
-      console.error('Error loading projects:', error);
       setProjects(fallbackProjects);
     } finally {
       setLoading(false);
@@ -162,6 +149,7 @@ const Portfolio = () => {
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading="lazy"
                   className="w-full h-40 sm:h-48 object-cover md:group-hover:scale-110 transition-all duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

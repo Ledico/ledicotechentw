@@ -19,8 +19,10 @@ import {
 import { supabase, Project, ProjectCategory, ProjectTag, ProjectWithRelations } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { useDebounce } from '../hooks/useDebounce';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const ProjectsManager: React.FC = () => {
+  usePageTitle('Projekte verwalten');
   const { profile } = useAuth();
   const [projects, setProjects] = useState<ProjectWithRelations[]>([]);
   const [categories, setCategories] = useState<ProjectCategory[]>([]);
@@ -71,15 +73,12 @@ const ProjectsManager: React.FC = () => {
       ]);
 
       if (projectsRes.error) {
-        console.error('Projects error:', projectsRes.error);
         throw projectsRes.error;
       }
       if (categoriesRes.error) {
-        console.error('Categories error:', categoriesRes.error);
         throw categoriesRes.error;
       }
       if (tagsRes.error) {
-        console.error('Tags error:', tagsRes.error);
         throw tagsRes.error;
       }
 
@@ -110,7 +109,6 @@ const ProjectsManager: React.FC = () => {
       setCategories(categoriesRes.data || []);
       setTags(tagsRes.data || []);
     } catch (err) {
-      console.error('Error loading data:', err);
       setError(`Fehler beim Laden der Daten: ${err instanceof Error ? err.message : 'Unbekannter Fehler'}`);
     } finally {
       setLoading(false);
@@ -201,7 +199,6 @@ const ProjectsManager: React.FC = () => {
       await loadData();
       closeModal();
     } catch (err) {
-      console.error('Error saving project:', err);
       setError('Fehler beim Speichern des Projekts');
     } finally {
       setActionLoading(false);
@@ -224,7 +221,6 @@ const ProjectsManager: React.FC = () => {
 
       await loadData();
     } catch (err) {
-      console.error('Error deleting project:', err);
       setError('Fehler beim Löschen des Projekts');
     } finally {
       setActionLoading(false);
