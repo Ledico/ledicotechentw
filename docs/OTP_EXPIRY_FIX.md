@@ -11,7 +11,7 @@ This setting **CANNOT** be changed via SQL migrations. You **MUST** configure it
 
 ### 1. Access Supabase Dashboard
 1. Go to [https://supabase.com/dashboard](https://supabase.com/dashboard)
-2. Select your project: `ayqitipxqhbubhtjiewb`
+2. Select your project: `ojwepowksnbmbcgnokve`
 3. Navigate to **Authentication** → **Settings**
 
 ### 2. Configure OTP Settings
@@ -91,7 +91,7 @@ SELECT * FROM security_dashboard;
 ## Support
 
 If you need help accessing the dashboard or finding these settings:
-1. Check your Supabase project URL: `https://ayqitipxqhbubhtjiewb.supabase.co`
+1. Check your Supabase project URL: `https://ojwepowksnbmbcgnokve.supabase.co`
 2. Ensure you have admin access to the project
 3. Contact Supabase support if settings are not visible
 

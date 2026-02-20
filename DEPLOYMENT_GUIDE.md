@@ -72,7 +72,7 @@ Die Bolt.new-Umgebung war nicht mit GitHub/Netlify verbunden, daher konnten Änd
 ### Environment Variables
 In Netlify müssen folgende Variablen gesetzt sein (bereits in netlify.toml):
 ```
-VITE_SUPABASE_URL=https://ayqitipxqhbubhtjiewb.supabase.co
+VITE_SUPABASE_URL=https://ojwepowksnbmbcgnokve.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJ... (bereits gesetzt)
 ```
 

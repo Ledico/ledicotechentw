@@ -43,7 +43,7 @@ BEGIN
   -- Try to call the Edge Function
   BEGIN
     SELECT net.http_post(
-      url := 'https://ayqitipxqhbubhtjiewb.supabase.co/functions/v1/send-low-stock-alert',
+      url := 'https://ojwepowksnbmbcgnokve.supabase.co/functions/v1/send-low-stock-alert',
       headers := jsonb_build_object(
         'Content-Type', 'application/json',
         'Authorization', 'Bearer ' || current_setting('app.settings.service_role_key', true)
