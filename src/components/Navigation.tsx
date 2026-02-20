@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User, LogIn, AlertTriangle } from 'lucide-react';
+import { Menu, X, User, LogIn, AlertTriangle, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../contexts/ThemeContext';
 import AuthModal from './AuthModal';
@@ -10,7 +10,7 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { user, loading, error } = useAuth();
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,6 +77,22 @@ const Navigation = () => {
                 </button>
               ))}
               
+              <button
+                onClick={toggleTheme}
+                className={`relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 ${
+                  scrolled
+                    ? 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    : 'text-white/90 hover:bg-white/10'
+                }`}
+                aria-label={theme === 'dark' ? 'Hellmodus aktivieren' : 'Dunkelmodus aktivieren'}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </button>
+
               {/* Auth Section */}
               <div className="flex items-center">
                 {loading ? (
@@ -140,6 +156,20 @@ const Navigation = () => {
                   </button>
                 ))}
                 
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-600">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center w-full px-3 py-2 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md transition-colors"
+                  >
+                    {theme === 'dark' ? (
+                      <Sun className="h-5 w-5 mr-3" />
+                    ) : (
+                      <Moon className="h-5 w-5 mr-3" />
+                    )}
+                    {theme === 'dark' ? 'Hellmodus' : 'Dunkelmodus'}
+                  </button>
+                </div>
+
                 {/* Mobile Auth Section */}
                 <div className="pt-2 border-t border-slate-200 dark:border-slate-600">
                   {loading ? (
