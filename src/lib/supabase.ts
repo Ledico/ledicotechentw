@@ -1,19 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Use environment variables with fallback to production values for debugging
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://ayqitipxqhbubhtjiewb.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWl0aXB4cWhidWJodGppZXdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MDE2OTgsImV4cCI6MjA2NjI3NzY5OH0.0XVqzzFDFR_iAQHRMM46fbY_N8PhzpHGSUoYUt4KZlg';
-
-console.log('🔧 Supabase Configuration Debug:', {
-  url: supabaseUrl,
-  keyLength: supabaseAnonKey.length,
-  keyStart: supabaseAnonKey.substring(0, 10),
-  environment: import.meta.env.MODE,
-  isDev: import.meta.env.DEV,
-  isProd: import.meta.env.PROD,
-  hasEnvUrl: !!import.meta.env.VITE_SUPABASE_URL,
-  hasEnvKey: !!import.meta.env.VITE_SUPABASE_ANON_KEY
-});
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Create Supabase client with explicit configuration
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -114,12 +102,3 @@ export type ProjectWithRelations = Project & {
   tags?: ProjectTag[];
 };
 
-// Export configuration status for debugging
-export const supabaseConfig = {
-  url: supabaseUrl,
-  keyPreview: supabaseAnonKey.substring(0, 20) + '...',
-  hasValidConfig: !!(supabaseUrl && supabaseAnonKey),
-  isProduction: import.meta.env.PROD,
-  environment: import.meta.env.MODE,
-  usingEnvVars: !!(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY)
-};
