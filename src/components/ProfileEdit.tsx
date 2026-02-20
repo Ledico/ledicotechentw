@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  User, 
-  Camera, 
-  Save, 
-  X, 
-  Eye, 
-  EyeOff, 
-  Lock, 
-  Mail, 
-  Globe, 
+import { createPortal } from 'react-dom';
+import {
+  User,
+  Camera,
+  Save,
+  X,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  Globe,
   Trash2,
   Settings,
   Upload,
@@ -253,8 +254,8 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
     { id: 'settings', label: 'Einstellungen', icon: Settings },
   ];
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -669,7 +670,8 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ isOpen, onClose, initialTab =
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
