@@ -52,8 +52,8 @@ const Hero = () => {
       <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-6xl mx-auto flex flex-col items-center">
 
-          <div className="w-full h-[320px] sm:h-[380px] md:h-[440px] lg:h-[500px] relative -mb-4 md:-mb-8">
-            <div className="absolute -inset-x-12 inset-y-0">
+          <div className="w-full h-[400px] sm:h-[460px] md:h-[540px] lg:h-[600px] relative -mb-4 md:-mb-8">
+            <div className="absolute -inset-x-12 -inset-y-8">
               <Suspense fallback={<NotebookFallback />}>
                 <Notebook3D />
               </Suspense>

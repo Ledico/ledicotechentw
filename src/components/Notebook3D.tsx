@@ -465,7 +465,7 @@ function AlienCharacter() {
     groupRef.current.rotation.x = mouseCurrent.current.y;
   });
 
-  const scale = viewport.width < 5 ? 0.6 : viewport.width < 7 ? 0.75 : 0.9;
+  const scale = viewport.width < 5 ? 0.55 : viewport.width < 7 ? 0.68 : 0.82;
 
   return (
     <group ref={groupRef} scale={scale} position={[0, -0.3, 0]}>
@@ -520,7 +520,7 @@ export default function Notebook3D() {
   return (
     <div className="w-full h-full" style={{ minHeight: '100%' }}>
       <Canvas
-        camera={{ position: [0, 0.8, 5], fov: 38 }}
+        camera={{ position: [0, 0.5, 6.5], fov: 36 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
