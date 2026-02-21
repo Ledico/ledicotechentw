@@ -49,19 +49,15 @@ const Hero = () => {
         <div className="absolute top-[60%] right-[15%] w-1 h-1 bg-cyan-400/25 rounded-full animate-ping" style={{ animationDelay: '4s' }} />
       </div>
 
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-6xl mx-auto flex flex-col items-center">
+      <div className="absolute inset-0 z-15">
+        <Suspense fallback={<NotebookFallback />}>
+          <Notebook3D />
+        </Suspense>
+      </div>
 
-          <div className="w-full h-[400px] sm:h-[460px] md:h-[540px] lg:h-[600px] relative -mb-4 md:-mb-8">
-            <div className="absolute -inset-x-12 -inset-y-8">
-              <Suspense fallback={<NotebookFallback />}>
-                <Notebook3D />
-              </Suspense>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent z-10 pointer-events-none" />
-          </div>
-
-          <div className="text-center relative z-20">
+      <div className="relative z-20 flex flex-col items-end justify-end min-h-screen px-4 sm:px-6 lg:px-8 pb-20 md:pb-24 pointer-events-none">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="text-center pointer-events-auto">
             <div className="flex items-center justify-center mb-3 md:mb-4">
               <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-cyan-400 mr-2" />
               <span className="text-cyan-400 font-medium text-xs md:text-sm lg:text-base tracking-widest uppercase">System Engineer & Cloud-Spezialist</span>

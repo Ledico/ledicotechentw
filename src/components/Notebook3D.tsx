@@ -468,7 +468,7 @@ function AlienCharacter() {
   const scale = viewport.width < 5 ? 0.55 : viewport.width < 7 ? 0.68 : 0.82;
 
   return (
-    <group ref={groupRef} scale={scale} position={[0, -0.3, 0]}>
+    <group ref={groupRef} scale={scale} position={[0, 0.2, 0]}>
       <Float speed={1.5} rotationIntensity={0.02} floatIntensity={0.25}>
         <group>
           <AlienBody />
@@ -484,10 +484,6 @@ function AlienCharacter() {
         </group>
       </Float>
       <FloatingParticles />
-      <mesh position={[0, -1.8, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[1.2, 32]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.03} />
-      </mesh>
     </group>
   );
 }
@@ -520,7 +516,7 @@ export default function Notebook3D() {
   return (
     <div className="w-full h-full" style={{ minHeight: '100%' }}>
       <Canvas
-        camera={{ position: [0, 0.5, 6.5], fov: 36 }}
+        camera={{ position: [0, 0.3, 5.8], fov: 40 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
