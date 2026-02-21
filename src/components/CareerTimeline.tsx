@@ -91,7 +91,7 @@ const CareerTimeline = () => {
         <div className="relative">
           <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-blue-500 to-slate-300 dark:to-slate-600 md:-translate-x-px"></div>
 
-          <div className="space-y-12">
+          <div className="space-y-16">
             {entries.map((entry, index) => {
               const config = typeConfig[entry.type];
               const EntryIcon = config.icon;
@@ -100,48 +100,89 @@ const CareerTimeline = () => {
               return (
                 <div
                   key={entry.id}
-                  className={`relative flex items-start transition-all duration-700 ${
+                  className={`relative transition-all duration-700 ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                   }`}
                   style={{ transitionDelay: `${200 + index * 150}ms` }}
                 >
-                  <div className={`hidden md:block w-[calc(50%-2rem)] ${isLeft ? 'text-right pr-8' : 'order-2 pl-8'}`}>
-                    <div className={`inline-block ${isLeft ? 'text-right' : 'text-left'}`}>
-                      <div className="flex items-center gap-2 mb-1 text-sm text-slate-500 dark:text-slate-400">
-                        {isLeft ? (
-                          <>
-                            <span>{getDuration(entry.start_date, entry.end_date)}</span>
-                            <Calendar className="h-3.5 w-3.5" />
-                          </>
-                        ) : (
-                          <>
-                            <Calendar className="h-3.5 w-3.5" />
-                            <span>{getDuration(entry.start_date, entry.end_date)}</span>
-                          </>
-                        )}
-                      </div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        {formatDate(entry.start_date)} — {entry.end_date ? formatDate(entry.end_date) : 'Heute'}
-                      </span>
-                    </div>
-                  </div>
-
                   <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-10">
                     <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center ring-4 ${config.ring} shadow-lg`}>
                       <EntryIcon className="h-5 w-5 text-white" />
                     </div>
                   </div>
 
-                  <div className={`ml-20 md:ml-0 md:w-[calc(50%-2rem)] ${isLeft ? 'md:order-2 md:pl-8' : 'md:pr-8'}`}>
-                    <div className="bg-white dark:bg-slate-700/50 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-600 hover:shadow-md hover:border-cyan-300 dark:hover:border-cyan-600 transition-all duration-300 group">
-                      <div className="md:hidden flex items-center gap-2 mb-2 text-xs text-slate-500 dark:text-slate-400">
-                        <Calendar className="h-3 w-3" />
+                  <div className={`hidden md:grid md:grid-cols-[1fr_5rem_1fr] items-start`}>
+                    <div className={`${isLeft ? 'text-right pr-6' : 'order-3 pl-6'}`}>
+                      <div className={`inline-block ${isLeft ? 'text-right' : 'text-left'}`}>
+                        <div className={`flex items-center gap-2 mb-1 text-sm text-slate-500 dark:text-slate-400 ${isLeft ? 'justify-end' : ''}`}>
+                          {isLeft ? (
+                            <>
+                              <span>{getDuration(entry.start_date, entry.end_date)}</span>
+                              <Calendar className="h-3.5 w-3.5" />
+                            </>
+                          ) : (
+                            <>
+                              <Calendar className="h-3.5 w-3.5" />
+                              <span>{getDuration(entry.start_date, entry.end_date)}</span>
+                            </>
+                          )}
+                        </div>
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                          {formatDate(entry.start_date)} — {entry.end_date ? formatDate(entry.end_date) : 'Heute'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="order-2"></div>
+
+                    <div className={`${isLeft ? 'order-3 pl-6' : 'pr-6'}`}>
+                      <div className="bg-white dark:bg-slate-700/50 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-600 hover:shadow-md hover:border-cyan-300 dark:hover:border-cyan-600 transition-all duration-300 group">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-200">
+                          {entry.title}
+                        </h3>
+                        <p className="text-sm font-medium text-cyan-600 dark:text-cyan-400 mt-0.5">
+                          {entry.company}
+                        </p>
+
+                        {entry.description && (
+                          <p className="text-sm text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                            {entry.description}
+                          </p>
+                        )}
+
+                        {entry.skills.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-4">
+                            {entry.skills.map((skill) => (
+                              <span
+                                key={skill}
+                                className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-300 text-xs rounded-full"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {!entry.end_date && (
+                          <div className="mt-4 flex items-center gap-1.5">
+                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            <span className="text-xs font-medium text-green-600 dark:text-green-400">Aktuelle Position</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="md:hidden ml-16 pl-4">
+                    <div className="bg-white dark:bg-slate-700/50 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-600">
+                      <div className="flex items-center gap-2 mb-2 text-xs text-slate-500 dark:text-slate-400">
+                        <Calendar className="h-3 w-3 flex-shrink-0" />
                         <span>{formatDate(entry.start_date)} — {entry.end_date ? formatDate(entry.end_date) : 'Heute'}</span>
                         <span className="text-slate-300 dark:text-slate-600">|</span>
                         <span>{getDuration(entry.start_date, entry.end_date)}</span>
                       </div>
 
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-200">
+                      <h3 className="text-base font-bold text-slate-900 dark:text-white">
                         {entry.title}
                       </h3>
                       <p className="text-sm font-medium text-cyan-600 dark:text-cyan-400 mt-0.5">
@@ -149,17 +190,17 @@ const CareerTimeline = () => {
                       </p>
 
                       {entry.description && (
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
+                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
                           {entry.description}
                         </p>
                       )}
 
                       {entry.skills.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-4">
+                        <div className="flex flex-wrap gap-1.5 mt-3">
                           {entry.skills.map((skill) => (
                             <span
                               key={skill}
-                              className="px-2.5 py-0.5 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-300 text-xs rounded-full"
+                              className="px-2 py-0.5 bg-slate-100 dark:bg-slate-600 text-slate-600 dark:text-slate-300 text-xs rounded-full"
                             >
                               {skill}
                             </span>
@@ -168,7 +209,7 @@ const CareerTimeline = () => {
                       )}
 
                       {!entry.end_date && (
-                        <div className="mt-4 flex items-center gap-1.5">
+                        <div className="mt-3 flex items-center gap-1.5">
                           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                           <span className="text-xs font-medium text-green-600 dark:text-green-400">Aktuelle Position</span>
                         </div>
