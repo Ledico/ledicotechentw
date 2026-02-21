@@ -5,16 +5,19 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import About from './components/About';
+import CareerTimeline from './components/CareerTimeline';
 import Services from './components/Services';
 import Portfolio from './components/Portfolio';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
+import Footer from './components/Footer';
 import { useAuth } from './hooks/useAuth';
 
 const VA = React.lazy(() => import('./components/VA'));
 const IntuneMigration = React.lazy(() => import('./components/IntuneMigration'));
 const AdminConsole = React.lazy(() => import('./components/AdminConsole'));
 const ProjectsManager = React.lazy(() => import('./components/ProjectsManager'));
+const CareerTimelineManager = React.lazy(() => import('./components/CareerTimelineManager'));
 const SuisaPortal = React.lazy(() => import('./components/SuisaPortal'));
 const TreasurePage = React.lazy(() => import('./components/TreasurePage'));
 const NotFound = React.lazy(() => import('./components/NotFound'));
@@ -113,6 +116,17 @@ function ProjectsRoute() {
   );
 }
 
+function CareerRoute() {
+  const { isAdmin, user } = useAuth();
+  return (
+    <ProtectedRoute check={() => ({ allowed: isAdmin, needsAuth: !user })} loadingText="Ueberprüfe Berechtigung...">
+      <Suspense fallback={<PageLoader />}>
+        <CareerTimelineManager />
+      </Suspense>
+    </ProtectedRoute>
+  );
+}
+
 function SuisaRoute() {
   const { isSuisaMember, user } = useAuth();
   return (
@@ -136,16 +150,19 @@ function App() {
                   <Navigation />
                   <Hero />
                   <About />
+                  <CareerTimeline />
                   <Services />
                   <Portfolio />
                   <Certifications />
                   <Contact />
+                  <Footer />
                 </div>
               } />
               <Route path="/va" element={<VA />} />
               <Route path="/intune-migration" element={<IntuneMigration />} />
               <Route path="/admin" element={<AdminRoute />} />
               <Route path="/admin/projects" element={<ProjectsRoute />} />
+              <Route path="/admin/career" element={<CareerRoute />} />
               <Route path="/suisa" element={<SuisaRoute />} />
               <Route path="/louisa" element={<TreasurePage />} />
               <Route path="*" element={<NotFound />} />

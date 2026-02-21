@@ -102,3 +102,19 @@ export type ProjectWithRelations = Project & {
   tags?: ProjectTag[];
 };
 
+export type CareerTimelineEntry = {
+  id: string;
+  title: string;
+  company: string;
+  description: string;
+  start_date: string;
+  end_date?: string | null;
+  type: 'education' | 'work' | 'milestone';
+  icon?: string | null;
+  skills: string[];
+  order_index: number;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+};
+

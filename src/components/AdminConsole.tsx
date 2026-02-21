@@ -18,7 +18,8 @@ import {
   UserPlus,
   UserMinus,
   ArrowLeft,
-  FolderOpen
+  FolderOpen,
+  Briefcase
 } from 'lucide-react';
 import { useAdmin } from '../hooks/useAdmin';
 import { useAuth } from '../hooks/useAuth';
@@ -304,6 +305,18 @@ const AdminConsole: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Projekte verwalten</h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400">Portfolio-Projekte erstellen und bearbeiten</p>
+              </div>
+            </Link>
+            <Link
+              to="/admin/career"
+              className="flex items-center space-x-4 p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow duration-200 group"
+            >
+              <div className="p-3 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg group-hover:scale-110 transition-transform duration-200">
+                <Briefcase className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Werdegang verwalten</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Karriere-Timeline erstellen und bearbeiten</p>
               </div>
             </Link>
           </div>

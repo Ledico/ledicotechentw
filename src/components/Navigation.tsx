@@ -23,6 +23,7 @@ const Navigation = () => {
   const navItems = [
     { href: '#home', label: 'Start' },
     { href: '#about', label: 'Über mich' },
+    { href: '#career', label: 'Werdegang' },
     { href: '#services', label: 'Leistungen' },
     { href: '#portfolio', label: 'Projekte' },
     { href: '#certifications', label: 'Zertifikate' },
