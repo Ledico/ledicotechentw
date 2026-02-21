@@ -1,16 +1,19 @@
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Float, Environment } from '@react-three/drei';
+import { Float, Environment, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 
 const CYAN = '#06b6d4';
 const CYAN_BRIGHT = '#22d3ee';
-const DARK_SHELL = '#0f172a';
+const ALUMINUM = '#c0c8d4';
+const ALUMINUM_DARK = '#8a95a5';
+const KEYBOARD_BG = '#1a1f2e';
 
 function NotebookModel() {
   const groupRef = useRef<THREE.Group>(null);
   const mouseTarget = useRef({ x: 0, y: 0 });
   const mouseCurrent = useRef({ x: 0, y: 0 });
+  const glowRef = useRef<THREE.PointLight>(null);
   const { viewport } = useThree();
 
   const screenTexture = useMemo(() => {
@@ -19,57 +22,87 @@ function NotebookModel() {
     canvas.height = 320;
     const ctx = canvas.getContext('2d')!;
 
-    ctx.fillStyle = '#0a0e1a';
+    const bg = ctx.createLinearGradient(0, 0, 0, 320);
+    bg.addColorStop(0, '#0c1222');
+    bg.addColorStop(1, '#0a0f1d');
+    ctx.fillStyle = bg;
     ctx.fillRect(0, 0, 512, 320);
 
-    const grd = ctx.createLinearGradient(0, 0, 512, 320);
-    grd.addColorStop(0, 'rgba(6,182,212,0.15)');
-    grd.addColorStop(0.5, 'rgba(6,182,212,0.05)');
-    grd.addColorStop(1, 'rgba(6,182,212,0.12)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, 512, 320);
-
-    ctx.strokeStyle = 'rgba(6,182,212,0.08)';
+    ctx.strokeStyle = 'rgba(6,182,212,0.06)';
     ctx.lineWidth = 0.5;
-    for (let i = 0; i < 512; i += 24) {
+    for (let i = 0; i < 512; i += 20) {
       ctx.beginPath();
       ctx.moveTo(i, 0);
       ctx.lineTo(i, 320);
       ctx.stroke();
     }
-    for (let j = 0; j < 320; j += 24) {
+    for (let j = 0; j < 320; j += 20) {
       ctx.beginPath();
       ctx.moveTo(0, j);
       ctx.lineTo(512, j);
       ctx.stroke();
     }
 
-    ctx.font = 'bold 28px monospace';
+    ctx.font = 'bold 24px monospace';
     ctx.fillStyle = CYAN_BRIGHT;
-    ctx.textAlign = 'center';
-    ctx.fillText('> System Engineer', 256, 100);
-    ctx.font = '18px monospace';
-    ctx.fillStyle = 'rgba(148,163,184,0.8)';
-    ctx.fillText('Cloud & Enterprise Solutions', 256, 140);
+    ctx.textAlign = 'left';
+    ctx.fillText('> System Engineer', 35, 70);
+
+    ctx.font = '15px monospace';
+    ctx.fillStyle = 'rgba(148,163,184,0.7)';
+    ctx.fillText('Cloud & Enterprise Solutions', 35, 100);
+
+    ctx.strokeStyle = 'rgba(6,182,212,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(35, 120);
+    ctx.lineTo(300, 120);
+    ctx.stroke();
 
     const codeLines = [
-      '$ deploy --cloud azure',
-      '$ intune sync --all-devices',
-      '> status: operational ////',
+      { text: '$ deploy --cloud azure', color: 'rgba(100,116,139,0.6)' },
+      { text: '$ intune sync --all-devices', color: 'rgba(100,116,139,0.5)' },
+      { text: '> status: operational', color: 'rgba(34,211,238,0.7)' },
     ];
-    ctx.font = '12px monospace';
+    ctx.font = '11px monospace';
     ctx.textAlign = 'left';
     codeLines.forEach((line, i) => {
-      ctx.fillStyle = i === 2 ? 'rgba(34,211,238,0.6)' : 'rgba(100,116,139,0.5)';
-      ctx.fillText(line, 40, 200 + i * 22);
+      ctx.fillStyle = line.color;
+      ctx.fillText(line.text, 35, 148 + i * 22);
     });
 
-    for (let i = 0; i < 6; i++) {
-      ctx.beginPath();
-      ctx.arc(80 + i * 60, 290, 4, 0, Math.PI * 2);
-      ctx.fillStyle = i < 3 ? 'rgba(34,211,238,0.5)' : 'rgba(100,116,139,0.2)';
-      ctx.fill();
-    }
+    const barData = [0.6, 0.8, 0.45, 0.9, 0.7, 0.55];
+    barData.forEach((h, i) => {
+      const barX = 35 + i * 32;
+      const barH = h * 60;
+      const grad = ctx.createLinearGradient(barX, 280 - barH, barX, 280);
+      grad.addColorStop(0, 'rgba(6,182,212,0.5)');
+      grad.addColorStop(1, 'rgba(6,182,212,0.15)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(barX, 280 - barH, 22, barH);
+    });
+
+    ctx.fillStyle = 'rgba(6,182,212,0.08)';
+    ctx.fillRect(260, 140, 220, 150);
+    ctx.strokeStyle = 'rgba(6,182,212,0.12)';
+    ctx.strokeRect(260, 140, 220, 150);
+
+    ctx.beginPath();
+    ctx.arc(370, 215, 40, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(6,182,212,0.2)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(370, 215, 40, -Math.PI / 2, Math.PI * 0.8);
+    ctx.strokeStyle = 'rgba(34,211,238,0.5)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.font = 'bold 14px monospace';
+    ctx.fillStyle = 'rgba(34,211,238,0.7)';
+    ctx.textAlign = 'center';
+    ctx.fillText('87%', 370, 220);
 
     const tex = new THREE.CanvasTexture(canvas);
     tex.needsUpdate = true;
@@ -80,169 +113,140 @@ function NotebookModel() {
     if (!groupRef.current) return;
 
     const pointer = state.pointer;
-    mouseTarget.current.x = pointer.x * 0.15;
-    mouseTarget.current.y = pointer.y * 0.1;
+    mouseTarget.current.x = pointer.x * 0.12;
+    mouseTarget.current.y = pointer.y * 0.08;
 
-    mouseCurrent.current.x += (mouseTarget.current.x - mouseCurrent.current.x) * 0.03;
-    mouseCurrent.current.y += (mouseTarget.current.y - mouseCurrent.current.y) * 0.03;
+    mouseCurrent.current.x += (mouseTarget.current.x - mouseCurrent.current.x) * 0.04;
+    mouseCurrent.current.y += (mouseTarget.current.y - mouseCurrent.current.y) * 0.04;
 
-    groupRef.current.rotation.y = -0.3 + mouseCurrent.current.x + Math.sin(state.clock.elapsedTime * 0.3) * 0.05;
-    groupRef.current.rotation.x = 0.15 + mouseCurrent.current.y + Math.cos(state.clock.elapsedTime * 0.2) * 0.02;
+    groupRef.current.rotation.y = -0.25 + mouseCurrent.current.x + Math.sin(state.clock.elapsedTime * 0.3) * 0.03;
+    groupRef.current.rotation.x = 0.1 + mouseCurrent.current.y + Math.cos(state.clock.elapsedTime * 0.2) * 0.015;
+
+    if (glowRef.current) {
+      glowRef.current.intensity = 0.6 + Math.sin(state.clock.elapsedTime * 2) * 0.15;
+    }
   });
 
-  const shellMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: DARK_SHELL,
-        metalness: 0.8,
-        roughness: 0.2,
-      }),
-    []
-  );
+  const scale = viewport.width < 6 ? 0.65 : 0.9;
 
-  const edgeMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: '#1e293b',
-        metalness: 0.9,
-        roughness: 0.15,
-      }),
-    []
-  );
-
-  const scale = viewport.width < 6 ? 0.7 : 1;
+  const keyRows = [
+    { cols: 12, y: -0.65, widths: Array(12).fill(0.18) },
+    { cols: 11, y: -0.35, widths: Array(11).fill(0.18) },
+    { cols: 10, y: -0.05, widths: Array(10).fill(0.18) },
+    { cols: 8, y: 0.25, widths: [0.18, 0.18, 0.18, 0.7, 0.18, 0.18, 0.18, 0.18] },
+  ];
 
   return (
-    <group ref={groupRef} scale={scale}>
-      <Float speed={1.5} rotationIntensity={0.05} floatIntensity={0.3}>
+    <group ref={groupRef} scale={scale} position={[0, 0.2, 0]}>
+      <Float speed={1.2} rotationIntensity={0.03} floatIntensity={0.25}>
         <group>
-          {/* Base / Bottom */}
-          <mesh position={[0, -0.08, 0]} material={shellMaterial}>
-            <boxGeometry args={[3.2, 0.12, 2.2]} />
-          </mesh>
+          {/* Base body - aluminum */}
+          <RoundedBox args={[3.4, 0.08, 2.3]} radius={0.03} position={[0, -0.06, 0]}>
+            <meshStandardMaterial color={ALUMINUM} metalness={0.95} roughness={0.12} />
+          </RoundedBox>
 
-          {/* Keyboard surface */}
-          <mesh position={[0, -0.01, 0]}>
-            <boxGeometry args={[3.0, 0.02, 2.0]} />
-            <meshStandardMaterial color="#0f172a" metalness={0.6} roughness={0.4} />
-          </mesh>
+          {/* Base top surface - darker recessed area */}
+          <RoundedBox args={[3.2, 0.02, 2.1]} radius={0.02} position={[0, 0, 0]}>
+            <meshStandardMaterial color={KEYBOARD_BG} metalness={0.3} roughness={0.7} />
+          </RoundedBox>
 
-          {/* Keyboard keys - rows */}
-          {Array.from({ length: 4 }).map((_, row) =>
-            Array.from({ length: 10 }).map((_, col) => (
-              <mesh
-                key={`key-${row}-${col}`}
-                position={[-1.15 + col * 0.26, 0.01, -0.55 + row * 0.35]}
-              >
-                <boxGeometry args={[0.2, 0.015, 0.2]} />
-                <meshStandardMaterial color="#1e293b" metalness={0.5} roughness={0.6} />
-              </mesh>
-            ))
-          )}
+          {/* Keyboard keys */}
+          {keyRows.map((row, ri) => {
+            let xOffset = -1.1;
+            return row.widths.map((w, ci) => {
+              const x = xOffset + w / 2;
+              xOffset += w + 0.05;
+              return (
+                <RoundedBox
+                  key={`key-${ri}-${ci}`}
+                  args={[w, 0.018, 0.22]}
+                  radius={0.01}
+                  position={[x, 0.02, row.y]}
+                >
+                  <meshStandardMaterial color="#2a3040" metalness={0.4} roughness={0.6} />
+                </RoundedBox>
+              );
+            });
+          })}
 
           {/* Trackpad */}
-          <mesh position={[0, 0.01, 0.65]}>
-            <boxGeometry args={[1.0, 0.01, 0.6]} />
-            <meshStandardMaterial color="#1e293b" metalness={0.7} roughness={0.3} />
+          <RoundedBox args={[1.1, 0.005, 0.7]} radius={0.02} position={[0, 0.015, 0.75]}>
+            <meshStandardMaterial color="#28303e" metalness={0.5} roughness={0.4} />
+          </RoundedBox>
+
+          {/* Hinge - refined cylinder */}
+          <mesh position={[0, 0.01, -1.16]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.04, 0.04, 3.3, 32]} />
+            <meshStandardMaterial color={ALUMINUM_DARK} metalness={0.9} roughness={0.15} />
           </mesh>
 
-          {/* Trackpad cyan edge glow */}
-          <mesh position={[0, 0.015, 0.65]}>
-            <boxGeometry args={[1.02, 0.002, 0.62]} />
-            <meshStandardMaterial
-              color={CYAN}
-              emissive={CYAN}
-              emissiveIntensity={0.3}
-              transparent
-              opacity={0.4}
-            />
-          </mesh>
-
-          {/* Hinge */}
-          <mesh position={[0, 0.02, -1.1]} material={edgeMaterial}>
-            <boxGeometry args={[3.2, 0.08, 0.08]} />
-          </mesh>
-
-          {/* Screen lid - angled back */}
-          <group position={[0, 0.06, -1.1]} rotation={[-0.45, 0, 0]}>
+          {/* Screen lid */}
+          <group position={[0, 0.05, -1.16]} rotation={[-0.5, 0, 0]}>
             {/* Lid outer shell */}
-            <mesh position={[0, 1.05, -0.06]} material={shellMaterial}>
-              <boxGeometry args={[3.2, 2.15, 0.1]} />
-            </mesh>
+            <RoundedBox args={[3.4, 2.2, 0.06]} radius={0.03} position={[0, 1.1, -0.04]}>
+              <meshStandardMaterial color={ALUMINUM} metalness={0.95} roughness={0.1} envMapIntensity={1.2} />
+            </RoundedBox>
 
             {/* Screen bezel */}
-            <mesh position={[0, 1.05, 0.01]}>
-              <boxGeometry args={[3.05, 2.0, 0.02]} />
-              <meshStandardMaterial color="#020617" metalness={0.3} roughness={0.8} />
-            </mesh>
+            <RoundedBox args={[3.15, 2.0, 0.02]} radius={0.02} position={[0, 1.1, 0.0]}>
+              <meshStandardMaterial color="#080c14" metalness={0.2} roughness={0.9} />
+            </RoundedBox>
 
             {/* Screen display */}
-            <mesh position={[0, 1.05, 0.025]}>
-              <planeGeometry args={[2.85, 1.8]} />
+            <mesh position={[0, 1.1, 0.015]}>
+              <planeGeometry args={[3.0, 1.88]} />
               <meshBasicMaterial map={screenTexture} />
             </mesh>
 
-            {/* Screen edge glow */}
-            <mesh position={[0, 1.05, 0.03]}>
-              <planeGeometry args={[2.9, 1.85]} />
-              <meshBasicMaterial
-                color={CYAN}
-                transparent
-                opacity={0.06}
-              />
+            {/* Screen glow overlay */}
+            <mesh position={[0, 1.1, 0.018]}>
+              <planeGeometry args={[3.0, 1.88]} />
+              <meshBasicMaterial color={CYAN} transparent opacity={0.02} />
             </mesh>
 
             {/* Webcam dot */}
-            <mesh position={[0, 2.0, 0.02]}>
-              <circleGeometry args={[0.03, 16]} />
+            <mesh position={[0, 2.08, 0.01]}>
+              <circleGeometry args={[0.025, 16]} />
               <meshStandardMaterial
                 color={CYAN_BRIGHT}
                 emissive={CYAN_BRIGHT}
-                emissiveIntensity={2}
+                emissiveIntensity={1.5}
               />
             </mesh>
+
+            {/* Screen light casting on keyboard */}
+            <pointLight
+              ref={glowRef}
+              position={[0, 0.2, 0.5]}
+              intensity={0.6}
+              color={CYAN}
+              distance={4}
+              decay={2}
+            />
           </group>
 
-          {/* Base front edge glow */}
-          <mesh position={[0, -0.02, 1.1]}>
-            <boxGeometry args={[3.2, 0.02, 0.01]} />
+          {/* Front edge chamfer accent */}
+          <mesh position={[0, -0.09, 1.15]}>
+            <boxGeometry args={[3.3, 0.005, 0.005]} />
             <meshStandardMaterial
-              color={CYAN}
-              emissive={CYAN}
-              emissiveIntensity={0.5}
-              transparent
-              opacity={0.6}
+              color={ALUMINUM}
+              metalness={1}
+              roughness={0.05}
             />
           </mesh>
 
-          {/* Side accent lines */}
-          <mesh position={[1.6, -0.04, 0]}>
-            <boxGeometry args={[0.01, 0.01, 2.2]} />
-            <meshStandardMaterial
-              color={CYAN}
-              emissive={CYAN}
-              emissiveIntensity={0.4}
-              transparent
-              opacity={0.5}
-            />
-          </mesh>
-          <mesh position={[-1.6, -0.04, 0]}>
-            <boxGeometry args={[0.01, 0.01, 2.2]} />
-            <meshStandardMaterial
-              color={CYAN}
-              emissive={CYAN}
-              emissiveIntensity={0.4}
-              transparent
-              opacity={0.5}
-            />
+          {/* Subtle bottom shadow plane */}
+          <mesh position={[0, -0.11, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[3.6, 2.6]} />
+            <meshBasicMaterial color="#000000" transparent opacity={0.2} />
           </mesh>
         </group>
       </Float>
 
-      {/* Ground reflection glow */}
-      <mesh position={[0, -0.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[5, 4]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.03} />
+      {/* Reflection glow beneath */}
+      <mesh position={[0, -0.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[4, 3]} />
+        <meshBasicMaterial color={CYAN} transparent opacity={0.04} />
       </mesh>
     </group>
   );
@@ -251,12 +255,13 @@ function NotebookModel() {
 function SceneLighting() {
   return (
     <>
-      <ambientLight intensity={0.15} />
-      <directionalLight position={[5, 8, 5]} intensity={0.6} color="#e2e8f0" />
-      <directionalLight position={[-3, 4, -2]} intensity={0.2} color="#0ea5e9" />
-      <pointLight position={[0, 2, 3]} intensity={0.4} color={CYAN} distance={10} decay={2} />
-      <pointLight position={[0, -1, 0]} intensity={0.15} color={CYAN} distance={6} decay={2} />
-      <Environment preset="night" />
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[5, 8, 5]} intensity={0.8} color="#f1f5f9" castShadow />
+      <directionalLight position={[-4, 6, -3]} intensity={0.3} color="#e2e8f0" />
+      <directionalLight position={[0, -2, 4]} intensity={0.15} color={CYAN} />
+      <pointLight position={[3, 3, 3]} intensity={0.3} color="#f8fafc" distance={15} decay={2} />
+      <pointLight position={[-3, 3, 3]} intensity={0.3} color="#f8fafc" distance={15} decay={2} />
+      <Environment preset="city" />
     </>
   );
 }
@@ -265,8 +270,8 @@ export default function Notebook3D() {
   return (
     <div className="w-full h-full">
       <Canvas
-        camera={{ position: [0, 2, 5.5], fov: 40 }}
-        dpr={[1, 1.5]}
+        camera={{ position: [0, 2.2, 5.5], fov: 38 }}
+        dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
       >

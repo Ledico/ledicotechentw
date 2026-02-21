@@ -39,8 +39,7 @@ const Hero = () => {
       </div>
 
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/60" />
       </div>
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
