@@ -421,8 +421,8 @@ function NotebookModel() {
         </group>
       </Float>
 
-      <mesh position={[0, -0.55, 0.2]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ellipseGeometry args={[1.8, 1.2, 32]} />
+      <mesh position={[0, -0.55, 0.2]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.8, 1.2, 1]}>
+        <circleGeometry args={[1, 32]} />
         <meshBasicMaterial color={CYAN} transparent opacity={0.025} />
       </mesh>
     </group>
