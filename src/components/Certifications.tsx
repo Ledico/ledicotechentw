@@ -32,7 +32,7 @@ const Certifications: React.FC = () => {
     {
       title: 'Cloud-Native (DevOps) Vorkurs',
       institution: 'TBZ (Technische Berufsschule Zürich)',
-      date: '2024',
+      date: '2025',
       modules: ['M346', 'M169'],
       description: 'Intensive Weiterbildung in Cloud-nativen Technologien und DevOps-Praktiken',
       skills: ['Cloud Infrastructure', 'DevOps', 'Automation', 'CI/CD'],
