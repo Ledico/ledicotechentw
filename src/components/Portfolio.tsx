@@ -243,9 +243,9 @@ const Portfolio = () => {
                     </div>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <div className="absolute bottom-4 left-4 right-4 flex space-x-2 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                    {project.linkTo ? (
+                {project.linkTo && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="absolute bottom-4 left-4 right-4 flex space-x-2 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
                       <Link
                         to={project.linkTo}
                         className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105"
@@ -253,14 +253,9 @@ const Portfolio = () => {
                         <ExternalLink className="h-4 w-4" />
                         <span>{project.isVA ? 'VA ansehen' : 'Details ansehen'}</span>
                       </Link>
-                    ) : (
-                      <button className="flex items-center space-x-1 px-3 py-1.5 bg-white/90 rounded-lg text-sm font-medium text-slate-900 hover:bg-white transition-all duration-200 hover:scale-105">
-                        <ExternalLink className="h-4 w-4" />
-                        <span>Details</span>
-                      </button>
-                    )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {project.linkTo ? (
@@ -290,13 +285,13 @@ const Portfolio = () => {
                 </Link>
               ) : (
                 <div className="p-4 md:p-6">
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
+                  <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3 transition-colors duration-300">
                     {project.title}
                   </h3>
                   <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mb-3 md:mb-4 leading-relaxed">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
@@ -305,10 +300,6 @@ const Portfolio = () => {
                         {tag}
                       </span>
                     ))}
-                  </div>
-                  <div className="flex items-center text-cyan-600 dark:text-cyan-400 font-medium group-hover:translate-x-3 transition-all duration-300">
-                    <span className="mr-2">Projekt ansehen</span>
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               )}
